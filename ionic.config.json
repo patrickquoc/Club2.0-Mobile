@@ -1,5 +1,7 @@
 {
   "name": "Club2dot0Mobile",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
