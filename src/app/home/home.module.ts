@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
+import { LTDViewComponent } from '../longterm/ltdview/ltdview.component';
+import { STDViewComponent } from '../shortterm/stdview/stdview.component';
 
 
 @NgModule({
@@ -14,6 +16,6 @@ import { HomePageRoutingModule } from './home-routing.module';
     IonicModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePage]
+  declarations: [HomePage, LTDViewComponent, STDViewComponent]
 })
 export class HomePageModule {}
