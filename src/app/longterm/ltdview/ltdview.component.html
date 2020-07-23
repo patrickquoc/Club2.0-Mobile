@@ -1,0 +1,38 @@
+<ion-content fullscreen>
+  <!-- TODO: Move creation button somewhere else?
+  <div class="ion-margin-top">
+    <ion-button class="ion-padding-horizontal" size="medium" expand="block">Create Discussion</ion-button>
+  </div> -->
+  <ion-searchbar [(ngModel)]="searchString" (change)="getDiscussionsByCategory()">
+
+  </ion-searchbar>
+  <ion-list>
+    <ion-item *ngFor="let ltd of discussions">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-label class="ion-text-start">
+              {{ltd.name}}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label class="sub-title ion-text-start">
+              Categories: {{getCategoriesToString(ltd)}}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+  <ion-infinite-scroll threshold="1%" (ionInfinite)="loadLTDs($event)">
+    <ion-infinite-scroll-content loadingSpinner="dots">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary" [routerLink]="['/create/ltd']">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
