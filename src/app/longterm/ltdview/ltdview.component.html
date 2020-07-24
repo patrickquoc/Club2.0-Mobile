@@ -7,7 +7,7 @@
 
   </ion-searchbar>
   <ion-list>
-    <ion-item *ngFor="let ltd of discussions">
+    <ion-item *ngFor="let ltd of discussions" (click)="openDetailPage(ltd)">
       <ion-grid>
         <ion-row>
           <ion-col>

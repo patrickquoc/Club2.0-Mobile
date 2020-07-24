@@ -34,7 +34,7 @@ import { AuthService } from './service/auth.service';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     HttpService,
-    AuthService
+    AuthService,
   ],
   bootstrap: [AppComponent]
 })
