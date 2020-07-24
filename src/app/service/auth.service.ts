@@ -37,4 +37,11 @@ export class AuthService {
     const currentTime = new Date().getTime();
     return token == null || (+expiresAt) <= currentTime;
   }
+
+  async getUsername() {
+    const user: User = JSON.parse(await this.storage.get('user'));
+    //TODO: Replace after testing
+    //return user.username;
+    return "Maxi Muster"
+  }
 }

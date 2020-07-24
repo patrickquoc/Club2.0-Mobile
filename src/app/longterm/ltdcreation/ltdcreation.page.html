@@ -5,7 +5,7 @@
         <ion-icon name="arrow-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Create Long-term Discussion</ion-title>
+    <ion-title>Create LTD</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -13,16 +13,21 @@
   <ion-card>
     <ion-card-content>
       <ion-item>
-        <ion-label position="floating">Enter the name of the discussion: </ion-label>
-        <ion-input></ion-input>
+        <ion-label position="floating">Name of discussion:</ion-label>
+        <ion-input type="text" [(ngModel)]='name'></ion-input>
+      </ion-item>
+      <ion-item class="description-inputbox">
+        <ion-label position="floating">Description:</ion-label>
+        <ion-textarea [(ngModel)]='description'></ion-textarea>
       </ion-item>
       <ion-item>
-        <ion-label position="floating">Enter the description of the discussion: </ion-label>
-        <ion-input></ion-input>
-      </ion-item>
-      <ion-item>
-        
+        <tag-input class="category-input" [(ngModel)]="categories" 
+           secondaryPlaceholder='Categories' separatorKeyCodes="[32]">
+        </tag-input>
       </ion-item>
     </ion-card-content>
   </ion-card>
+  <div class="ion-padding-horizontal">
+    <ion-button (click)="onCreate()" size="medium" type="submit" color="primary" expand="block">Create</ion-button>
+  </div>
 </ion-content>
