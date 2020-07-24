@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LongTermDiscussion } from 'src/app/entity/long-term-discussion';
 import { HttpService } from 'src/app/service/http.service';
 import { Router, NavigationExtras } from '@angular/router';
+import { DataService } from 'src/app/service/data.service';
 
 @Component({
   selector: 'app-ltdview',
@@ -13,7 +14,7 @@ export class LTDViewComponent implements OnInit {
   private pageIndex = 0;
   searchString = '';
 
-  constructor(private http: HttpService, private router: Router) {
+  constructor(private http: HttpService, private dataService: DataService, private router: Router) {
     //TODO: Remove if Create LTD page exist
     /*
     http.createLtd({
@@ -108,12 +109,7 @@ export class LTDViewComponent implements OnInit {
   }
 
   openDetailPage(ltd: LongTermDiscussion) {
-    let navigationExtras: NavigationExtras = {
-      state: {
-        discussion: ltd
-      }
-    }
-
-    this.router.navigate(['view/ltd'], navigationExtras);
+    this.dataService.setData(0, ltd);
+    this.router.navigateByUrl('/view/ltd/0');
   }
 }

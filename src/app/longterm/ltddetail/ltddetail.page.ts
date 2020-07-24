@@ -18,11 +18,14 @@ export class LTDDetailPage implements OnInit {
     archived: false
   }
 
-  constructor() {
+  constructor(private route: ActivatedRoute, private router: Router) {
     
   }
 
   ngOnInit() {
+    if(this.route.snapshot.data['special']) {
+      this.selectedDiscussion = this.route.snapshot.data['special'];
+    }
   }
 
   //TODO: Routing Guard?
