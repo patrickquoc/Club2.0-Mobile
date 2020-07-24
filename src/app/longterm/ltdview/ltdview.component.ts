@@ -106,4 +106,9 @@ export class LTDViewComponent implements OnInit {
   getDiscussionsByCategory() {
     console.log(this.searchString);
   }
+
+  async reloadDiscussion() {
+    this.pageIndex = 0;
+    this.discussions = await this.http.getLtdsPaged(this.pageIndex, 10);
+  }
 }
