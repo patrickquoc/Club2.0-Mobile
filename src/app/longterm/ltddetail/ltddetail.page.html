@@ -1,15 +1,15 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button>
-        <ion-icon name="arrow-back-outline"></ion-icon>
-      </ion-button>
+      <ion-back-button defaultHref="/home">
+      </ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-card *ngIf="selectedDiscussion">
+  <!--TODO: Fixed position for description?-->
+  <ion-card class="description-card" *ngIf="selectedDiscussion">
     <ion-card-header>
       <ion-card-title>
         {{ selectedDiscussion.name }}
@@ -23,9 +23,17 @@
       <ion-item-divider></ion-item-divider>
     </ion-card-header>
     <ion-card-content>
-      <ion-text class="description" readonly>
-        {{ selectedDiscussion.description }}
-      </ion-text>
+      <div class="description-scroll">
+        <ion-text class="description">
+          {{ selectedDiscussion.description }}
+        </ion-text>
+      </div>
     </ion-card-content>
   </ion-card>
+  <ion-card *ngIf="arguments">
+    
+  </ion-card>
+  <ion-footer position="fixed">
+    
+  </ion-footer>
 </ion-content>

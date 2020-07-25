@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { LongTermDiscussion } from 'src/app/entity/long-term-discussion';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HttpService } from 'src/app/service/http.service';
+import { Argument } from 'src/app/entity/argument';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-ltddetail',
@@ -18,16 +21,20 @@ export class LTDDetailPage implements OnInit {
     archived: false
   }
 
-  constructor(private route: ActivatedRoute, private router: Router) {
-    
-  }
+  arguments: Argument[];
+  private pageIndex = 0;
+  private fetchSize = 5;
 
-  ngOnInit() {
+  constructor(private route: ActivatedRoute, private router: Router, private http: HttpService, private auth: AuthService) { }
+
+  async ngOnInit() {
     if(this.route.snapshot.data['special']) {
       this.selectedDiscussion = this.route.snapshot.data['special'];
     }
-  }
+    this.arguments = await this.http.getArgumentsById(this.pageIndex, this.fetchSize,
+       this.selectedDiscussion.discussionId, await this.auth.getUsername());
 
+  }
   //TODO: Routing Guard?
 
 }

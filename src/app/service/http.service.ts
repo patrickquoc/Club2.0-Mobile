@@ -5,6 +5,8 @@ import { environment } from 'src/environments/environment';
 import { User } from '../dto/user';
 import { LongTermDiscussion } from '../entity/long-term-discussion';
 import { CreateLTDDto } from '../dto/create-ltddto';
+import { env } from 'process';
+import { Argument } from '../entity/argument';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +31,8 @@ export class HttpService {
   }
 
   async getLtdsPaged(pageIndex: number, fetchSize: number) {
-    return this.http.get<LongTermDiscussion[]>(`${environment.connection}/api/ltds/paged?index=${pageIndex}&size=${fetchSize}`).toPromise();
+    return this.http.get<LongTermDiscussion[]>(`${environment.connection}/api/ltds/paged?index=${pageIndex}&size=${fetchSize}`)
+      .toPromise();
   }
 
   async createLtd(ltd :CreateLTDDto) {
@@ -37,4 +40,9 @@ export class HttpService {
     return this.http.post<string>(`${environment.connection}/api/ltds/create`, ltd, httpOptions).toPromise();
   }
 
+  async getArgumentsById(pageIndex: number, fetchSize: number, discussionId: string, username: string) {
+    return this.http.get<Argument[]>(`${environment.connection}/api/ltds/arguments?index=${pageIndex}&size=${fetchSize}`+ 
+      `&discussionId=${discussionId}&username=${username}`)
+      .toPromise();
+  }
 }
