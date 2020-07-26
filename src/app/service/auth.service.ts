@@ -39,7 +39,8 @@ export class AuthService {
   }
 
   async getUsername() {
-    const user: User = JSON.parse(await this.storage.get('user'));
-    return user.username;
+    //const user: User = JSON.parse(await this.storage.get('user'));
+    //return user.username;
+    return "Maxi Muster";
   }
 }

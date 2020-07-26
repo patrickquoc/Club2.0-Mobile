@@ -7,6 +7,7 @@ import { LongTermDiscussion } from '../entity/long-term-discussion';
 import { CreateLTDDto } from '../dto/create-ltddto';
 import { env } from 'process';
 import { Argument } from '../entity/argument';
+import { CreateArgumentDto } from '../dto/create-argument-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -44,5 +45,9 @@ export class HttpService {
     return this.http.get<Argument[]>(`${environment.connection}/api/ltds/arguments?index=${pageIndex}&size=${fetchSize}`+ 
       `&discussionId=${discussionId}&username=${username}`)
       .toPromise();
+  }
+
+  async sendArgument(argument: CreateArgumentDto) {
+    return this.http.post<string>(`${environment.connection}/api/ltds/argument`, argument).toPromise();
   }
 }
