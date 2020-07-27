@@ -39,8 +39,9 @@ export class AuthService {
   }
 
   async getUsername() {
-    //const user: User = JSON.parse(await this.storage.get('user'));
+    const user: User = JSON.parse(await this.storage.get('user'));
+    //TODO: Replace after testing
     //return user.username;
-    return "Maxi Muster";
+    return "Maxi Muster"
   }
 }

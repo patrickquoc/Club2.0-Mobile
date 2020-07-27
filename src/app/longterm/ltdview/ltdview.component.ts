@@ -111,5 +111,10 @@ export class LTDViewComponent implements OnInit {
   openDetailPage(ltd: LongTermDiscussion) {
     this.dataService.setData(0, ltd);
     this.router.navigateByUrl('/view/ltd/0');
+
+  async reloadDiscussion() {
+    this.pageIndex = 0;
+    this.discussions = await this.http.getLtdsPaged(this.pageIndex, 10);
+
   }
 }

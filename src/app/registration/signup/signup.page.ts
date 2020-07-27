@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 import { RegisterUser } from 'src/app/dto/register-user';
@@ -11,7 +11,7 @@ import { RegisterUser } from 'src/app/dto/register-user';
 })
 export class SignupPage implements OnInit {
   signupForm: FormGroup;
-
+   
   constructor(private fb: FormBuilder, private router: Router, private auth: AuthService) { 
     
   }
