@@ -12,6 +12,7 @@ import { DataService } from 'src/app/service/data.service';
 export class LTDViewComponent implements OnInit {
   discussions = new Array<LongTermDiscussion>();
   private pageIndex = 0;
+  private fetchSize = 15;
   searchString = '';
 
   constructor(private http: HttpService, private dataService: DataService, private router: Router) {
@@ -91,7 +92,7 @@ export class LTDViewComponent implements OnInit {
   async getNextDiscussions() {
     //TODO: Replace with http request
     console.log("load new ltds")
-    this.discussions = this.discussions.concat(await this.http.getLtdsPaged(this.pageIndex, 8));
+    this.discussions = this.discussions.concat(await this.http.getLtdsPaged(this.pageIndex, this.fetchSize));
     this.pageIndex++;
   }
 
@@ -115,6 +116,6 @@ export class LTDViewComponent implements OnInit {
 
   async reloadDiscussion() {
     this.pageIndex = 0;
-    this.discussions = await this.http.getLtdsPaged(this.pageIndex, 10);
+    this.discussions = await this.http.getLtdsPaged(this.pageIndex, this.fetchSize);
   }
 }
