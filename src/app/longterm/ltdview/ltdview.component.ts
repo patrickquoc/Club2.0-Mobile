@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LongTermDiscussion } from 'src/app/entity/long-term-discussion';
 import { HttpService } from 'src/app/service/http.service';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
+import { DataService } from 'src/app/service/data.service';
 
 @Component({
   selector: 'app-ltdview',
@@ -13,7 +14,7 @@ export class LTDViewComponent implements OnInit {
   private pageIndex = 0;
   searchString = '';
 
-  constructor(private http: HttpService) {
+  constructor(private http: HttpService, private dataService: DataService, private router: Router) {
     //TODO: Remove if Create LTD page exist
     /*
     http.createLtd({
@@ -107,8 +108,13 @@ export class LTDViewComponent implements OnInit {
     console.log(this.searchString);
   }
 
+  openDetailPage(ltd: LongTermDiscussion) {
+    this.dataService.setData(0, ltd);
+    this.router.navigateByUrl('/view/ltd/0');
+
   async reloadDiscussion() {
     this.pageIndex = 0;
     this.discussions = await this.http.getLtdsPaged(this.pageIndex, 10);
+
   }
 }
