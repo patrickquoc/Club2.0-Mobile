@@ -91,7 +91,7 @@ export class LTDViewComponent implements OnInit {
   async getNextDiscussions() {
     //TODO: Replace with http request
     console.log("load new ltds")
-    this.discussions = this.discussions.concat(await this.http.getLtdsPaged(this.pageIndex, 10));
+    this.discussions = this.discussions.concat(await this.http.getLtdsPaged(this.pageIndex, 8));
     this.pageIndex++;
   }
 
@@ -111,10 +111,10 @@ export class LTDViewComponent implements OnInit {
   openDetailPage(ltd: LongTermDiscussion) {
     this.dataService.setData(0, ltd);
     this.router.navigateByUrl('/view/ltd/0');
+  }
 
   async reloadDiscussion() {
     this.pageIndex = 0;
     this.discussions = await this.http.getLtdsPaged(this.pageIndex, 10);
-
   }
 }

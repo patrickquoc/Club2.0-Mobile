@@ -38,7 +38,7 @@ export class HttpService {
 
   async createLtd(ltd :CreateLTDDto) {
     const httpOptions = { responseType: "text" as "json"}
-    return this.http.post<string>(`${environment.connection}/api/ltds/create`, ltd, httpOptions).toPromise();
+    return this.http.post<any>(`${environment.connection}/api/ltds/create`, ltd, httpOptions).toPromise();
   }
 
   async getArgumentsById(pageIndex: number, fetchSize: number, discussionId: string, username: string) {
@@ -48,6 +48,6 @@ export class HttpService {
   }
 
   async sendArgument(argument: CreateArgumentDto) {
-    return this.http.post<string>(`${environment.connection}/api/ltds/argument`, argument).toPromise();
+    return this.http.post<any>(`${environment.connection}/api/ltds/argument`, argument).toPromise();
   }
 }
