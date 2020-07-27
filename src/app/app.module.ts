@@ -14,6 +14,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpService } from './service/http.service';
 import { AuthService } from './service/auth.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -27,14 +28,15 @@ import { AuthService } from './service/auth.service';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    BrowserAnimationsModule
 ],
   providers: [
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     HttpService,
-    AuthService
+    AuthService,
   ],
   bootstrap: [AppComponent]
 })

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { DataResolverService } from './service/data-resolver.service';
 
 const routes: Routes = [
   {
@@ -27,6 +28,14 @@ const routes: Routes = [
     path: 'create/ltd',
     loadChildren: () => import('./longterm/ltdcreation/ltdcreation.module').then( m => m.LTDCreationPageModule)
   },
+  {
+    path: 'view/ltd/:id',
+    resolve: { 
+      special: DataResolverService
+    },
+    loadChildren: () => import('./longterm/ltddetail/ltddetail.module').then( m => m.LTDDetailPageModule)
+  },
+
 
 
 ];
