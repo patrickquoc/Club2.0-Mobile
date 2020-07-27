@@ -33,23 +33,47 @@
       <ion-item *ngFor="let argument of arguments">
         <ion-card class="argument-card">
           <ion-card-header>
-            <ion-card-subtitle>
+            <ion-card-subtitle color="secondary">
               {{ argument.user }}
             </ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
-            <ion-text class="description">
+            <ion-text class="argument-text">
               {{ argument.text }}
+            </ion-text> 
+            <br>
+            <ion-text class="argument-date">
+              Posted on: {{ argument.date | date: 'dd.MM.yyyy H:mm' }}
             </ion-text>
           </ion-card-content>
-          <ion-text class="ion-padding-start">
-            {{ getFormattedDate(argument.date) }}
-          </ion-text>
+          <ion-grid>
+            <ion-row>
+              <ion-col class="ion-justify-content-center ion-text-center">
+                <ion-text color='primary'>
+                  Like
+                </ion-text>
+              </ion-col>
+              <ion-col class="ion-justify-content-center ion-text-center">
+                <ion-text color="danger">
+                  Dislike
+                </ion-text>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
         </ion-card>
       </ion-item>
     </ion-list>
+    <ion-infinite-scroll threshold="1%" (ionInfinite)="loadArguments($event)">
+      <ion-infinite-scroll-content loadingSpinner="dots">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
   </div>
-  <ion-footer>
-    <ion-button (click)="showArgumentCreator()" size="medium" type="submit" color="secondary" expand="block">Write argument</ion-button>
-  </ion-footer>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button class="ion-padding-horizontal" (click)="showArgumentCreator()" 
+      size="medium" type="submit" color="primary" expand="block">
+        Write argument
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
