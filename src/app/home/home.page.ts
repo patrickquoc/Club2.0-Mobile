@@ -12,7 +12,7 @@ export class HomePage {
 
   constructor(private menuController: MenuController) {
     //TODO: Remove if trending page exist
-    this.activeView[0] = true;
+    this.activeView[1] = true;
   }
 
   showLTDView() {

@@ -1,3 +1,36 @@
-<p>
-  stdview works!
-</p>
+<ion-content>
+  <ion-searchbar [(ngModel)]="searchString" (change)="getDiscussionsByCategory()">
+  </ion-searchbar>
+  <ion-list>
+    <ion-item *ngFor="let std of discussions" (click)="openDetailPage(std)">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-label class="ion-text-start" color="primary">
+              {{std.name}}
+              <ion-icon *ngIf="std.privateFlag" name="lock-closed-outline" position="end"></ion-icon>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label class="sub-title ion-text-start">
+              Categories: {{ getCategoriesToString(std) }} <br>
+              <!--TODO: Change participant count -->
+              Participants: 1 / {{ std.userLimit }}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+  <ion-infinite-scroll threshold="1%" (ionInfinite)="loadSTDs($event)">
+    <ion-infinite-scroll-content loadingSpinner="dots">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary" [routerLink]="['/create/std']">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

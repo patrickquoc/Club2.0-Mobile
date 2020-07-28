@@ -9,12 +9,14 @@ import { env } from 'process';
 import { Argument } from '../entity/argument';
 import { CreateArgumentDto } from '../dto/create-argument-dto';
 import { RatingDto } from '../dto/rating-dto';
+import { ShortTermDiscussion } from '../entity/short-term-discussion';
+import { CreateSTDDto } from '../dto/create-stddto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
-
+  private httpOptions = { responseType: "text" as "json"}
   constructor(private http: HttpClient) { }
 
   async registerUser(user: RegisterUser) {
@@ -23,13 +25,12 @@ export class HttpService {
   }
 
   async login(username: string, password: string): Promise<any>{
-    const httpOptions = { responseType: "string" as "json" }
     const credential = {
       username: username,
       password: password
     }
 
-    return this.http.post<any>(`${environment.connection}/api/users/login`, credential, httpOptions).toPromise();
+    return this.http.post<any>(`${environment.connection}/api/users/login`, credential, this.httpOptions).toPromise();
   }
 
   async getLtdsPaged(pageIndex: number, fetchSize: number) {
@@ -38,8 +39,7 @@ export class HttpService {
   }
 
   async createLtd(ltd :CreateLTDDto) {
-    const httpOptions = { responseType: "text" as "json"}
-    return this.http.post<any>(`${environment.connection}/api/ltds/create`, ltd, httpOptions).toPromise();
+    return this.http.post<any>(`${environment.connection}/api/ltds/create`, ltd, this.httpOptions).toPromise();
   }
 
   async getArgumentsById(pageIndex: number, fetchSize: number, discussionId: string, username: string) {
@@ -49,11 +49,23 @@ export class HttpService {
   }
 
   async sendArgument(argument: CreateArgumentDto) {
-    const httpOptions = { responseType: "text" as "json"}
     return this.http.post<any>(`${environment.connection}/api/ltds/argument`, argument).toPromise();
   }
 
   async sendRating(rating: RatingDto) {
     return this.http.put<any>(`${environment.connection}/api/ltds/rateArgument?`, rating).toPromise();
+  }
+
+  async getStdsPaged(pageIndex: number, fetchSize: number) {
+    return this.http.get<ShortTermDiscussion[]>(`${environment.connection}/api/stds/paged?index=${pageIndex}&size=${fetchSize}`)
+      .toPromise();
+  }
+
+  async createStd(std: CreateSTDDto) {
+    return this.http.post<any>(`${environment.connection}/api/stds/create`, std, this.httpOptions).toPromise();
+  }
+
+  async joinStd(discussionId: string, username: string) {
+    return this.http.post<any>(`${environment.address}/api/stds/join`, {discussionId, username});
   }
 }

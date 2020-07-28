@@ -35,6 +35,11 @@ const routes: Routes = [
     },
     loadChildren: () => import('./longterm/ltddetail/ltddetail.module').then( m => m.LTDDetailPageModule)
   },
+  {
+    path: 'create/std',
+    loadChildren: () => import('./shortterm/stdcreation/stdcreation.module').then( m => m.STDCreationPageModule)
+  },
+
 
 
 ];

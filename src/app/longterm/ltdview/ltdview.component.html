@@ -1,8 +1,4 @@
-<ion-content fullscreen>
-  <!-- TODO: Move creation button somewhere else?
-  <div class="ion-margin-top">
-    <ion-button class="ion-padding-horizontal" size="medium" expand="block">Create Discussion</ion-button>
-  </div> -->
+<ion-content>
   <ion-searchbar [(ngModel)]="searchString" (change)="getDiscussionsByCategory()">
 
   </ion-searchbar>
@@ -30,7 +26,7 @@
     <ion-infinite-scroll-content loadingSpinner="dots">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab class="ion-padding-end" vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button color="primary" [routerLink]="['/create/ltd']">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

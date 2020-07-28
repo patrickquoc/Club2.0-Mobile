@@ -16,64 +16,6 @@ export class LTDViewComponent implements OnInit {
   searchString = '';
 
   constructor(private http: HttpService, private dataService: DataService, private router: Router) {
-    //TODO: Remove if Create LTD page exist
-    /*
-    http.createLtd({
-      host: 'Eva Rossmann',
-      name: 'Was können wir noch essen?',
-      description: 'Diskussion, wie wir uns noch gut und leistbar ernähren kommen, woher unser Essen stammt, welche Wege die Lebensmittel zurücklegen, bis sie bei uns am Tisch sind. ',
-      categories : ['Food', 'Environment'],
-      date: new Date(),
-    });
-
-    http.createLtd({
-      host: 'Horst Friedrich Mayer',
-      name: 'Im Osten was Neues.',
-      description: 'Diskussion um die oppositionelle Bürgerrechtsbewegung der Charta 77 in den sowjetisch dominierten Ländern Osteuropas. ',
-      categories : ['History', 'Politics'],
-      date: new Date(),
-    });
-
-    http.createLtd({
-      host: 'Corinna Milborn',
-      name: 'Atomkraft ja bitte?',
-      description: 'Unmittelbarer Anlass der Diskussion war ein Störfall im Kernkraftwerk Krško in Slowenien bei dem es am 4. Juni 2008 zu einem Kühlmittelverluststörfall gekommen ist.  ',
-      categories : ['Environment'],
-      date: new Date(),
-    });
-*/
-    /*
-    this.discussions.push({
-      discussionId: 'wkwneer',
-      host: 'Eva Rossmann',
-      name: 'Was können wir noch essen?',
-      description: 'Diskussion, wie wir uns noch gut und leistbar ernähren kommen, woher unser Essen stammt, welche Wege die Lebensmittel zurücklegen, bis sie bei uns am Tisch sind. ',
-      categories : ['Food', 'Environment'],
-      date: new Date(),
-      archived: false
-    });
-
-    this.discussions.push({
-      discussionId: 'hfmiown',
-      host: 'Horst Friedrich Mayer',
-      name: 'Im Osten was Neues.',
-      description: 'Diskussion um die oppositionelle Bürgerrechtsbewegung der Charta 77 in den sowjetisch dominierten Ländern Osteuropas. ',
-      categories : ['History', 'Politics'],
-      date: new Date(),
-      archived: true
-    });
-
-    this.discussions.push({
-      discussionId: 'cnajb',
-      host: 'Corinna Milborn',
-      name: 'Atomkraft ja bitte?',
-      description: 'Unmittelbarer Anlass der Diskussion war ein Störfall im Kernkraftwerk Krško in Slowenien bei dem es am 4. Juni 2008 zu einem Kühlmittelverluststörfall gekommen ist.  ',
-      categories : ['Environment'],
-      date: new Date(),
-      archived: true
-    });
-    */
-
     this.getNextDiscussions();
   }
 
@@ -107,6 +49,7 @@ export class LTDViewComponent implements OnInit {
 
   getDiscussionsByCategory() {
     console.log(this.searchString);
+    
   }
 
   openDetailPage(ltd: LongTermDiscussion) {
