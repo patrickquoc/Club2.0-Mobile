@@ -57,15 +57,13 @@ export class STDCreationPage implements OnInit {
       userLimit: JSON.stringify(this.userLimit),
       password: this.password
     }
-    
+
     try {
-      const res: ShortTermDiscussion = await this.http.createStd(std);
-      const joinRes = await this.http.joinStd(res.discussionId, await this.auth.getUsername());
-      if(joinRes == "Created") {
-        console.log("Creation and join successful");
-      }
+      const res: any = JSON.parse(await this.http.createStd(std));
+      //await this.http.joinStd(res.discussionId, await this.auth.getUsername(), this.password);
+
     } catch (error) {
-      console.error(error);
+      console.error("Connection to room could not be established: "+ JSON.stringify(error));
     }
   }
 

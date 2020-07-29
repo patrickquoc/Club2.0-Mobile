@@ -74,8 +74,14 @@ export class HttpService {
     return this.http.post<any>(`${environment.connection}/api/stds/create`, std, this.httpOptions).toPromise();
   }
 
-  async joinStd(discussionId: string, username: string) {
-    //TODO: With PW
-    return this.http.post<any>(`${environment.address}/api/stds/join`, {discussionId, username}).toPromise();
+  async joinStd(discussionId: string, username: string, password?: string) {
+    console.log(discussionId);
+    const dto = {
+      discussionId,
+      username,
+      password
+    }
+    console.log(dto);
+    return this.http.put<any>(`${environment.connection}/api/stds/join`, dto).toPromise();
   }
 }

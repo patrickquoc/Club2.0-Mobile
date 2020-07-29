@@ -17,15 +17,21 @@ export class STDDetailPage implements OnInit {
     if(this.route.snapshot.data['special']) {
       this.selectedDiscussion = this.route.snapshot.data['special'];
     }
+
+    console.log(this.selectedDiscussion);
   }
 
   async joinStd() {
     console.log("Joining STD");
+
+    if(this.selectedDiscussion.privateFlag) {
+      
+    }
+
     try {
       const res = await this.http.joinStd(this.selectedDiscussion.discussionId, await this.auth.getUsername());
     } catch (error) {
       console.error("Connection failed: "+ error);
     }
-    
   }
 }
