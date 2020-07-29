@@ -3,6 +3,7 @@ import { HttpService } from 'src/app/service/http.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { Router } from '@angular/router';
 import { CreateSTDDto } from 'src/app/dto/create-stddto';
+import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 
 @Component({
   selector: 'app-stdcreation',
@@ -57,12 +58,14 @@ export class STDCreationPage implements OnInit {
       password: this.password
     }
     
-    const res = await this.http.createStd(std);
-    console.log(res);
-    if(res == 'Created') {
-      console.log('STD Creation successful');
-      //Join Lobby
-      this.router.navigate(['/home']);
+    try {
+      const res: ShortTermDiscussion = await this.http.createStd(std);
+      const joinRes = await this.http.joinStd(res.discussionId, await this.auth.getUsername());
+      if(joinRes == "Created") {
+        console.log("Creation and join successful");
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
 

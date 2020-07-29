@@ -37,6 +37,15 @@ export class HttpService {
     return this.http.get<LongTermDiscussion[]>(`${environment.connection}/api/ltds/paged?index=${pageIndex}&size=${fetchSize}`)
       .toPromise();
   }
+  async getLtdsByCategory(pageIndex: number, fetchSize: number, categories: string) {
+    return this.http.get<LongTermDiscussion[]>(`${environment.connection}/api/ltds/byCategory?`+
+      `index=${pageIndex}&size=${fetchSize}&categories=${categories}`)
+      .toPromise();
+  }
+
+  async getLtdsByName(name: String) {
+    return this.http.get<LongTermDiscussion[]>(`${environment.connection}/api/ltds/byName?=${name}`).toPromise();
+  }
 
   async createLtd(ltd :CreateLTDDto) {
     return this.http.post<any>(`${environment.connection}/api/ltds/create`, ltd, this.httpOptions).toPromise();
@@ -66,6 +75,7 @@ export class HttpService {
   }
 
   async joinStd(discussionId: string, username: string) {
-    return this.http.post<any>(`${environment.address}/api/stds/join`, {discussionId, username});
+    //TODO: With PW
+    return this.http.post<any>(`${environment.address}/api/stds/join`, {discussionId, username}).toPromise();
   }
 }

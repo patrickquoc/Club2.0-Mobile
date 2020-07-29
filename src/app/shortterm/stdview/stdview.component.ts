@@ -32,15 +32,14 @@ export class STDViewComponent implements OnInit {
   }
 
   async getNextDiscussions() {
-    //TODO: Replace with http request
     console.log("load new ltds")
     this.discussions = this.discussions.concat(await this.http.getStdsPaged(this.pageIndex, this.fetchSize));
     this.pageIndex++;
   }
 
-  getCategoriesToString(ltd: ShortTermDiscussion): string {
+  getCategoriesToString(std: ShortTermDiscussion): string {
     let result = '';
-    ltd.categories.forEach(cat => {
+    std.categories.forEach(cat => {
       result = result + cat + ', ';
     });
     result = result.slice(0, result.length - 2)
@@ -51,9 +50,9 @@ export class STDViewComponent implements OnInit {
     console.log(this.searchString);
   }
 
-  openDetailPage(ltd: ShortTermDiscussion) {
-    this.dataService.setData(0, ltd);
-    this.router.navigateByUrl('/view/ltd/0');
+  openDetailPage(std: ShortTermDiscussion) {
+    this.dataService.setData(1, std);
+    this.router.navigateByUrl('/view/std/1');
   }
 
   async reloadDiscussion() {

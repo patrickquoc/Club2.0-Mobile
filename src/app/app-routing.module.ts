@@ -39,6 +39,14 @@ const routes: Routes = [
     path: 'create/std',
     loadChildren: () => import('./shortterm/stdcreation/stdcreation.module').then( m => m.STDCreationPageModule)
   },
+  {
+    path: 'view/std/:id',
+    resolve: {
+      special: DataResolverService
+    },
+    loadChildren: () => import('./shortterm/stddetail/stddetail.module').then( m => m.STDDetailPageModule)
+  },
+
 
 
 
