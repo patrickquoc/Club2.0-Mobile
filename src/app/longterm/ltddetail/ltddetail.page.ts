@@ -19,13 +19,10 @@ export class LTDDetailPage implements OnInit {
   arguments: Array<Argument>;
   private pageIndex = 1;
   private fetchSize = 5;
-  private hasLiked = false;
-  private hasDisliked = false;
-  private hasRated = false;
 
     //TODO: Routing Guard?
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpService, private auth: AuthService, 
-    private modalController: ModalController, private alertController: AlertController) { }
+    private alertController: AlertController) { }
 
   async ngOnInit() {
     if(this.route.snapshot.data['special']) {

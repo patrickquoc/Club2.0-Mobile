@@ -3,6 +3,7 @@ import { HttpService } from 'src/app/service/http.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { Router } from '@angular/router';
 import { CreateSTDDto } from 'src/app/dto/create-stddto';
+import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 
 @Component({
   selector: 'app-stdcreation',
@@ -56,13 +57,13 @@ export class STDCreationPage implements OnInit {
       userLimit: JSON.stringify(this.userLimit),
       password: this.password
     }
-    
-    const res = await this.http.createStd(std);
-    console.log(res);
-    if(res == 'Created') {
-      console.log('STD Creation successful');
-      //Join Lobby
-      this.router.navigate(['/home']);
+
+    try {
+      const res: any = JSON.parse(await this.http.createStd(std));
+      //await this.http.joinStd(res.discussionId, await this.auth.getUsername(), this.password);
+
+    } catch (error) {
+      console.error("Connection to room could not be established: "+ error.error);
     }
   }
 

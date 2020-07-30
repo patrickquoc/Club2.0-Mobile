@@ -16,8 +16,8 @@
           <ion-col>
             <ion-label class="sub-title ion-text-start">
               Categories: {{ getCategoriesToString(std) }} <br>
-              <!--TODO: Change participant count -->
-              Participants: 1 / {{ std.userLimit }}
+              <!--TODO: Change participant count if lobbies have users -->
+              Participants: {{std.users.length}} / {{ std.userLimit }}
             </ion-label>
           </ion-col>
         </ion-row>

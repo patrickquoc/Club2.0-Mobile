@@ -14,6 +14,7 @@ export class LTDViewComponent implements OnInit {
   private pageIndex = 0;
   private fetchSize = 15;
   searchString = '';
+  private isFiltered = false;
 
   constructor(private http: HttpService, private dataService: DataService, private router: Router) {
     this.getNextDiscussions();
@@ -34,7 +35,15 @@ export class LTDViewComponent implements OnInit {
   async getNextDiscussions() {
     //TODO: Replace with http request
     console.log("load new ltds")
-    this.discussions = this.discussions.concat(await this.http.getLtdsPaged(this.pageIndex, this.fetchSize));
+    if(this.isFiltered) {
+      this.discussions = this.discussions.concat(
+        await this.http.getLtdsByCategory(this.pageIndex, this.fetchSize, this.searchString)
+      );
+    }
+    else {
+      this.discussions = this.discussions.concat(await this.http.getLtdsPaged(this.pageIndex, this.fetchSize));
+    }
+
     this.pageIndex++;
   }
 
@@ -47,9 +56,26 @@ export class LTDViewComponent implements OnInit {
     return result;
   }
 
-  getDiscussionsByCategory() {
+  async getDiscussionsByCategory() {
     console.log(this.searchString);
-    
+    if (this.searchString == '') {
+      await this.reloadDiscussion();
+    }
+    else {
+      this.isFiltered = true;
+      this.pageIndex = 0;
+      this.discussions = await this.http.getLtdsByCategory(this.pageIndex, this.fetchSize, this.searchString);
+      console.log(this.discussions);
+    }
+  }
+
+  async getDiscussionsByName() {
+    if (this.searchString == '') {
+      await this.reloadDiscussion();
+    }
+    else {
+      this.discussions = await this.http.getLtdsByName(this.searchString);
+    }
   }
 
   openDetailPage(ltd: LongTermDiscussion) {
