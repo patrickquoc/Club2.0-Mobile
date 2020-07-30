@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/service/auth.service';
 import { Router } from '@angular/router';
 import { CreateSTDDto } from 'src/app/dto/create-stddto';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
+import { DataService } from 'src/app/service/data.service';
 
 @Component({
   selector: 'app-stdcreation',
@@ -19,7 +20,7 @@ export class STDCreationPage implements OnInit {
   password = '';
   isPasswordVisible = false;
 
-  constructor(private http: HttpService, private auth: AuthService, private router: Router) { }
+  constructor(private http: HttpService, private auth: AuthService, private router: Router, private dataService: DataService) { }
 
   ngOnInit() { }
 
@@ -60,7 +61,8 @@ export class STDCreationPage implements OnInit {
 
     try {
       const res: any = JSON.parse(await this.http.createStd(std));
-      //await this.http.joinStd(res.discussionId, await this.auth.getUsername(), this.password);
+      this.dataService.setData(10, res);
+      this.router.navigateByUrl('participate/std/10');
 
     } catch (error) {
       console.error("Connection to room could not be established: "+ error.error);
