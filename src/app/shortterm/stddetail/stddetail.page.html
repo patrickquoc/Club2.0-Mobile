@@ -9,7 +9,7 @@
 
 <ion-content>
   <!--TODO: Fixed position for description?-->
-  <ion-card class="description-card" *ngIf="selectedDiscussion">
+  <ion-card class="description-card ion-margin-bottom" *ngIf="selectedDiscussion">
     <ion-card-header>
       <ion-card-title>
         {{ selectedDiscussion.name }}
@@ -29,6 +29,7 @@
     </ion-card-content>
   </ion-card>
   <div *ngIf="selectedDiscussion.users">
+    <ion-label class="ion-margin-start">Participants: </ion-label>
     <ion-list>
       <ion-item *ngFor="let user of selectedDiscussion.users">
         <ion-label>

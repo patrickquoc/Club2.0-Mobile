@@ -63,7 +63,7 @@ export class STDCreationPage implements OnInit {
       //await this.http.joinStd(res.discussionId, await this.auth.getUsername(), this.password);
 
     } catch (error) {
-      console.error("Connection to room could not be established: "+ JSON.stringify(error));
+      console.error("Connection to room could not be established: "+ error.error);
     }
   }
 

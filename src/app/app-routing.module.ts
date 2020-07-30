@@ -46,10 +46,13 @@ const routes: Routes = [
     },
     loadChildren: () => import('./shortterm/stddetail/stddetail.module').then( m => m.STDDetailPageModule)
   },
-
-
-
-
+  {
+    path: 'participate/std/:id',
+    resolve: {
+      special: DataResolverService
+    },
+    loadChildren: () => import('./shortterm/discussion/stdbase/stdbase.module').then( m => m.STDBasePageModule)
+  },
 ];
 
 @NgModule({
