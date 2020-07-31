@@ -17,6 +17,10 @@ import { AuthService } from './service/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { environment } from 'src/environments/environment';
+const config: SocketIoConfig = { url: `${environment.wsConnection}`, options: {} };
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,7 +33,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ReactiveFormsModule,
     HttpClientModule,
     IonicStorageModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    SocketIoModule.forRoot(config)
 ],
   providers: [
     StatusBar,

@@ -10,12 +10,16 @@ import { AuthService } from 'src/app/service/auth.service';
 export class STDLobbyComponent implements OnInit {
   @Input()
   discussion: ShortTermDiscussion;
+  username: string;
   constructor(private auth: AuthService) { }
 
-  ngOnInit() {}
+  async ngOnInit() {
+    this.username = await this.auth.getUsername()
+  }
 
-  async isHost() {
-    return this.discussion.host == await this.auth.getUsername();
+  isHost() {
+    console.log(this.discussion.host == this.username)
+    return this.discussion.host == this.username;
   }
 
   startDiscussion() {

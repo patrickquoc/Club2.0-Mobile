@@ -70,7 +70,6 @@ export class STDCreationPage implements OnInit {
   }
 
   togglePasswordVisibility() {
-    console.log('Visibility changed'); 
     this.isPasswordVisible = ! this.isPasswordVisible;
   }
 }

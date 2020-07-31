@@ -44,7 +44,7 @@ export class HttpService {
   }
 
   async getLtdsByName(name: String) {
-    return this.http.get<LongTermDiscussion[]>(`${environment.connection}/api/ltds/byName?=${name}`).toPromise();
+    return this.http.get<LongTermDiscussion[]>(`${environment.connection}/api/ltds/byName?name=${name}`).toPromise();
   }
 
   async createLtd(ltd :CreateLTDDto) {
