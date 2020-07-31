@@ -1,3 +1,39 @@
-<p>
-  stdlobby works!
-</p>
+<ion-content>
+  <!-- timer-->
+  <ion-title class="ion-text-center" class="ion-margin">
+    Discussion will start soon!
+  </ion-title>
+  <ion-card class="ion-margin-bottom">
+    <ion-card-header>
+      <ion-card-title color="primary">
+        {{ discussion.name }}
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-text class="description">
+        {{ discussion.description }}
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <ion-title class="ion-text-center" color="primary">
+        Participants
+      </ion-title>
+    </ion-card-header>
+    <ion-list>
+      <ion-item *ngFor="let user of discussion.users">
+        <ion-label>{{ user }}</ion-label> 
+        <ion-icon *ngIf="user == discussion.host" name="mic-circle-outline"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+</ion-content>
+<ion-footer *ngIf="isHost()">
+  <ion-toolbar>
+    <ion-button class="ion-padding-horizontal" (click)="startDiscussion()"
+      size="medium" type="submit" color="primary" expand="block">
+        Start discussion
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

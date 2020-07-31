@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   address: 'localhost',
   port: 3030,
-  connection: 'http://localhost:3030'
+  connection: 'http://localhost:3030',
+  wsConnection: 'ws://localhost:3040'
 };
 
 /*

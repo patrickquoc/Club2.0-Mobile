@@ -30,7 +30,7 @@ export class STDDetailPage implements OnInit {
           {
             name: 'password',
             placeholder: 'Password',
-            type: "text"
+            type: "password"
           }
         ],
         buttons: [
@@ -64,6 +64,7 @@ export class STDDetailPage implements OnInit {
     }
     else {
       try {
+        
         const res = await this.http.joinStd(this.selectedDiscussion.discussionId, await this.auth.getUsername());
         this.dataService.setData(10, res);
         this.router.navigateByUrl('participate/std/10');

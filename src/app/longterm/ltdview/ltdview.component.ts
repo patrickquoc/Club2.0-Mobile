@@ -74,6 +74,7 @@ export class LTDViewComponent implements OnInit {
       await this.reloadDiscussion();
     }
     else {
+      console.log(this.searchString);
       this.discussions = await this.http.getLtdsByName(this.searchString);
     }
   }
