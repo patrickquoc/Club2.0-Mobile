@@ -26,7 +26,7 @@ export class HttpService {
 
   async login(username: string, password: string): Promise<any>{
     const credential = {
-      username: username,
+      username: username, 
       password: password
     }
 
@@ -37,9 +37,10 @@ export class HttpService {
     return this.http.get<LongTermDiscussion[]>(`${environment.connection}/api/ltds/paged?index=${pageIndex}&size=${fetchSize}`)
       .toPromise();
   }
-  async getLtdsByCategory(pageIndex: number, fetchSize: number, categories: string) {
+
+  async getLtdsByCategory(pageIndex: number, fetchSize: number, categories: string[]) {
     return this.http.get<LongTermDiscussion[]>(`${environment.connection}/api/ltds/byCategory?`+
-      `index=${pageIndex}&size=${fetchSize}&categories=${categories}`)
+      `index=${pageIndex}&size=${fetchSize}&categories=${JSON.stringify(categories)}`)
       .toPromise();
   }
 
@@ -70,6 +71,16 @@ export class HttpService {
       .toPromise();
   }
 
+  async getStdsByCategory(pageIndex: number, fetchSize: number, categories: string[]) {
+    return this.http.get<ShortTermDiscussion[]>(`${environment.connection}/api/stds/byCategory?`+
+      `index=${pageIndex}&size=${fetchSize}&categories=${JSON.stringify(categories)}`)
+      .toPromise();
+  }
+
+  async getStdsByName(name: String) {
+    return this.http.get<ShortTermDiscussion[]>(`${environment.connection}/api/stds/byName?name=${name}`).toPromise();
+  }
+
   async createStd(std: CreateSTDDto) {
     return this.http.post<any>(`${environment.connection}/api/stds/create`, std, this.httpOptions).toPromise();
   }
@@ -81,7 +92,15 @@ export class HttpService {
       username,
       password
     }
-    console.log(dto);
     return this.http.put<any>(`${environment.connection}/api/stds/join`, dto).toPromise();
+  }
+
+  async leaveStd(discussionId: string, username: string) {
+    const dto = {
+      discussionId,
+      username,
+    }
+
+    return this.http.put<any>(`${environment.connection}/api/stds/leave`, dto).toPromise();
   }
 }
