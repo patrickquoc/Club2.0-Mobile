@@ -69,7 +69,7 @@ export class STDDetailPage implements OnInit {
         this.dataService.setData(10, res);
         this.router.navigateByUrl('participate/std/10');
       } catch (error) {
-        console.error("Connection failed: "+ error);
+        console.error("Connection to room could not be established: "+ error.error);
       }
     }
   }

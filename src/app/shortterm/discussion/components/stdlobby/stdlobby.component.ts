@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 import { AuthService } from 'src/app/service/auth.service';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-stdlobby',
@@ -11,18 +12,17 @@ export class STDLobbyComponent implements OnInit {
   @Input()
   discussion: ShortTermDiscussion;
   username: string;
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService, private socket: Socket) { }
 
   async ngOnInit() {
     this.username = await this.auth.getUsername()
   }
 
   isHost() {
-    console.log(this.discussion.host == this.username)
     return this.discussion.host == this.username;
   }
 
   startDiscussion() {
-    console.log("DISCUSSION STARTS NOW");
+    this.socket.emit("forceStartDiscussion");
   }
 }

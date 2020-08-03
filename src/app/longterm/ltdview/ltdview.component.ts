@@ -36,8 +36,9 @@ export class LTDViewComponent implements OnInit {
     //TODO: Replace with http request
     console.log("load new ltds")
     if(this.isFiltered) {
+      const search = this.searchString.split(',');
       this.discussions = this.discussions.concat(
-        await this.http.getLtdsByCategory(this.pageIndex, this.fetchSize, this.searchString)
+        await this.http.getLtdsByCategory(this.pageIndex, this.fetchSize, search)
       );
     }
     else {
@@ -57,6 +58,7 @@ export class LTDViewComponent implements OnInit {
   }
 
   async getDiscussionsByCategory() {
+    //TODO: Filter button
     console.log(this.searchString);
     if (this.searchString == '') {
       await this.reloadDiscussion();
@@ -64,7 +66,8 @@ export class LTDViewComponent implements OnInit {
     else {
       this.isFiltered = true;
       this.pageIndex = 0;
-      this.discussions = await this.http.getLtdsByCategory(this.pageIndex, this.fetchSize, this.searchString);
+      const search = this.searchString.split(',');
+      this.discussions = await this.http.getLtdsByCategory(this.pageIndex, this.fetchSize, search);
       console.log(this.discussions);
     }
   }

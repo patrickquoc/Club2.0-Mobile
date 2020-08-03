@@ -1,5 +1,5 @@
 <ion-content>
-  <ion-searchbar [(ngModel)]="searchString" (change)="getDiscussionsByCategory()">
+  <ion-searchbar [(ngModel)]="searchString" (change)="getDiscussionsByName()">
   </ion-searchbar>
   <ion-list>
     <ion-item *ngFor="let std of discussions" (click)="openDetailPage(std)">
@@ -16,7 +16,6 @@
           <ion-col>
             <ion-label class="sub-title ion-text-start">
               Categories: {{ getCategoriesToString(std) }} <br>
-              <!--TODO: Change participant count if lobbies have users -->
               Participants: {{std.users.length}} / {{ std.userLimit }}
             </ion-label>
           </ion-col>
