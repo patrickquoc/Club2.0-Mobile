@@ -5,6 +5,7 @@ export interface CreateSTDDto {
     categories: string[],
     date: Date,
     userLimit: string,
+    totalRounds: string,
     privateFlag: string,
     password?: string,
 }

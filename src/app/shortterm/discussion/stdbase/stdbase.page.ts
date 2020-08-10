@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Socket } from 'ngx-socket-io';
 import { AuthService } from 'src/app/service/auth.service';
 import { SocketService } from 'src/app/service/socket.service';
 import { HttpService } from 'src/app/service/http.service';
@@ -15,6 +14,7 @@ export class STDBasePage implements OnInit {
   discussion: ShortTermDiscussion;
   activeComponent = new Array<boolean>(4);
   username: string;
+  currentRound = 1;
   constructor(private route: ActivatedRoute, private socket: SocketService, private auth: AuthService, private http: HttpService,
     private router: Router) { }
 
@@ -36,6 +36,11 @@ export class STDBasePage implements OnInit {
         console.error("userJoined: Failed to parse incoming data: "+ error.error);
       }
     });
+
+    this.socket.discussionStarts().subscribe(() => {
+      this.resetActiveComponents();
+      this.activeComponent[1] = true;
+    })
   }
 
   leaveRoom() {
@@ -47,4 +52,22 @@ export class STDBasePage implements OnInit {
     }
   }
 
+  onStart() {
+    console.log("gogo");
+    this.resetActiveComponents();
+    this.socket.startDiscussion(this.discussion.discussionId, this.discussion.totalRounds);
+  }
+
+  resetActiveComponents() {
+    this.activeComponent = Array<boolean>(3);
+  }
+
+  onArgumentFinished() {
+    this.resetActiveComponents();
+    this.activeComponent[2] = true;
+  }
+
+  onRatingFinished() {
+    
+  }
 }

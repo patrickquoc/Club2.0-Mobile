@@ -1,0 +1,30 @@
+<ion-content>
+  <ion-list *ngIf="arguments">
+    <ion-item *ngFor="let argument of arguments">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-text readonly>
+              {{ argument.text }}
+            </ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="ion-justify-content-center ion-text-center" (click)="onLike(argument)">
+            <ion-text [color]="hasLiked(argument) ? 'primary' : 'medium'">
+              Like
+            </ion-text>
+          </ion-col>
+          <ion-col class="ion-justify-content-center ion-text-center" (click)="onDislike(argument)">
+            <ion-text [color]="hasDisliked(argument) ? 'danger' : 'medium'">
+              Dislike
+            </ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+  <div class="ion-padding-horizontal">
+    <ion-button (click)="onSubmitRating()" size="medium" type="submit" color="primary" expand="block">Submit</ion-button>
+  </div>
+</ion-content>

@@ -11,7 +11,7 @@ export class HomePage {
   activeView = Array<boolean>(3);
 
   constructor(private menuController: MenuController) {
-    //TODO: Remove if trending page exist
+    //TODO: Trending page?
     this.activeView[1] = true;
   }
 

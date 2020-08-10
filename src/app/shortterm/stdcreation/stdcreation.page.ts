@@ -16,6 +16,7 @@ export class STDCreationPage implements OnInit {
   description: string = '';
   categoriesInput = new Array<any>();
   userLimit: number = 10;
+  maxRounds: number = 2;
   private: boolean = false;
   password = '';
   isPasswordVisible = false;
@@ -55,11 +56,13 @@ export class STDCreationPage implements OnInit {
       categories: categoriesDto,
       date: new Date(),
       privateFlag: JSON.stringify(this.private),
+      totalRounds: JSON.stringify(this.maxRounds),
       userLimit: JSON.stringify(this.userLimit),
       password: this.password
     }
 
     try {
+      console.log(std.totalRounds);
       const res: any = JSON.parse(await this.http.createStd(std));
       this.dataService.setData(10, res);
       this.router.navigateByUrl('participate/std/10');

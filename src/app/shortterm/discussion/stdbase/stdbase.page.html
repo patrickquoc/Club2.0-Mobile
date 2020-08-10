@@ -8,5 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <app-stdlobby *ngIf="activeComponent[0]" [discussion]="discussion"></app-stdlobby>
+  <app-stdlobby *ngIf="activeComponent[0]" [discussion]="discussion" (start)="onStart($event)"></app-stdlobby>
+  <app-stdargument-creator *ngIf="activeComponent[1]" [discussion]="discussion" (finished)="onArgumentFinished()"></app-stdargument-creator>
+  <app-stdrating *ngIf="activeComponent[2]" [discussion]="discussion" (finished)="onRatingFinished()"></app-stdrating>
 </ion-content>

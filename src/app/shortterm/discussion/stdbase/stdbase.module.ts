@@ -8,6 +8,8 @@ import { STDBasePageRoutingModule } from './stdbase-routing.module';
 
 import { STDBasePage } from './stdbase.page';
 import { STDLobbyComponent } from '../components/stdlobby/stdlobby.component';
+import { STDArgumentCreatorComponent } from '../components/stdargument-creator/stdargument-creator.component';
+import { STDRatingComponent } from '../components/stdrating/stdrating.component';
 
 @NgModule({
   imports: [
@@ -16,6 +18,6 @@ import { STDLobbyComponent } from '../components/stdlobby/stdlobby.component';
     IonicModule,
     STDBasePageRoutingModule
   ],
-  declarations: [STDBasePage, STDLobbyComponent]
+  declarations: [STDBasePage, STDLobbyComponent, STDArgumentCreatorComponent, STDRatingComponent]
 })
 export class STDBasePageModule {}

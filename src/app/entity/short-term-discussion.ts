@@ -6,6 +6,7 @@ export interface ShortTermDiscussion {
     categories: Array<string>,
     date: Date,
     userLimit: number,
+    totalRounds: number,
     users: Array<string>,
     privateFlag: boolean,
     finished: boolean
