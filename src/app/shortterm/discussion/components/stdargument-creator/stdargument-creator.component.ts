@@ -8,7 +8,7 @@ import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 })
 export class STDArgumentCreatorComponent implements OnInit {
   @Input() discussion: ShortTermDiscussion;  
-  @Output() finished = new EventEmitter<boolean>()
+  @Output() finished = new EventEmitter<string>();
   argument: string;
 
   constructor() { }
@@ -16,6 +16,12 @@ export class STDArgumentCreatorComponent implements OnInit {
   ngOnInit() {}
 
   onSubmit() {
-    
+    if(this.argument.length == 0) {
+      //TODO: Toast or Validator
+      console.log("Argument text is empty!");
+    }
+    else {
+      this.finished.emit(this.argument);
+    }
   }
 }

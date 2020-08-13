@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 import { SocketService } from 'src/app/service/socket.service';
 import { HttpService } from 'src/app/service/http.service';
+import { STDArgument } from 'src/app/entity/stdargument';
 
 @Component({
   selector: 'app-stdbase',
@@ -12,9 +13,11 @@ import { HttpService } from 'src/app/service/http.service';
 })
 export class STDBasePage implements OnInit {
   discussion: ShortTermDiscussion;
+  roundArguments: STDArgument[];
   activeComponent = new Array<boolean>(4);
   username: string;
   currentRound = 1;
+
   constructor(private route: ActivatedRoute, private socket: SocketService, private auth: AuthService, private http: HttpService,
     private router: Router) { }
 
@@ -40,7 +43,13 @@ export class STDBasePage implements OnInit {
     this.socket.discussionStarts().subscribe(() => {
       this.resetActiveComponents();
       this.activeComponent[1] = true;
-    })
+    });
+
+    this.socket.getRoundArguments().subscribe(args => {
+      this.roundArguments = args;
+      this.resetActiveComponents();
+      this.activeComponent[2] = true;
+    });
   }
 
   leaveRoom() {
@@ -62,12 +71,18 @@ export class STDBasePage implements OnInit {
     this.activeComponent = Array<boolean>(3);
   }
 
-  onArgumentFinished() {
-    this.resetActiveComponents();
-    this.activeComponent[2] = true;
+  onArgumentFinished(argument) {
+    this.socket.sendArgument(this.discussion.discussionId, this.username, argument);
+    console.log("Waiting for others to finish writing argument.")
+    //TODO: Loading screen
   }
 
-  onRatingFinished() {
-    
+  onRatingFinished(ratedArguments) {
+    console.log(ratedArguments);
+    this.socket.submitArgumentRating(this.discussion.discussionId, ratedArguments);
+    console.log("rating submitted")
+    //TODO: Round finished
+    //this.resetActiveComponents();
+    //this.activeComponent[3] = true;
   }
 }

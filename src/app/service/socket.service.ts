@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
-import { Argument } from '../entity/argument';
+import { STDArgument } from '../entity/stdargument';
 
 @Injectable({
   providedIn: 'root'
@@ -43,12 +43,12 @@ export class SocketService{
     return this.socket.emit("newArgument", JSON.stringify({discussionId, username, text}))
   }
 
-  async getRoundArguments() {
-    return this.socket.fromEvent("roundArguments").toPromise();
+  getRoundArguments() : Observable<STDArgument[]> {
+    return this.socket.fromEvent("roundArguments");
   }
 
-  submitArgumentRating(discussionId: string, argumentRating: Argument[]) {
-    return this.socket.emit("roundArguments", JSON.stringify({discussionId, arguments: argumentRating}))
+  submitArgumentRating(discussionId: string, argumentRating: STDArgument[]) {
+    return this.socket.emit("rateArgument", JSON.stringify({discussionId, arguments: argumentRating}))
   }
 
 }

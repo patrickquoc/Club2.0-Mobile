@@ -9,6 +9,6 @@
 
 <ion-content>
   <app-stdlobby *ngIf="activeComponent[0]" [discussion]="discussion" (start)="onStart($event)"></app-stdlobby>
-  <app-stdargument-creator *ngIf="activeComponent[1]" [discussion]="discussion" (finished)="onArgumentFinished()"></app-stdargument-creator>
-  <app-stdrating *ngIf="activeComponent[2]" [discussion]="discussion" (finished)="onRatingFinished()"></app-stdrating>
+  <app-stdargument-creator *ngIf="activeComponent[1]" [discussion]="discussion" (finished)="onArgumentFinished($event)"></app-stdargument-creator>
+  <app-stdrating *ngIf="activeComponent[2]" [roundArguments]="roundArguments" (finished)="onRatingFinished($event)"></app-stdrating>
 </ion-content>
