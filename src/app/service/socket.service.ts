@@ -39,8 +39,8 @@ export class SocketService{
     return this.socket.fromEvent("forceStartDiscussion");
   }
 
-  sendArgument(discussionId: string, username: string, text: string) {
-    return this.socket.emit("newArgument", JSON.stringify({discussionId, username, text}))
+  sendArgument(discussionId: string, username: string, argumentText: string) {
+    return this.socket.emit("newArgument", JSON.stringify({discussionId, username, argumentText}))
   }
 
   getRoundArguments() : Observable<STDArgument[]> {
@@ -51,4 +51,15 @@ export class SocketService{
     return this.socket.emit("rateArgument", JSON.stringify({discussionId, arguments: argumentRating}))
   }
 
+  getRoundResult() : Observable<STDArgument[]> {
+    return this.socket.fromEvent("resultArguments");
+  }
+
+  endOfDiscussion() : Observable<Array<STDArgument[]>> {
+    return this.socket.fromEvent("endOfDiscussion");
+  }
+
+  nextRound() {
+    return this.socket.fromEvent('nextRound');
+  }
 }

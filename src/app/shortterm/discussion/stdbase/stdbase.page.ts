@@ -14,7 +14,9 @@ import { STDArgument } from 'src/app/entity/stdargument';
 export class STDBasePage implements OnInit {
   discussion: ShortTermDiscussion;
   roundArguments: STDArgument[];
-  activeComponent = new Array<boolean>(4);
+  resultArguments: STDArgument[];
+  allArguments: Array<STDArgument[]>
+  activeComponent = new Array<boolean>(5);
   username: string;
   currentRound = 1;
 
@@ -41,15 +43,24 @@ export class STDBasePage implements OnInit {
     });
 
     this.socket.discussionStarts().subscribe(() => {
-      this.resetActiveComponents();
-      this.activeComponent[1] = true;
+      this.activateComponent(1);
     });
 
     this.socket.getRoundArguments().subscribe(args => {
       this.roundArguments = args;
-      this.resetActiveComponents();
-      this.activeComponent[2] = true;
+      console.log(this.roundArguments);
+      this.activateComponent(2);
     });
+
+    this.socket.getRoundResult().subscribe(args => {
+      this.resultArguments = args;
+      this.activateComponent(3);
+    })
+
+    this.socket.endOfDiscussion().subscribe(args => {
+      this.allArguments = args;
+      this.activateComponent(4);
+    })
   }
 
   leaveRoom() {
@@ -62,19 +73,23 @@ export class STDBasePage implements OnInit {
   }
 
   onStart() {
-    console.log("gogo");
     this.resetActiveComponents();
     this.socket.startDiscussion(this.discussion.discussionId, this.discussion.totalRounds);
   }
 
   resetActiveComponents() {
-    this.activeComponent = Array<boolean>(3);
+    this.activeComponent = Array<boolean>(5);
+  }
+
+  activateComponent(index: number) {
+    this.resetActiveComponents();
+    this.activeComponent[index] = true;
   }
 
   onArgumentFinished(argument) {
     this.socket.sendArgument(this.discussion.discussionId, this.username, argument);
     console.log("Waiting for others to finish writing argument.")
-    //TODO: Loading screen
+    //TODO: Loading screen?
   }
 
   onRatingFinished(ratedArguments) {
