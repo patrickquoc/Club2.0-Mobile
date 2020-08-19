@@ -8,6 +8,7 @@ import { STDArgument } from 'src/app/entity/stdargument';
 })
 export class STDResultComponent implements OnInit {
   @Input() arguments: STDArgument[];
+  @Input() isHost: boolean;
   constructor() { }
 
   ngOnInit() {}

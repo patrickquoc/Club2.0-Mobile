@@ -25,6 +25,12 @@ export class AuthService {
     console.log(`Token received: ${user.token}`)
   }
 
+  async logout() {
+    await this.storage.remove('user');
+    await this.storage.remove('token');
+    await this.storage.remove('expires_at');
+  }
+
   async isLoggedIn() {
     const user = await this.storage.get('user');
     return user != null && !await this.isTokenExpired();
@@ -41,7 +47,8 @@ export class AuthService {
   async getUsername() {
     const user: User = JSON.parse(await this.storage.get('user'));
     //TODO: Replace after testing
-    //return user.username;
-    return "Maxi Muster"
+    return user.username;
+    //return "Maxi Muster"
   }
+
 }

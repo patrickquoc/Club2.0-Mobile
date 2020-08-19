@@ -12,14 +12,10 @@
           </ion-row>
           <ion-row>
             <ion-col class="ion-justify-content-center ion-text-center" (click)="onLike(argument)">
-              <ion-text [color]="hasLiked(argument) ? 'primary' : 'medium'">
-                Like
-              </ion-text>
+              <ion-icon name="arrow-up-circle-outline"  [color]="hasLiked(argument) ? 'primary' : 'medium'"></ion-icon> <br>
             </ion-col>
-            <ion-col class="ion-justify-content-center ion-text-center" (click)="onDislike(argument)">
-              <ion-text [color]="hasDisliked(argument) ? 'danger' : 'medium'">
-                Dislike
-              </ion-text>
+            <ion-col class="ion-justify-content-center ion-text-center" (click)="onDislike(argument)"> 
+              <ion-icon name="arrow-down-circle-outline"  [color]="hasDisliked(argument) ? 'danger' : 'medium'"></ion-icon> <br>
             </ion-col>
           </ion-row>
         </ion-grid>

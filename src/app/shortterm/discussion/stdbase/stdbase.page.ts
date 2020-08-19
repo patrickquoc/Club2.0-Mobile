@@ -19,9 +19,9 @@ export class STDBasePage implements OnInit {
   activeComponent = new Array<boolean>(5);
   username: string;
   currentRound = 1;
+  isHost: boolean;
 
-  constructor(private route: ActivatedRoute, private socket: SocketService, private auth: AuthService, private http: HttpService,
-    private router: Router) { }
+  constructor(private route: ActivatedRoute, private socket: SocketService, private auth: AuthService, private http: HttpService ) { }
 
   async ngOnInit() {
     this.username = await this.auth.getUsername();
@@ -29,16 +29,17 @@ export class STDBasePage implements OnInit {
       this.discussion = this.route.snapshot.data['special'];
     }
     this.activeComponent[0] = true;
+    this.isHost = this.username == this.discussion.host;
 
     this.socket.connect();
     this.socket.joinRoom(this.discussion.discussionId, this.username);
 
     this.socket.userJoined().subscribe(username => {
       try {
-        const user: string = JSON.parse(username as any);
-        this.discussion.users.push(user);
+        console.log(username+ " joined room.")
+        this.discussion.users.push(username);
       } catch (error) {
-        console.error("userJoined: Failed to parse incoming data: "+ error.error);
+        console.error("userJoined: Failed to parse incoming data: "+ error);
       }
     });
 
@@ -48,19 +49,19 @@ export class STDBasePage implements OnInit {
 
     this.socket.getRoundArguments().subscribe(args => {
       this.roundArguments = args;
-      console.log(this.roundArguments);
       this.activateComponent(2);
     });
 
     this.socket.getRoundResult().subscribe(args => {
+      console.log("Received Round result");
       this.resultArguments = args;
       this.activateComponent(3);
-    })
+    });
 
     this.socket.endOfDiscussion().subscribe(args => {
       this.allArguments = args;
       this.activateComponent(4);
-    })
+    }); 
   }
 
   leaveRoom() {
@@ -94,7 +95,7 @@ export class STDBasePage implements OnInit {
 
   onRatingFinished(ratedArguments) {
     console.log(ratedArguments);
-    this.socket.submitArgumentRating(this.discussion.discussionId, ratedArguments);
+    this.socket.submitArgumentRating(ratedArguments);
     console.log("rating submitted")
     //TODO: Round finished
     //this.resetActiveComponents();

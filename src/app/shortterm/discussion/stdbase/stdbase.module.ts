@@ -11,6 +11,7 @@ import { STDLobbyComponent } from '../components/stdlobby/stdlobby.component';
 import { STDArgumentCreatorComponent } from '../components/stdargument-creator/stdargument-creator.component';
 import { STDRatingComponent } from '../components/stdrating/stdrating.component';
 import { STDResultComponent } from '../components/stdresult/stdresult.component';
+import { STDSummaryComponent } from '../components/stdsummary/stdsummary.component';
 
 @NgModule({
   imports: [
@@ -19,6 +20,13 @@ import { STDResultComponent } from '../components/stdresult/stdresult.component'
     IonicModule,
     STDBasePageRoutingModule
   ],
-  declarations: [STDBasePage, STDLobbyComponent, STDArgumentCreatorComponent, STDRatingComponent, STDResultComponent]
+  declarations: [
+    STDBasePage, 
+    STDLobbyComponent, 
+    STDArgumentCreatorComponent, 
+    STDRatingComponent, 
+    STDResultComponent, 
+    STDSummaryComponent
+  ]
 })
 export class STDBasePageModule {}

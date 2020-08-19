@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
 import { STDArgument } from '../entity/stdargument';
@@ -40,15 +40,15 @@ export class SocketService{
   }
 
   sendArgument(discussionId: string, username: string, argumentText: string) {
-    return this.socket.emit("newArgument", JSON.stringify({discussionId, username, argumentText}))
+    return this.socket.emit("newArgument", JSON.stringify({discussionId, username, argumentText, date: new Date()}))
   }
 
   getRoundArguments() : Observable<STDArgument[]> {
     return this.socket.fromEvent("roundArguments");
   }
 
-  submitArgumentRating(discussionId: string, argumentRating: STDArgument[]) {
-    return this.socket.emit("rateArgument", JSON.stringify({discussionId, arguments: argumentRating}))
+  submitArgumentRating(ratedArguments: STDArgument[]) {
+    return this.socket.emit("rateArgument", JSON.stringify(ratedArguments))
   }
 
   getRoundResult() : Observable<STDArgument[]> {

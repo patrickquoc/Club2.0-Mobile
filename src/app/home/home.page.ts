@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { MenuController } from '@ionic/angular';
+import { AuthService } from '../service/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +12,7 @@ export class HomePage {
   title = "Home";
   activeView = Array<boolean>(3);
 
-  constructor(private menuController: MenuController) {
+  constructor(private menuController: MenuController, private auth: AuthService, private router: Router) {
     //TODO: Trending page?
     this.activeView[1] = true;
   }
@@ -30,5 +32,10 @@ export class HomePage {
   resetView() {
     this.activeView = Array<boolean>(3);
     this.menuController.close();
+  }
+
+  async onLogout() {
+    await this.auth.logout();
+    this.router.navigateByUrl('login');
   }
 }
