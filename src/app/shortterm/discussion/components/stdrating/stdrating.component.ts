@@ -13,6 +13,7 @@ import { STDArgument } from 'src/app/entity/stdargument';
 })
 export class STDRatingComponent{
   @Input() roundArguments: STDArgument[];
+  @Input() discussion: ShortTermDiscussion;
   @Output() finished = new EventEmitter<STDArgument[]>();
 
   constructor() { }

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { STDArgument } from 'src/app/entity/stdargument';
+import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 
 @Component({
   selector: 'app-stdsummary',
@@ -8,7 +9,7 @@ import { STDArgument } from 'src/app/entity/stdargument';
 })
 export class STDSummaryComponent implements OnInit {
   @Input() allArguments: Array<STDArgument[]>;
-
+  @Input() discussion: ShortTermDiscussion;
   constructor() { }
 
   ngOnInit() {}

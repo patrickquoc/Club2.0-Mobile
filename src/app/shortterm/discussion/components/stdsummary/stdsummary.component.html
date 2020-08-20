@@ -1,4 +1,16 @@
 <div *ngIf="allArguments">
+  <ion-card class="ion-margin-bottom">
+    <ion-card-header>
+      <ion-card-title color="primary">
+        {{ discussion.name }}
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-text class="description">
+        {{ discussion.description }}
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
   <ion-card *ngFor="let roundArguments of allArguments; index as round">
     <ion-card-header>
       <ion-card-title >
