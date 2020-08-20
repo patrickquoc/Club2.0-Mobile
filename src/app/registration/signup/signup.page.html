@@ -29,8 +29,8 @@
             </ion-item>
 
             <ion-item>
-              <ion-label position="floating">Password</ion-label>
-              <ion-input formControlName="password" position="floating" type="password"></ion-input>
+              <ion-input placeholder="Password" formControlName="password" position="floating" [type]="isPasswordVisible ? 'text' : 'password'"></ion-input>
+              <ion-icon slot="end" [name]="isPasswordVisible ? 'eye-outline' : 'eye-off-outline'" (click)="togglePasswordVisibility()"></ion-icon>
             </ion-item>
             <div class="validation-errors">
               <div class="error-message" *ngIf="password.errors && (password.dirty || password.touched)">
@@ -42,8 +42,7 @@
             </div>
 
             <ion-item>
-              <ion-label position="floating">Confirm Password</ion-label>
-              <ion-input formControlName="confirmPassword" position="floating" type="password"></ion-input>
+              <ion-input placeholder="Confirm Password" formControlName="confirmPassword" position="floating" type="password"></ion-input>
             </ion-item>
             <div class="validation-errors">
                 <div class="error-message" 

@@ -30,7 +30,7 @@ export class SocketService{
 
   startDiscussion(discussionId: string, rounds: number) {
     console.log("Force start discussion: "+ discussionId);
-    const dto = {discussionId, rounds: JSON.stringify(rounds)}
+    const dto = {discussionId, rounds}
     console.log(dto);
     return this.socket.emit("forceStartDiscussion", JSON.stringify(dto));
   }
