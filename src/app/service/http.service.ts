@@ -26,7 +26,7 @@ export class HttpService {
 
   async login(username: string, password: string): Promise<any>{
     const credential = {
-      username: username, 
+      credential: username, 
       password: password
     }
 

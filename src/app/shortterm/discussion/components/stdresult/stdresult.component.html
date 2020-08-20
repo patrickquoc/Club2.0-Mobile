@@ -1,0 +1,31 @@
+<div *ngIf="arguments">
+  <ion-list>
+    <ion-item *ngFor="let argument of arguments">
+      <ion-card class="argument-card">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-text class="argument-text" readonly>
+                {{ argument.text }}
+              </ion-text>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="ion-justify-content-center ion-text-center">
+              <ion-icon name="arrow-up-circle-outline" color="primary"></ion-icon>
+              <ion-text color="primary">
+                {{ argument.rating[0] }}
+              </ion-text>
+            </ion-col>
+            <ion-col class="ion-justify-content-center ion-text-center">
+              <ion-icon name="arrow-down-circle-outline" color="danger"></ion-icon>
+              <ion-text color="danger">
+                {{ argument.rating[1] }}
+              </ion-text>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card>
+    </ion-item>
+  </ion-list>
+</div>

@@ -11,7 +11,7 @@ import { RegisterUser } from 'src/app/dto/register-user';
 })
 export class SignupPage implements OnInit {
   signupForm: FormGroup;
-   
+  isPasswordVisible = false;
   constructor(private fb: FormBuilder, private router: Router, private auth: AuthService) { 
     
   }
@@ -75,5 +75,9 @@ export class SignupPage implements OnInit {
 
   isFormFilledCorrectly(): boolean{
     return this.email.valid && this.password.valid && this.password.value == this.confirmPassword.value;
+  }
+
+  togglePasswordVisibility() {
+    this.isPasswordVisible = ! this.isPasswordVisible;
   }
 }

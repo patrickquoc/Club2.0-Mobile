@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-menu-button>
         <ion-icon name="menu"></ion-icon>
@@ -13,7 +13,7 @@
 <ion-content [fullscreen]="true">
   <ion-menu side="start" content-id="main-content">
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar color="primary">
         <ion-title>
           Menu
         </ion-title>
@@ -33,11 +33,18 @@
           <ion-icon name="person-outline" slot="start"></ion-icon>
           <ion-label>Profile</ion-label>
         </ion-item>
+        <ion-item (click)="onLogout()">
+          <ion-label>Logout</ion-label>
+          <ion-icon name="exit-outline" slot="start"></ion-icon>
+        </ion-item>
       </ion-list>
     </ion-content>
   </ion-menu>
   <div class="ion-page" id="main-content">
   </div>
   <app-ltdview *ngIf="activeView[0]"></app-ltdview>
-  <app-stdview *ngIf="activeView[1]"></app-stdview>
+  <!-- TODO: Remove -->
+  <!--<app-stdargument-creator *ngIf="activeView[1]"></app-stdargument-creator> -->
+  <!--app-stdrating *ngIf="activeView[1]"></app-stdrating -->
+  <app-stdview *ngIf="activeView[1]"></app-stdview>  
 </ion-content>
