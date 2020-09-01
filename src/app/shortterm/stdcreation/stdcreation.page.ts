@@ -20,10 +20,13 @@ export class STDCreationPage implements OnInit {
   private: boolean = false;
   password = '';
   isPasswordVisible = false;
+  private username: string;
 
   constructor(private http: HttpService, private auth: AuthService, private router: Router, private dataService: DataService) { }
 
-  ngOnInit() { }
+  async ngOnInit() { 
+    this.username = await this.auth.getUsername()
+  }
 
   async onCreate() {
 
@@ -51,7 +54,7 @@ export class STDCreationPage implements OnInit {
     
     const std: CreateSTDDto = {
       name: this.name, 
-      host: await this.auth.getUsername(),
+      host: this.username,
       description: this.description,
       categories: categoriesDto,
       date: new Date(),
@@ -63,7 +66,9 @@ export class STDCreationPage implements OnInit {
 
     try {
       console.log(std.totalRounds);
-      const res: any = JSON.parse(await this.http.createStd(std));
+      const res: ShortTermDiscussion = JSON.parse(await this.http.createStd(std));
+      res.users = new Array<string>();
+      res.users.push(this.username);
       this.dataService.setData(10, res);
       this.router.navigateByUrl('participate/std/10');
 

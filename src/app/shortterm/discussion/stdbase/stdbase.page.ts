@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
-import { SocketService } from 'src/app/service/socket.service';
 import { HttpService } from 'src/app/service/http.service';
 import { STDArgument } from 'src/app/entity/stdargument';
+import { SocketService } from 'src/app/service/socket.service';
+import { NgControlStatus } from '@angular/forms';
 
 @Component({
   selector: 'app-stdbase',
@@ -12,13 +13,14 @@ import { STDArgument } from 'src/app/entity/stdargument';
   styleUrls: ['./stdbase.page.scss'],
 })
 export class STDBasePage implements OnInit {
+  private componentCount = 7;
   discussion: ShortTermDiscussion;
   roundArguments: STDArgument[];
   resultArguments: STDArgument[];
-  allArguments: Array<STDArgument[]>
-  activeComponent = new Array<boolean>(5);
+  allArguments: Array<STDArgument[]>;
+  randomArgument: STDArgument;
+  activeComponent = new Array<boolean>(this.componentCount);
   username: string;
-  currentRound = 1;
   isHost: boolean;
 
   constructor(private route: ActivatedRoute, private socket: SocketService, private auth: AuthService, private http: HttpService ) { }
@@ -62,6 +64,11 @@ export class STDBasePage implements OnInit {
       this.allArguments = args;
       this.activateComponent(4);
     }); 
+
+    this.socket.nextRound().subscribe(arg => {
+      this.randomArgument = arg;
+      this.activateComponent(5);
+    })
   }
 
   leaveRoom() {
@@ -79,7 +86,7 @@ export class STDBasePage implements OnInit {
   }
 
   resetActiveComponents() {
-    this.activeComponent = Array<boolean>(5);
+    this.activeComponent = Array<boolean>(this.componentCount);
   }
 
   activateComponent(index: number) {
@@ -94,11 +101,15 @@ export class STDBasePage implements OnInit {
   }
 
   onRatingFinished(ratedArguments) {
-    console.log(ratedArguments);
     this.socket.submitArgumentRating(ratedArguments);
-    console.log("rating submitted")
-    //TODO: Round finished
-    //this.resetActiveComponents();
-    //this.activeComponent[3] = true;
+    console.log("rating submitted");
+  }
+
+  onCommentFinished(comment) {
+    console.log(comment);
+  }
+
+  forceStartNextRound() {
+    this.socket.forceStartNextRound(this.discussion.discussionId);
   }
 }

@@ -29,7 +29,7 @@
           <ion-icon name="timer-outline" slot="start"></ion-icon> 
           <ion-label>Short-term discussions</ion-label>
         </ion-item>
-        <ion-item>
+        <ion-item (click)="showProfile()">
           <ion-icon name="person-outline" slot="start"></ion-icon>
           <ion-label>Profile</ion-label>
         </ion-item>
@@ -43,8 +43,6 @@
   <div class="ion-page" id="main-content">
   </div>
   <app-ltdview *ngIf="activeView[0]"></app-ltdview>
-  <!-- TODO: Remove -->
-  <!--<app-stdargument-creator *ngIf="activeView[1]"></app-stdargument-creator> -->
-  <!--app-stdrating *ngIf="activeView[1]"></app-stdrating -->
   <app-stdview *ngIf="activeView[1]"></app-stdview>  
+  <app-profile *ngIf="activeView[2]"></app-profile>
 </ion-content>

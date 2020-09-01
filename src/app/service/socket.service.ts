@@ -30,8 +30,7 @@ export class SocketService{
 
   startDiscussion(discussionId: string, rounds: number) {
     console.log("Force start discussion: "+ discussionId);
-    const dto = {discussionId, rounds}
-    console.log(dto);
+    const dto = {discussionId, rounds};
     return this.socket.emit("forceStartDiscussion", JSON.stringify(dto));
   }
 
@@ -48,7 +47,7 @@ export class SocketService{
   }
 
   submitArgumentRating(ratedArguments: STDArgument[]) {
-    return this.socket.emit("rateArgument", JSON.stringify(ratedArguments))
+    return this.socket.emit("rateArguments", JSON.stringify(ratedArguments))
   }
 
   getRoundResult() : Observable<STDArgument[]> {
@@ -59,7 +58,11 @@ export class SocketService{
     return this.socket.fromEvent("endOfDiscussion");
   }
 
-  nextRound() {
+  forceStartNextRound(discussionId: string) {
+    return this.socket.emit("forceNextRound", discussionId);
+  }
+
+  nextRound(): Observable<STDArgument> {
     return this.socket.fromEvent('nextRound');
   }
 }

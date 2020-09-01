@@ -12,6 +12,7 @@ import { STDArgumentCreatorComponent } from '../components/stdargument-creator/s
 import { STDRatingComponent } from '../components/stdrating/stdrating.component';
 import { STDResultComponent } from '../components/stdresult/stdresult.component';
 import { STDSummaryComponent } from '../components/stdsummary/stdsummary.component';
+import { STDCommentComponent } from '../components/stdcomment/stdcomment.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { STDSummaryComponent } from '../components/stdsummary/stdsummary.compone
     STDArgumentCreatorComponent, 
     STDRatingComponent, 
     STDResultComponent, 
-    STDSummaryComponent
+    STDSummaryComponent,
+    STDCommentComponent
   ]
 })
 export class STDBasePageModule {}

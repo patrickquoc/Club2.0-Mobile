@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { STDArgument } from 'src/app/entity/stdargument';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 
@@ -10,9 +10,13 @@ import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 export class STDResultComponent implements OnInit {
   @Input() arguments: STDArgument[];
   @Input() isHost: boolean;
-  
+  @Output() nextRound = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {}
 
+  forceStartNextRound() {
+    this.nextRound.emit();
+  }
 }
