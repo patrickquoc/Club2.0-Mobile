@@ -1,0 +1,25 @@
+.profile-background {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 256px !important; //any size
+    background: #80c0ff;
+}
+
+.avatar-slot {
+    margin: auto;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 128px !important; //any size
+    max-height: 158px !important; //any size
+}
+
+.avatar-slot::after {
+    display: block;
+    padding-bottom: 100%;
+}
+
+.avatar-image {
+    height: 100%;
+    max-height: 128px;
+}
+  
