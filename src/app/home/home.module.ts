@@ -9,6 +9,7 @@ import { LTDViewComponent } from '../longterm/ltdview/ltdview.component';
 import { STDViewComponent } from '../shortterm/stdview/stdview.component';
 import { STDArgumentCreatorComponent } from '../shortterm/discussion/components/stdargument-creator/stdargument-creator.component';
 import { STDRatingComponent } from '../shortterm/discussion/components/stdrating/stdrating.component';
+import { ProfileComponent } from '../profile/profile.component';
 
 
 @NgModule({
@@ -19,6 +20,6 @@ import { STDRatingComponent } from '../shortterm/discussion/components/stdrating
     HomePageRoutingModule
   ],
   //TODO: Remove unnecessary components
-  declarations: [HomePage, LTDViewComponent, STDViewComponent, STDArgumentCreatorComponent, STDRatingComponent]
+  declarations: [HomePage, LTDViewComponent, STDViewComponent, ProfileComponent]
 })
 export class HomePageModule {}

@@ -14,6 +14,7 @@ import { STDArgument } from 'src/app/entity/stdargument';
 export class STDRatingComponent{
   @Input() roundArguments: STDArgument[];
   @Input() discussion: ShortTermDiscussion;
+  @Input() user: string;
   @Output() finished = new EventEmitter<STDArgument[]>();
 
   constructor() { }

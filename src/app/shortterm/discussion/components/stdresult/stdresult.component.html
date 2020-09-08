@@ -29,3 +29,11 @@
     </ion-item>
   </ion-list>
 </div>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button *ngIf="isHost" class="ion-padding-horizontal" (click)="forceStartNextRound()" 
+      size="medium" type="submit" color="primary" expand="block">
+        Force next Round
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

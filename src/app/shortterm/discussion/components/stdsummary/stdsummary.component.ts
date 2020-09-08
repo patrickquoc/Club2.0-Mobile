@@ -10,8 +10,15 @@ import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 export class STDSummaryComponent implements OnInit {
   @Input() allArguments: Array<STDArgument[]>;
   @Input() discussion: ShortTermDiscussion;
-  constructor() { }
+  openLists: Array<boolean>;
 
-  ngOnInit() {}
+  constructor() {  }
 
+  ngOnInit() {
+    this.openLists = new Array<boolean>(this.allArguments.length);
+  }
+
+  toggleSelection(index: number) {
+    this.openLists[index] = ! this.openLists[index];
+  }
 }

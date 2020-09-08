@@ -51,4 +51,8 @@ export class AuthService {
     //return "Maxi Muster"
   }
 
+  async getToken() {
+    const token = await this.storage.get('token');
+    return token;
+  }
 }

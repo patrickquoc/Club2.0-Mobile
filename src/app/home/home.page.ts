@@ -14,7 +14,7 @@ export class HomePage {
 
   constructor(private menuController: MenuController, private auth: AuthService, private router: Router) {
     //TODO: Trending page?
-    this.activeView[1] = true;
+    this.activeView[2] = true;
   }
 
   showLTDView() {
@@ -27,6 +27,12 @@ export class HomePage {
     this.resetView();
     this.activeView[1] = true;
     this.title = "Short-term";
+  }
+
+  showProfile() {
+    this.resetView();
+    this.activeView[2] = true;
+    this.title = "Profile";
   }
 
   resetView() {
