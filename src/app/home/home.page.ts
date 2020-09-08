@@ -30,7 +30,7 @@ export class HomePage {
   }
 
   showProfile() {
-    this.resetView;
+    this.resetView();
     this.activeView[2] = true;
     this.title = "Profile";
   }

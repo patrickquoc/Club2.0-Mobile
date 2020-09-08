@@ -28,7 +28,7 @@ import { STDCommentComponent } from '../components/stdcomment/stdcomment.compone
     STDRatingComponent, 
     STDResultComponent, 
     STDSummaryComponent,
-    STDCommentComponent
+    STDCommentComponent,
   ]
 })
 export class STDBasePageModule {}

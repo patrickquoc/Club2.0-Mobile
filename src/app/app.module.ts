@@ -8,7 +8,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -19,6 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
+import { TokenInterceptorService } from './interceptors/token-interceptor.service';
 const config: SocketIoConfig = { url: `${environment.wsConnection}`, options: {} };
 
 
@@ -42,6 +43,7 @@ const config: SocketIoConfig = { url: `${environment.wsConnection}`, options: {}
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     HttpService,
     AuthService,
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}
   ],
   bootstrap: [AppComponent]
 })
