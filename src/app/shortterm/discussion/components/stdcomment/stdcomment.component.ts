@@ -18,7 +18,10 @@ export class STDCommentComponent implements OnInit {
   ngOnInit() {}
 
   onSubmit() {
-    if(this.input != "") {
+    if(this.input.length < 1) {
+      console.log("No input")
+    }
+    else {
       this.comment.emit(this.input);
     }
   }

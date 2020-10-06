@@ -1,0 +1,38 @@
+<div *ngIf="comments">
+  <ion-list>
+    <ion-item *ngFor="let comment of comments">
+      <ion-card class="argument-card">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-text class="argument-text" readonly>
+                {{ comment[0].text }}
+              </ion-text>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-text class="argument-text" readonly>
+                {{ comment[1].text }}
+              </ion-text>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="ion-justify-content-center ion-text-center">
+              <ion-icon name="arrow-up-circle-outline" color="primary"></ion-icon>
+              <ion-text color="primary">
+                {{ comment[1].rating[0] }}
+              </ion-text>
+            </ion-col>
+            <ion-col class="ion-justify-content-center ion-text-center">
+              <ion-icon name="arrow-down-circle-outline" color="danger"></ion-icon>
+              <ion-text color="danger">
+                {{ comment[1].rating[1] }}
+              </ion-text>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card>
+    </ion-item>
+  </ion-list>
+</div>

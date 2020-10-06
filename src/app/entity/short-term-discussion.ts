@@ -9,5 +9,5 @@ export interface ShortTermDiscussion {
     totalRounds: number,
     users: Array<string>,
     privateFlag: boolean,
-    finished: boolean
+    finished: boolean,
 }

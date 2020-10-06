@@ -17,8 +17,8 @@ export class TokenInterceptorService implements HttpInterceptor {
     return from(this.auth.getToken()).pipe(
       switchMap((token, index) => {
         let headers = req.headers
-          .set('Token', `${token}`)
-          
+          .set('Authorization', `Bearer ${token}`)
+
         //With the Object Type FormData the Content-Type has to be set automatically by the System to multipart/form-data
         if(!(req.body instanceof FormData)){
           headers = headers.append('Content-Type', "application/json");
@@ -28,6 +28,7 @@ export class TokenInterceptorService implements HttpInterceptor {
           headers,
           //url: req.url.replace('http://', 'https://')
         });
+
         return next.handle(newReq);
       })
     )

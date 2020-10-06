@@ -35,6 +35,19 @@
   <app-stdcomment 
     *ngIf="randomArgument && activeComponent[5]" 
     [discussion]="discussion" 
-    [argument]="randomArgument">
+    [argument]="randomArgument"
+    (comment)="onCommentFinished($event)">
   </app-stdcomment> 
+  <app-stdcomment-rating 
+    *ngIf="roundComments && activeComponent[6]"
+    [roundComments]="roundComments"
+    [discussion]="discussion"
+    [user]="username"
+    (finished)="onCommentRatingFinished($event)">
+  </app-stdcomment-rating>
+  <app-stdcomment-result
+    *ngIf="resultComments && activeComponent[7]"
+    [comments]="resultComments"
+    [isHost]="isHost">
+  </app-stdcomment-result>
 </ion-content>

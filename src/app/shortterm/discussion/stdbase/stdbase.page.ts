@@ -13,12 +13,15 @@ import { NgControlStatus } from '@angular/forms';
   styleUrls: ['./stdbase.page.scss'],
 })
 export class STDBasePage implements OnInit {
-  private componentCount = 7;
+  //TODO: Refactor fields
+  private componentCount = 8;
   discussion: ShortTermDiscussion;
   roundArguments: STDArgument[];
   resultArguments: STDArgument[];
   allArguments: Array<STDArgument[]>;
   randomArgument: STDArgument;
+  roundComments: Array<STDArgument>;
+  resultComments: Array<STDArgument>;
   activeComponent = new Array<boolean>(this.componentCount);
   username: string;
   isHost: boolean;
@@ -68,6 +71,17 @@ export class STDBasePage implements OnInit {
     this.socket.nextRound().subscribe(arg => {
       this.randomArgument = arg;
       this.activateComponent(5);
+    });
+
+    this.socket.getRoundComments().subscribe(comments => {
+      console.log(comments);
+      this.roundComments = comments;
+      this.activateComponent(6);
+    });
+
+    this.socket.getResultComments().subscribe(comments => {
+      this.resultComments = comments;
+      this.activateComponent(7);
     })
   }
 
@@ -97,7 +111,7 @@ export class STDBasePage implements OnInit {
   onArgumentFinished(argument) {
     this.socket.sendArgument(this.discussion.discussionId, this.username, argument);
     console.log("Waiting for others to finish writing argument.")
-    //TODO: Loading screen?
+    //TODO: Loading bar/screen?
   }
 
   onRatingFinished(ratedArguments) {
@@ -105,8 +119,13 @@ export class STDBasePage implements OnInit {
     console.log("rating submitted");
   }
 
-  onCommentFinished(comment) {
-    console.log(comment);
+  onCommentFinished(comment: string) {
+    this.socket.sendComment(this.discussion.discussionId, this.username, comment, this.randomArgument.text);
+  }
+
+  onCommentRatingFinished(comments: STDArgument[]) {
+    //this.socket.sendCommentRating(comments);
+    this.socket.submitArgumentRating(comments);
   }
 
   forceStartNextRound() {

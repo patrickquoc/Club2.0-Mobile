@@ -3,5 +3,6 @@ export interface STDArgument {
     user: string,
     text: string,
     date: Date,
-    rating: number[]
+    rating: number[],
+    prevArgumentText?: string,
 }

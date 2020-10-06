@@ -39,7 +39,8 @@ export class SocketService{
   }
 
   sendArgument(discussionId: string, username: string, argumentText: string) {
-    return this.socket.emit("newArgument", JSON.stringify({discussionId, username, argumentText, date: new Date()}))
+    console.log(argumentText);
+    return this.socket.emit("newArgument", JSON.stringify({discussionId, username, argumentText, date: new Date()}));
   }
 
   getRoundArguments() : Observable<STDArgument[]> {
@@ -47,7 +48,7 @@ export class SocketService{
   }
 
   submitArgumentRating(ratedArguments: STDArgument[]) {
-    return this.socket.emit("rateArguments", JSON.stringify(ratedArguments))
+    return this.socket.emit("rateArguments", JSON.stringify(ratedArguments));
   }
 
   getRoundResult() : Observable<STDArgument[]> {
@@ -59,10 +60,29 @@ export class SocketService{
   }
 
   forceStartNextRound(discussionId: string) {
-    return this.socket.emit("forceNextRound", discussionId);
+    return this.socket.emit("forceNextRound", JSON.stringify({discussionId}));
   }
 
   nextRound(): Observable<STDArgument> {
     return this.socket.fromEvent('nextRound');
+  }
+
+  sendComment(discussionId: string, username: string, argumentText: string, prevArgumentText: string) {
+    //return this.socket.emit("newComment", JSON.stringify({discussionId, username, argumentText, prevArgumentText}));
+    return this.socket
+      .emit("newArgument", JSON.stringify({discussionId, username, argumentText, prevArgumentText, date: new Date()}));
+  }
+  
+  sendCommentRating(comments: STDArgument[]) {
+    return this.socket.emit("rateComments", JSON.stringify(comments));
+  }
+
+  getRoundComments(): Observable<STDArgument[]> {
+    console.log("Received Round comments")
+    return this.socket.fromEvent('roundComments');
+  }
+
+  getResultComments(): Observable<STDArgument[]> {
+    return this.socket.fromEvent('resultComments');
   }
 }
