@@ -35,9 +35,13 @@ export class STDCreationPage implements OnInit {
       console.log('At least 1 input box is empty');
       return;
     }
-    console.log(this.userLimit)
+
     if (this.userLimit < 2 || this.userLimit > 10) {
       console.log('Invalid participant count');
+      return;
+    }
+    else if (this.maxRounds < 1 || this.maxRounds > 3) {
+      console.log('Invalid Round count');
       return;
     }
     
@@ -65,7 +69,6 @@ export class STDCreationPage implements OnInit {
     }
 
     try {
-      console.log(std.totalRounds);
       const res: ShortTermDiscussion = JSON.parse(await this.http.createStd(std));
       res.users = new Array<string>();
       res.users.push(this.username);
