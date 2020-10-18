@@ -5,6 +5,7 @@ import { HttpService } from 'src/app/service/http.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 import { STDArgument } from 'src/app/entity/stdargument';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-stdrating',
@@ -17,7 +18,7 @@ export class STDRatingComponent{
   @Input() user: string;
   @Output() finished = new EventEmitter<STDArgument[]>();
 
-  constructor() { }
+  constructor(private toastController: ToastController) { }
 
   onLike(argument: STDArgument) {
     argument.rating[0] == 0 ? argument.rating[0] = 1 : argument.rating[0] = 0;
@@ -40,5 +41,14 @@ export class STDRatingComponent{
 
   onSubmitRating() {
     this.finished.emit(this.roundArguments);
+    this.presentToast("Rating submitted. Please wait for the others to finish.");
+  }
+
+  async presentToast(msg: string) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 5000
+    });
+    toast.present();
   }
 }

@@ -58,7 +58,7 @@ export class HttpService {
       .toPromise();
   }
 
-  async sendArgument(argument: CreateArgumentDto) {
+  async sendArgument(argument: CreateArgumentDto): Promise<Argument> {
     return this.http.post<any>(`${environment.connection}/api/ltds/argument`, argument).toPromise();
   }
 

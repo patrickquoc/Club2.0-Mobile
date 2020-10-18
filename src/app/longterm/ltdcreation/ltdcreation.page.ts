@@ -4,6 +4,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { CreateLTDDto } from 'src/app/dto/create-ltddto';
 import { AuthService } from 'src/app/service/auth.service';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-ltdcreation',
@@ -14,7 +15,7 @@ export class LTDCreationPage implements OnInit {
   name: string = '';
   description: string = '';
   categoriesInput = new Array<any>();
-  constructor(private http: HttpService, private auth: AuthService, private router: Router) { }
+  constructor(private http: HttpService, private auth: AuthService, private router: Router, private toastController: ToastController) { }
 
   ngOnInit() {
   }
@@ -39,10 +40,22 @@ export class LTDCreationPage implements OnInit {
       date: new Date()
     }
 
-    const res = await this.http.createLtd(ltd);
-    if(res == 'Created') {
-      console.log('LTD Creation successful');
-      this.router.navigate(['/home']);
+    try {
+      const res = await this.http.createLtd(ltd);
+      if(res == 'Created') {
+        this.presentToast('Discussion created');
+        this.router.navigate(['/home'], { replaceUrl: true });
+      }
+    } catch (error) {
+      this.presentToast(error.error);
     }
+  }
+
+  async presentToast(msg: string) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 5000
+    });
+    toast.present();
   }
 }

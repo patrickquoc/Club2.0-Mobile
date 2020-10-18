@@ -3,7 +3,7 @@ import { HttpService } from 'src/app/service/http.service';
 import { DataService } from 'src/app/service/data.service';
 import { Router } from '@angular/router';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-stdview',
@@ -20,34 +20,43 @@ export class STDViewComponent implements OnInit {
   private isFilteredByUser = false;
 
   constructor(private http: HttpService, private dataService: DataService, private router: Router,
-    private alertController: AlertController) {
+    private alertController: AlertController, private toastController: ToastController) {
     this.getNextDiscussions();
   }
 
   ngOnInit() {}
 
 
-  loadSTDs(event): void {
-    //TODO: Loading simulation. Remove if server connection is established
-    setTimeout(() => {
-      this.getNextDiscussions();
+  async loadSTDs(event): Promise<void> {
+    const res = await this.getNextDiscussions();
+    if (res == true) {
       event.target.complete();
-    }, 500);
-    
+    }
   }
 
-  async getNextDiscussions() {
+  async getNextDiscussions(): Promise<boolean> {
     if(this.isFilteredByCategory) {
       const search = this.searchString.split(',');
-      this.discussions = this.discussions.concat(
-        await this.http.getStdsByCategory(this.pageIndex, this.fetchSize, search)
-      );
+      try {
+        this.discussions = this.discussions.concat(
+          await this.http.getStdsByCategory(this.pageIndex, this.fetchSize, search)
+        );
+      } catch (error) {
+        this.presentToast(error.error);
+        return false;
+      }
+      
     }
     else {
-      this.discussions = this.discussions.concat(await this.http.getStdsPaged(this.pageIndex, this.fetchSize));
+      try {
+        this.discussions = this.discussions.concat(await this.http.getStdsPaged(this.pageIndex, this.fetchSize));
+      } catch (error) {
+        this.presentToast(error.error);
+        return false;
+      }
     }
-
     this.pageIndex++;
+    return true;
   }
 
   getCategoriesToString(std: ShortTermDiscussion): string {
@@ -64,9 +73,15 @@ export class STDViewComponent implements OnInit {
     this.router.navigateByUrl('/view/std/1');
   }
 
-  async reloadDiscussion() {
+  async reloadDiscussion(): Promise<boolean> {
     this.pageIndex = 0;
-    this.discussions = await this.http.getStdsPaged(this.pageIndex, this.fetchSize);
+    try {
+      this.discussions = await this.http.getStdsPaged(this.pageIndex, this.fetchSize);
+    } catch (error) {
+      this.presentToast(error.error);
+      return false;
+    }
+    return true;
   }
 
   async getDiscussionsByCategory() {
@@ -167,5 +182,24 @@ export class STDViewComponent implements OnInit {
       this.isFilteredByName = true;
       await this.getDiscussionsByName();
     }
+  }
+
+  openCreationPage() {
+    this.router.navigateByUrl("/create/std", { replaceUrl: false })
+  }
+
+  async refreshDiscussions(event) {
+    const res = await this.reloadDiscussion();
+    if (res == true) {
+      event.target.complete();
+    }
+  }
+  
+  async presentToast(msg: string) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 5000
+    });
+    toast.present();
   }
 }

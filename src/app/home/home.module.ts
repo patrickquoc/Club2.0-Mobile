@@ -19,7 +19,7 @@ import { ProfileComponent } from '../profile/profile.component';
     IonicModule,
     HomePageRoutingModule
   ],
-  //TODO: Remove unnecessary components
+
   declarations: [HomePage, LTDViewComponent, STDViewComponent, ProfileComponent]
 })
 export class HomePageModule {}

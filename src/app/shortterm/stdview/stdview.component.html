@@ -1,12 +1,15 @@
+<ion-toolbar>
+  <ion-buttons slot="end">
+    <ion-button (click)="openFilterOptions()">
+      <ion-icon name="filter-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <ion-searchbar [(ngModel)]="searchString" (change)="getFilteredDiscussion()"></ion-searchbar>
+</ion-toolbar>
 <ion-content>
-  <ion-toolbar>
-    <ion-buttons slot="end">
-      <ion-button (click)="openFilterOptions()">
-        <ion-icon name="filter-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-searchbar [(ngModel)]="searchString" (change)="getFilteredDiscussion()"></ion-searchbar>
-  </ion-toolbar>
+  <ion-refresher slot="fixed" id="refresher" (ionRefresh)="refreshDiscussions($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-list>
     <ion-item *ngFor="let std of discussions" (click)="openDetailPage(std)">
       <ion-grid>
@@ -33,9 +36,9 @@
     <ion-infinite-scroll-content loadingSpinner="dots">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="primary" [routerLink]="['/create/std']">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
 </ion-content>
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button color="primary" (click)="openCreationPage()">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 import { RegisterUser } from 'src/app/dto/register-user';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-signup',
@@ -12,7 +13,7 @@ import { RegisterUser } from 'src/app/dto/register-user';
 export class SignupPage implements OnInit {
   signupForm: FormGroup;
   isPasswordVisible = false;
-  constructor(private fb: FormBuilder, private router: Router, private auth: AuthService) { 
+  constructor(private fb: FormBuilder, private router: Router, private auth: AuthService, private toastController: ToastController) { 
     
   }
 
@@ -56,7 +57,7 @@ export class SignupPage implements OnInit {
 
   async onSignUp() {
     if (!this.isFormFilledCorrectly()) {
-      //TODO: Present Toast
+      this.presentToast("Form is not filled correctly");
       return;
     }
 
@@ -67,10 +68,12 @@ export class SignupPage implements OnInit {
       password: this.confirmPassword.value,
     }
 
-    const res = await this.auth.register(newUser);
-    console.log(res);
-    console.log(res);
-    this.router.navigate(['/login']);
+    try {
+      const res = await this.auth.register(newUser);
+      this.router.navigate(['/login']);
+    } catch (error) {
+      this.presentToast(error.error);
+    }
   }
 
   isFormFilledCorrectly(): boolean{
@@ -79,5 +82,13 @@ export class SignupPage implements OnInit {
 
   togglePasswordVisibility() {
     this.isPasswordVisible = ! this.isPasswordVisible;
+  }
+
+  async presentToast(msg: string) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 5000
+    });
+    toast.present();
   }
 }

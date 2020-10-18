@@ -3,7 +3,7 @@ import { LongTermDiscussion } from 'src/app/entity/long-term-discussion';
 import { HttpService } from 'src/app/service/http.service';
 import { Router, NavigationExtras } from '@angular/router';
 import { DataService } from 'src/app/service/data.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-ltdview',
@@ -20,35 +20,45 @@ export class LTDViewComponent implements OnInit {
   private isFilteredByUser = false;
 
   constructor(private http: HttpService, private dataService: DataService, private router: Router,
-    private alertController: AlertController) {
+    private alertController: AlertController, private toastController: ToastController) {
     this.getNextDiscussions();
   }
 
   ngOnInit() {}
 
 
-  loadLTDs(event): void {
-    //TODO: Loading simulation. Remove if server connection is established
-    setTimeout(() => {
-      this.getNextDiscussions();
+  async loadLTDs(event): Promise<void> {
+    const res = await this.getNextDiscussions();
+    if (res == true) {
       event.target.complete();
-    }, 500);
+    }
     
   }
 
-  async getNextDiscussions() {
+  async getNextDiscussions(): Promise<boolean> {
     console.log("load new ltds")
     if(this.isFilteredByCategory) {
       const search = this.searchString.split(',');
-      this.discussions = this.discussions.concat(
-        await this.http.getLtdsByCategory(this.pageIndex, this.fetchSize, search)
-      );
+      try {
+        this.discussions = this.discussions.concat(
+          await this.http.getLtdsByCategory(this.pageIndex, this.fetchSize, search)
+        );
+      } catch (error) {
+        this.presentToast(error.error);
+        return false;
+      }
     }
     else {
-      this.discussions = this.discussions.concat(await this.http.getLtdsPaged(this.pageIndex, this.fetchSize));
+      try {
+        this.discussions = this.discussions.concat(await this.http.getLtdsPaged(this.pageIndex, this.fetchSize));
+      } catch (error) {
+        this.presentToast(error.error);
+        return false;
+      }
     }
 
     this.pageIndex++;
+    return true;
   }
 
   getCategoriesToString(ltd: LongTermDiscussion): string {
@@ -61,13 +71,9 @@ export class LTDViewComponent implements OnInit {
   }
 
   async getDiscussionsByCategory() {
-    //TODO: Filter button
-
     this.pageIndex = 0;
     const search = this.searchString.split(',');
     this.discussions = await this.http.getLtdsByCategory(this.pageIndex, this.fetchSize, search);
-    console.log(this.discussions);
-  
   }
 
   async getDiscussionsByName() {
@@ -79,9 +85,15 @@ export class LTDViewComponent implements OnInit {
     this.router.navigateByUrl('/view/ltd/0');
   }
 
-  async reloadDiscussion() {
+  async reloadDiscussion(): Promise<boolean> {
     this.pageIndex = 0;
-    this.discussions = await this.http.getLtdsPaged(this.pageIndex, this.fetchSize);
+    try {
+      this.discussions = await this.http.getLtdsPaged(this.pageIndex, this.fetchSize);
+    } catch (error) {
+      this.presentToast(error.error)
+      return false;
+    }
+    return true;
   }
 
   async openFilterOptions() {
@@ -171,6 +183,21 @@ export class LTDViewComponent implements OnInit {
     else {
       this.isFilteredByName = true;
       await this.getDiscussionsByName();
+    }
+  }
+
+  async presentToast(msg: string) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 5000
+    });
+    toast.present();
+  }
+
+  async refreshDiscussions(event) {
+    const res = await this.reloadDiscussion();
+    if (res == true) {
+      event.target.complete();
     }
   }
 }

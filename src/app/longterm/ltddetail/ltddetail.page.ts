@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from 'src/app/service/http.service';
 import { Argument } from 'src/app/entity/argument';
 import { AuthService } from 'src/app/service/auth.service';
-import { ModalController, AlertController } from '@ionic/angular';
+import { ModalController, AlertController, ToastController } from '@ionic/angular';
 import { CreateArgumentDto } from 'src/app/dto/create-argument-dto';
 import { RatingDto } from 'src/app/dto/rating-dto';
 
@@ -16,13 +16,12 @@ import { RatingDto } from 'src/app/dto/rating-dto';
 export class LTDDetailPage implements OnInit {
   selectedDiscussion: LongTermDiscussion;
 
-  arguments: Array<Argument>;
+  arguments: Array<Argument> = new Array<Argument>();
   private pageIndex = 1;
   private fetchSize = 5;
 
-    //TODO: Routing Guard?
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpService, private auth: AuthService, 
-    private alertController: AlertController) { }
+    private alertController: AlertController, private toastController: ToastController) { }
 
   async ngOnInit() {
     if(this.route.snapshot.data['special']) {
@@ -60,10 +59,14 @@ export class LTDDetailPage implements OnInit {
               user: await this.auth.getUsername(),
               text: data.argument,
               date: new Date()
-            }
-            console.log(argument);
+            } 
+
             const res = await this.http.sendArgument(argument);
-            console.log(res)
+            console.log(res);
+            //TODO: ALEX!
+            //this.arguments.push(res);
+            
+            
           }
         }
       ]
@@ -101,7 +104,7 @@ export class LTDDetailPage implements OnInit {
       argument.userRating = 1;
     }
 
-    await this.sendArgument(argument);
+    await this.sendArgumentRating(argument);
   }
 
   async onDislike(argument: Argument) {
@@ -111,19 +114,11 @@ export class LTDDetailPage implements OnInit {
     else {
       argument.userRating = -1;
     }
-    await this.sendArgument(argument);
+    await this.sendArgumentRating(argument);
   }
 
-  /*
-  getLikeCount(argument: Argument): number {
-    return argument.userRating > 0 ? argument.totalRating[0] + 1 : argument.totalRating[0];
-  }
 
-  getDislikeCount(argument: Argument): number {
-    return argument.userRating < 0 ? argument.totalRating[1] + 1 : argument.totalRating[1];
-  }*/
-
-  async sendArgument(argument: Argument) {
+  async sendArgumentRating(argument: Argument) {
     const rating: RatingDto = {
       argumentId: argument.argumentId,
       username: await this.auth.getUsername(),
@@ -136,5 +131,13 @@ export class LTDDetailPage implements OnInit {
     const temp = this.arguments.find(a => a.argumentId == res.argumentId);
     const index = this.arguments.indexOf(temp);
     this.arguments[index] = res;
+  }
+
+  async presentToast(msg: string) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 5000
+    });
+    toast.present();
   }
 } 

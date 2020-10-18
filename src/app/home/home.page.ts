@@ -14,7 +14,7 @@ export class HomePage {
 
   constructor(private menuController: MenuController, private auth: AuthService, private router: Router) {
     //TODO: Trending page?
-    this.activeView[2] = true;
+    this.activeView[0] = true;
   }
 
   showLTDView() {
