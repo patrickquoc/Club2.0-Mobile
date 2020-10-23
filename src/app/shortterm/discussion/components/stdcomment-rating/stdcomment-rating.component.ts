@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ToastController } from '@ionic/angular';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 import { STDArgument } from 'src/app/entity/stdargument';
 
@@ -13,7 +14,7 @@ export class STDCommentRatingComponent {
   @Input() user: string;
   @Output() finished = new EventEmitter<STDArgument[]>();
 
-  constructor() { }
+  constructor(private toastController: ToastController) { }
 
   onLike(comment: STDArgument) {
     comment.rating[0] == 0 ? comment.rating[0] = 1 : comment.rating[0] = 0;
@@ -36,6 +37,14 @@ export class STDCommentRatingComponent {
 
   onSubmitRating() {
     this.finished.emit(this.roundComments);
+    this.presentToast("Rating submitted. Please wait for the others to finish.");
   }
 
+  async presentToast(msg: string) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 5000
+    });
+    toast.present();
+  }
 }

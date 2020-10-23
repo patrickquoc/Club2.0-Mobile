@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { MenuController } from '@ionic/angular';
+import { MenuController, NavController } from '@ionic/angular';
 import { AuthService } from '../service/auth.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -12,9 +11,9 @@ export class HomePage {
   title = "Home";
   activeView = Array<boolean>(3);
 
-  constructor(private menuController: MenuController, private auth: AuthService, private router: Router) {
+  constructor(private menuController: MenuController, private auth: AuthService, private navController: NavController) {
     //TODO: Trending page?
-    this.activeView[2] = true;
+    this.activeView[0] = true;
   }
 
   showLTDView() {
@@ -42,6 +41,6 @@ export class HomePage {
 
   async onLogout() {
     await this.auth.logout();
-    this.router.navigateByUrl('login');
+    this.navController.navigateBack("/login", { replaceUrl: true })
   }
 }

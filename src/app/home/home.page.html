@@ -1,48 +1,52 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-menu-button>
-        <ion-icon name="menu"></ion-icon>
-      </ion-menu-button>
-    </ion-buttons>
-    
-    <ion-title>{{title}}</ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-menu side="start" content-id="main-content">
-    <ion-header>
-      <ion-toolbar color="primary">
-        <ion-title>
-          Menu
-        </ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <ion-list>
-        <ion-item (click)="showLTDView()">
-          <ion-icon name="reader-outline" slot="start"></ion-icon>
-          <ion-label>Long-term discussions</ion-label>
-        </ion-item>
-        <ion-item (click)="showSTDView()">
-          <ion-icon name="timer-outline" slot="start"></ion-icon> 
-          <ion-label>Short-term discussions</ion-label>
-        </ion-item>
-        <ion-item (click)="showProfile()">
-          <ion-icon name="person-outline" slot="start"></ion-icon>
-          <ion-label>Profile</ion-label>
-        </ion-item>
-        <ion-item (click)="onLogout()">
-          <ion-label>Logout</ion-label>
-          <ion-icon name="exit-outline" slot="start"></ion-icon>
-        </ion-item>
-      </ion-list>
-    </ion-content>
-  </ion-menu>
-  <div class="ion-page" id="main-content">
-  </div>
-  <app-ltdview *ngIf="activeView[0]"></app-ltdview>
-  <app-stdview *ngIf="activeView[1]"></app-stdview>  
-  <app-profile *ngIf="activeView[2]"></app-profile>
-</ion-content>
+
+<ion-menu side="start" content-id="main-content">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>
+        Menu
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item button (click)="showLTDView()">
+        <ion-icon name="reader-outline" slot="start"></ion-icon>
+        <ion-label>Long-term discussions</ion-label>
+      </ion-item>
+      <ion-item button (click)="showSTDView()">
+        <ion-icon name="timer-outline" slot="start"></ion-icon> 
+        <ion-label>Short-term discussions</ion-label>
+      </ion-item>
+      <ion-item button (click)="showProfile()">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-label>Profile</ion-label>
+      </ion-item>
+      <ion-item button (click)="onLogout()">
+        <ion-label>Logout</ion-label>
+        <ion-icon name="exit-outline" slot="start"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-menu-button>
+          <ion-icon name="menu"></ion-icon>
+        </ion-menu-button>
+      </ion-buttons>
+      <ion-title>{{title}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="page-content">
+    <app-ltdview *ngIf="activeView[0]"></app-ltdview>
+    <app-stdview *ngIf="activeView[1]"></app-stdview>  
+    <app-profile *ngIf="activeView[2]"></app-profile>
+  </ion-content>
+    
+  
+</div>
+
+

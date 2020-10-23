@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/service/http.service';
 import { AuthService } from 'src/app/service/auth.service';
-import { Router } from '@angular/router';
 import { CreateSTDDto } from 'src/app/dto/create-stddto';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 import { DataService } from 'src/app/service/data.service';
+import { NavController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-stdcreation',
@@ -22,7 +22,8 @@ export class STDCreationPage implements OnInit {
   isPasswordVisible = false;
   private username: string;
 
-  constructor(private http: HttpService, private auth: AuthService, private router: Router, private dataService: DataService) { }
+  constructor(private http: HttpService, private auth: AuthService, private navController: NavController,
+    private toastController: ToastController, private dataService: DataService) { }
 
   async ngOnInit() { 
     this.username = await this.auth.getUsername()
@@ -73,14 +74,22 @@ export class STDCreationPage implements OnInit {
       res.users = new Array<string>();
       res.users.push(this.username);
       this.dataService.setData(10, res);
-      this.router.navigateByUrl('participate/std/10');
+      this.navController.navigateForward('participate/std/10', {replaceUrl: true});
 
     } catch (error) {
-      console.error("Connection to room could not be established: "+ error.error);
+      this.presentToast(error.error);
     }
   }
 
   togglePasswordVisibility() {
     this.isPasswordVisible = ! this.isPasswordVisible;
+  }
+
+    async presentToast(msg: string) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 5000
+    });
+    toast.present();
   }
 }

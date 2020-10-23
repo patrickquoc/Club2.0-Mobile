@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NavController, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
@@ -11,7 +11,8 @@ import { AuthService } from 'src/app/service/auth.service';
 export class LoginPage implements OnInit {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router, private auth: AuthService) { }
+  constructor(private fb: FormBuilder, private navController: NavController, private auth: AuthService,
+     private toastController: ToastController) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -29,16 +30,29 @@ export class LoginPage implements OnInit {
   }
 
   async onLogin() {
-     //TODO: Toast?
-     await this.auth.login(this.username.value, this.password.value);
-     const loggedIn = await this.auth.isLoggedIn();
-     console.log(loggedIn);
-     if(loggedIn){
-       this.router.navigate(['/home']);
+     try {
+      await this.auth.login(this.username.value, this.password.value);
+      const loggedIn = await this.auth.isLoggedIn();
+      if(loggedIn){
+        this.navController.navigateRoot('/home', { replaceUrl:true });
+      }
+    } catch (error) {
+      if(error instanceof ProgressEvent) {
+        this.presentToast("Connection error");
+      }
+      this.presentToast(error.error);
+      return;
      }
   }
 
   onSignup() {
-    this.router.navigate(['/signup']);
+  }
+
+  async presentToast(msg: string) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 5000
+    });
+    toast.present();
   }
 }

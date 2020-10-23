@@ -33,23 +33,23 @@ export class HttpService {
     return this.http.post<any>(`${environment.connection}/api/users/login`, credential, this.httpOptions).toPromise();
   }
 
-  async getLtdsPaged(pageIndex: number, fetchSize: number) {
+  async getLtdsPaged(pageIndex: number, fetchSize: number): Promise<LongTermDiscussion[]> {
     return this.http.get<LongTermDiscussion[]>(`${environment.connection}/api/ltds/paged?index=${pageIndex}&size=${fetchSize}`)
       .toPromise();
   }
 
-  async getLtdsByCategory(pageIndex: number, fetchSize: number, categories: string[]) {
+  async getLtdsByCategory(pageIndex: number, fetchSize: number, categories: string[]): Promise<LongTermDiscussion[]>  {
     return this.http.get<LongTermDiscussion[]>(`${environment.connection}/api/ltds/byCategory?`+
       `index=${pageIndex}&size=${fetchSize}&categories=${JSON.stringify(categories)}`)
       .toPromise();
   }
 
-  async getLtdsByName(name: String) {
+  async getLtdsByName(name: String): Promise<LongTermDiscussion[]> {
     return this.http.get<LongTermDiscussion[]>(`${environment.connection}/api/ltds/byName?name=${name}`).toPromise();
   }
 
-  async createLtd(ltd :CreateLTDDto) {
-    return this.http.post<any>(`${environment.connection}/api/ltds/create`, ltd, this.httpOptions).toPromise();
+  async createLtd(ltd :CreateLTDDto): Promise<LongTermDiscussion> {
+    return this.http.post<LongTermDiscussion>(`${environment.connection}/api/ltds/create`, ltd, this.httpOptions).toPromise();
   }
 
   async getArgumentsById(pageIndex: number, fetchSize: number, discussionId: string, username: string) {
@@ -58,8 +58,8 @@ export class HttpService {
       .toPromise();
   }
 
-  async sendArgument(argument: CreateArgumentDto) {
-    return this.http.post<any>(`${environment.connection}/api/ltds/argument`, argument).toPromise();
+  async sendArgument(argument: CreateArgumentDto): Promise<Argument> {
+    return this.http.post<Argument>(`${environment.connection}/api/ltds/argument`, argument).toPromise();
   }
 
   async sendRating(rating: RatingDto) {
