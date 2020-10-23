@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { LongTermDiscussion } from 'src/app/entity/long-term-discussion';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { HttpService } from 'src/app/service/http.service';
 import { Argument } from 'src/app/entity/argument';
 import { AuthService } from 'src/app/service/auth.service';
-import { ModalController, AlertController, ToastController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { CreateArgumentDto } from 'src/app/dto/create-argument-dto';
 import { RatingDto } from 'src/app/dto/rating-dto';
 
@@ -20,7 +20,7 @@ export class LTDDetailPage implements OnInit {
   private pageIndex = 1;
   private fetchSize = 5;
 
-  constructor(private route: ActivatedRoute, private router: Router, private http: HttpService, private auth: AuthService, 
+  constructor(private route: ActivatedRoute, private http: HttpService, private auth: AuthService, 
     private alertController: AlertController, private toastController: ToastController) { }
 
   async ngOnInit() {

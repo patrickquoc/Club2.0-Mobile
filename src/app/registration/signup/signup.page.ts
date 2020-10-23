@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 import { RegisterUser } from 'src/app/dto/register-user';
-import { ToastController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-signup',
@@ -13,7 +12,8 @@ import { ToastController } from '@ionic/angular';
 export class SignupPage implements OnInit {
   signupForm: FormGroup;
   isPasswordVisible = false;
-  constructor(private fb: FormBuilder, private router: Router, private auth: AuthService, private toastController: ToastController) { 
+  constructor(private fb: FormBuilder, private navController: NavController, private auth: AuthService,
+     private toastController: ToastController) { 
     
   }
 
@@ -70,7 +70,7 @@ export class SignupPage implements OnInit {
 
     try {
       const res = await this.auth.register(newUser);
-      this.router.navigate(['/login'], { replaceUrl: true });
+      this.navController.navigateBack(['/login']);
     } catch (error) {
       this.presentToast(error.error);
     }

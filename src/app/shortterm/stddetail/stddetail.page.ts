@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { HttpService } from 'src/app/service/http.service';
 import { AuthService } from 'src/app/service/auth.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController, ToastController } from '@ionic/angular';
 import { DataService } from 'src/app/service/data.service';
 
 @Component({
@@ -13,8 +13,9 @@ import { DataService } from 'src/app/service/data.service';
 })
 export class STDDetailPage implements OnInit {
   selectedDiscussion: ShortTermDiscussion;
-  constructor(private route: ActivatedRoute, private http: HttpService, private auth: AuthService,
-     private alertController: AlertController, private router: Router, private dataService: DataService) { }
+  constructor(private route: ActivatedRoute, private http: HttpService, private auth: AuthService, 
+    private toastController: ToastController, private alertController: AlertController,
+    private navController: NavController, private dataService: DataService) { }
 
   ngOnInit() {
     if(this.route.snapshot.data['special']) {
@@ -52,9 +53,9 @@ export class STDDetailPage implements OnInit {
                   data.password
                 );
                 this.dataService.setData(10, res);
-        this.router.navigateByUrl('participate/std/10');
+                this.navController.navigateForward('participate/std/10', {replaceUrl: true});
               } catch (error) {
-                console.error("Connection to room could not be established: "+ error.error);
+                this.presentToast(error.error);
               }
             }
           }
@@ -67,10 +68,17 @@ export class STDDetailPage implements OnInit {
         
         const res = await this.http.joinStd(this.selectedDiscussion.discussionId, await this.auth.getUsername());
         this.dataService.setData(10, res);
-        this.router.navigateByUrl('participate/std/10');
+        this.navController.navigateForward('participate/std/10', {replaceUrl: true});
       } catch (error) {
-        console.error("Connection to room could not be established: "+ error.error);
+        this.presentToast(error.error);
       }
     }
+  }
+  async presentToast(msg: string) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 5000
+    });
+    toast.present();
   }
 }

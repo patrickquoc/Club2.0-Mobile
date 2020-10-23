@@ -1,34 +1,34 @@
-<ion-content>
-  <ion-list *ngIf="roundComments">
-    <div *ngFor="let argument of roundComments">
-      <ion-card *ngIf="argument.user != user" class="argument-card">
-        <ion-card-header>
-          <ion-card-subtitle class="argument-text">
-            Previous argument: <br>
-            {{ argument.prevArgumentText }}
-          </ion-card-subtitle>
-        </ion-card-header>
-        <ion-grid class="ion-padding-horizontal">
-          <ion-row>
-            <ion-col>
-              <ion-text class="argument-text" readonly>
-                {{ argument.text }}
-              </ion-text>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col class="ion-justify-content-center ion-text-center" (click)="onLike(argument)">
-              <ion-icon name="arrow-up-circle-outline" [color]="hasLiked(argument) ? 'primary' : 'medium'"></ion-icon> <br>
-            </ion-col>
-            <ion-col class="ion-justify-content-center ion-text-center" (click)="onDislike(argument)"> 
-              <ion-icon name="arrow-down-circle-outline" [color]="hasDisliked(argument) ? 'danger' : 'medium'"></ion-icon> <br>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card>
-    </div>
-  </ion-list>
-  <div class="ion-padding-horizontal">
-    <ion-button (click)="onSubmitRating()" size="medium" type="submit" color="primary" expand="block">Submit</ion-button>
+
+<ion-list *ngIf="roundComments">
+  <div *ngFor="let argument of roundComments">
+    <ion-card *ngIf="argument.user != user" class="argument-card">
+      <ion-card-header>
+        <ion-card-subtitle class="argument-text">
+          Previous argument: <br>
+          {{ argument.prevArgumentText }}
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-grid class="ion-padding-horizontal">
+        <ion-row>
+          <ion-col>
+            <ion-text class="argument-text" readonly>
+              {{ argument.text }}
+            </ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="ion-justify-content-center ion-text-center" (click)="onLike(argument)">
+            <ion-icon name="arrow-up-circle-outline" [color]="hasLiked(argument) ? 'primary' : 'medium'"></ion-icon> <br>
+          </ion-col>
+          <ion-col class="ion-justify-content-center ion-text-center" (click)="onDislike(argument)"> 
+            <ion-icon name="arrow-down-circle-outline" [color]="hasDisliked(argument) ? 'danger' : 'medium'"></ion-icon> <br>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
   </div>
-</ion-content>
+</ion-list>
+<div class="ion-padding-horizontal">
+  <ion-button (click)="onSubmitRating()" size="medium" type="submit" color="primary" expand="block">Submit</ion-button>
+</div>
+

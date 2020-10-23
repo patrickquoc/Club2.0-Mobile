@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 import { HttpService } from 'src/app/service/http.service';
 import { STDArgument } from 'src/app/entity/stdargument';
 import { SocketService } from 'src/app/service/socket.service';
-import { NgControlStatus } from '@angular/forms';
 
 @Component({
   selector: 'app-stdbase',

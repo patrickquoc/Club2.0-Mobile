@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/service/http.service';
 import { DataService } from 'src/app/service/data.service';
-import { Router } from '@angular/router';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, NavController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-stdview',
@@ -19,7 +18,7 @@ export class STDViewComponent implements OnInit {
   private isFilteredByCategory = false;
   private isFilteredByUser = false;
 
-  constructor(private http: HttpService, private dataService: DataService, private router: Router,
+  constructor(private http: HttpService, private dataService: DataService, private navController: NavController,
     private alertController: AlertController, private toastController: ToastController) {
     this.getNextDiscussions();
   }
@@ -31,6 +30,8 @@ export class STDViewComponent implements OnInit {
     const res = await this.getNextDiscussions();
     if (res == true) {
       event.target.complete();
+    } else  {
+      event.target.cancel();
     }
   }
 
@@ -45,7 +46,6 @@ export class STDViewComponent implements OnInit {
         this.presentToast(error.error);
         return false;
       }
-      
     }
     else {
       try {
@@ -70,7 +70,7 @@ export class STDViewComponent implements OnInit {
 
   openDetailPage(std: ShortTermDiscussion) {
     this.dataService.setData(1, std);
-    this.router.navigateByUrl('/view/std/1');
+    this.navController.navigateForward('/view/std/1');
   }
 
   async reloadDiscussion(): Promise<boolean> {
@@ -185,7 +185,7 @@ export class STDViewComponent implements OnInit {
   }
 
   openCreationPage() {
-    this.router.navigateByUrl("/create/std", { replaceUrl: false })
+    this.navController.navigateForward("/create/std")
   }
 
   async refreshDiscussions(event) {

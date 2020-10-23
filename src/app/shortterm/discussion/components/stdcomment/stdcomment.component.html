@@ -1,43 +1,42 @@
-<ion-content>
-  <!--
-  <ion-card class="ion-margin-bottom">
-    <ion-card-header>
-      <ion-card-title color="primary">
-        {{ discussion.name }}
-      </ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-text class="description">
-        {{ discussion.description }}
-      </ion-text>
-    </ion-card-content>
-  </ion-card>-->
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>
-        Discussant's argument
-      </ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-text class="argument-text">
-        {{ argument.text }}
-      </ion-text>
-    </ion-card-content>
-  </ion-card>
-  <ion-card>
-    <ion-card-header>
-      <ion-title class="ion-text-center" color="primary">
-        Enter your comment
-      </ion-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-item>
-        <ion-label position="floating">Your comment</ion-label>
-        <ion-textarea [(ngModel)]="input"></ion-textarea>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
-  <div class="ion-padding-horizontal">
-    <ion-button (click)="onSubmit()" size="medium" type="submit" color="primary" expand="block">Submit</ion-button>
-  </div>
-</ion-content>
+
+<!--
+<ion-card class="ion-margin-bottom">
+  <ion-card-header>
+    <ion-card-title color="primary">
+      {{ discussion.name }}
+    </ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-text class="description">
+      {{ discussion.description }}
+    </ion-text>
+  </ion-card-content>
+</ion-card>-->
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>
+      Discussant's argument
+    </ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-text class="argument-text">
+      {{ argument.text }}
+    </ion-text>
+  </ion-card-content>
+</ion-card>
+<ion-card>
+  <ion-card-header>
+    <ion-title class="ion-text-center" color="primary">
+      Enter your comment
+    </ion-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-item>
+      <ion-label position="floating">Your comment</ion-label>
+      <ion-textarea [(ngModel)]="input"></ion-textarea>
+    </ion-item>
+  </ion-card-content>
+</ion-card>
+<div class="ion-padding-horizontal">
+  <ion-button (click)="onSubmit()" size="medium" type="submit" color="primary" expand="block">Submit</ion-button>
+</div>

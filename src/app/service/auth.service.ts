@@ -3,19 +3,19 @@ import { HttpService } from './http.service';
 import { User } from '../dto/user';
 import { Storage } from '@ionic/storage';
 import { RegisterUser } from '../dto/register-user';
-import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService implements OnInit {
-  constructor(private http: HttpService, private storage: Storage, private router: Router) { 
+  constructor(private http: HttpService, private storage: Storage, private navController: NavController) { 
   }
 
   async ngOnInit(): Promise<void> {
     const tokenExpired = await this.isTokenExpired();
     if(!tokenExpired) {
-      this.router.navigateByUrl('/home', { replaceUrl: true })
+      this.navController.navigateForward("/home", { replaceUrl: true });
     }
   }
 

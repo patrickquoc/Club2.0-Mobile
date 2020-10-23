@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LongTermDiscussion } from 'src/app/entity/long-term-discussion';
 import { HttpService } from 'src/app/service/http.service';
-import { Router, NavigationExtras } from '@angular/router';
 import { DataService } from 'src/app/service/data.service';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, NavController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-ltdview',
@@ -19,7 +18,7 @@ export class LTDViewComponent implements OnInit {
   private isFilteredByCategory = false;
   private isFilteredByUser = false;
 
-  constructor(private http: HttpService, private dataService: DataService, private router: Router,
+  constructor(private http: HttpService, private dataService: DataService, private navController: NavController,
     private alertController: AlertController, private toastController: ToastController) {
     this.getNextDiscussions();
   }
@@ -82,7 +81,7 @@ export class LTDViewComponent implements OnInit {
 
   openDetailPage(ltd: LongTermDiscussion) {
     this.dataService.setData(0, ltd);
-    this.router.navigateByUrl('/view/ltd/0');
+    this.navController.navigateForward('/view/ltd/0');
   }
 
   async reloadDiscussion(): Promise<boolean> {
