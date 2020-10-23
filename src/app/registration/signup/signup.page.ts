@@ -70,7 +70,7 @@ export class SignupPage implements OnInit {
 
     try {
       const res = await this.auth.register(newUser);
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login'], { replaceUrl: true });
     } catch (error) {
       this.presentToast(error.error);
     }

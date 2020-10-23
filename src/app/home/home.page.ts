@@ -42,6 +42,6 @@ export class HomePage {
 
   async onLogout() {
     await this.auth.logout();
-    this.router.navigateByUrl('login');
+    this.router.navigateByUrl('login', {replaceUrl: true});
   }
 }

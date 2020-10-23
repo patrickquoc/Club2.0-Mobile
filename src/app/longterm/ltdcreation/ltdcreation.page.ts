@@ -42,7 +42,7 @@ export class LTDCreationPage implements OnInit {
 
     try {
       const res = await this.http.createLtd(ltd);
-      if(res == 'Created') {
+      if(res != null) {
         this.presentToast('Discussion created');
         this.router.navigate(['/home'], { replaceUrl: true });
       }
