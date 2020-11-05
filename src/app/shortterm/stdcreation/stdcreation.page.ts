@@ -31,18 +31,21 @@ export class STDCreationPage implements OnInit {
 
   async onCreate() {
 
-    if(this.name.length < 1 || this.description.length < 1 || this.categoriesInput.length < 1) {
-      //TODO: Validator? Or Toast?
-      console.log('At least 1 input box is empty');
+    if(this.name.length < 1 || this.description.length < 1) {
+      this.presentToast("Cannot create STD: At least 1 input box is empty!")
+      return;
+    }
+    else if(this.categoriesInput.length < 1) {
+      this.presentToast("Cannot create LTD: Make sure you entered the categories correctly! (Enter after term)");
       return;
     }
 
     if (this.userLimit < 2 || this.userLimit > 10) {
-      console.log('Invalid participant count');
+      this.presentToast('Cannot create STD: Invalid participant count');
       return;
     }
     else if (this.maxRounds < 1 || this.maxRounds > 3) {
-      console.log('Invalid Round count');
+      this.presentToast('Cannot create STD: Invalid Round count');
       return;
     }
     
@@ -53,7 +56,6 @@ export class STDCreationPage implements OnInit {
     })
 
     if(!this.private) {
-      console.log(this.private)
       this.password = undefined;
     }
     

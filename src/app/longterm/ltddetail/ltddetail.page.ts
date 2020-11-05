@@ -66,7 +66,6 @@ export class LTDDetailPage implements OnInit {
             const res = await this.http.sendArgument(argument);
             console.log(res);
             this.arguments.push(res);
-            
           
           }
         }

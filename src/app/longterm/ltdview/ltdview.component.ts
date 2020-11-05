@@ -72,11 +72,21 @@ export class LTDViewComponent implements OnInit {
   async getDiscussionsByCategory() {
     this.pageIndex = 0;
     const search = this.searchString.split(',');
-    this.discussions = await this.http.getLtdsByCategory(this.pageIndex, this.fetchSize, search);
+    try {
+      this.discussions = await this.http.getLtdsByCategory(this.pageIndex, this.fetchSize, search);
+    } catch (error) {
+      this.presentToast(error.error);
+    }
+    
   }
 
   async getDiscussionsByName() {
-    this.discussions = await this.http.getLtdsByName(this.searchString);
+    try {
+      this.discussions = await this.http.getLtdsByName(this.searchString);
+    } catch (error) {
+      this.presentToast(error.error);
+    }
+    
   }
 
   openDetailPage(ltd: LongTermDiscussion) {
@@ -97,7 +107,7 @@ export class LTDViewComponent implements OnInit {
 
   async openFilterOptions() {
     const alert = await this.alertController.create({
-      header: 'Filter by',
+      header: 'Search options',
       inputs: [
         {
           name: 'byName',
@@ -113,13 +123,13 @@ export class LTDViewComponent implements OnInit {
           value: '1',
           checked: this.isFilteredByCategory
         },
-        {
-          name: 'byUser',
-          type: 'radio',
-          label: 'User',
-          value: '2',
-          checked: this.isFilteredByUser
-        }
+        // {
+        //   name: 'byUser',
+        //   type: 'radio',
+        //   label: 'User',
+        //   value: '2',
+        //   checked: this.isFilteredByUser
+        // }
       ],
       buttons: [
         {
@@ -146,12 +156,12 @@ export class LTDViewComponent implements OnInit {
                 console.log("Filtering by Category");
                 break;
               }
-              case '2': {
-                this.isFilteredByUser = true;
+              // case '2': {
+              //   this.isFilteredByUser = true;
                 
-                console.log("Filtering by User");
-                break;
-              }
+              //   console.log("Filtering by User");
+              //   break;
+              // }
             }
 
             console.log('Confirm Ok');
@@ -176,9 +186,9 @@ export class LTDViewComponent implements OnInit {
     else if(this.isFilteredByCategory) {
       await this.getDiscussionsByCategory();
     }
-    else if (this.isFilteredByUser) {
-      await this.getDiscussionsByName();
-    }
+    // else if (this.isFilteredByUser) {
+    //   await this.getDiscussionsByName();
+    // }
     else {
       this.isFilteredByName = true;
       await this.getDiscussionsByName();
