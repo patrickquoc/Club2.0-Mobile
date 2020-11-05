@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home">
+      </ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="description-card" *ngIf="selectedComment">
+    <ion-card-header>
+      <ion-card-subtitle>
+        User: {{ selectedComment.user }}
+      </ion-card-subtitle>
+      <ion-card-subtitle>
+        Date: {{ selectedComment.date | date: 'dd.MM.yyyy H:mm' }} 
+      </ion-card-subtitle>
+      <ion-item-divider></ion-item-divider>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-text class="description">
+        {{ selectedComment.text }}
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
+  <div *ngIf="comments">
+    <ion-list>
+      <ion-item *ngFor="let comment of comments">
+        <ion-card class="argument-card">
+          <ion-card-header>
+            <ion-card-subtitle color="secondary">
+              {{ comment.user }}
+              <ion-text class="argument-date">
+                {{ comment.date | date: 'dd.MM.yyyy H:mm' }}
+              </ion-text>
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content class="argument-card-content">
+            <ion-text class="argument-text">
+              {{ comment.text }}
+            </ion-text>
+            <ion-grid>
+              <ion-row>
+                <ion-col class="ion-justify-content-center ion-text-center" (click)="onLike(comment)">
+                  <ion-icon name="arrow-up-circle-outline" [color]="getPositiveRatingColor(comment)"></ion-icon>
+                  <ion-text class="argument-rating-count" [color]="getPositiveRatingColor(comment)">
+                    {{ comment.totalRating[0] }}
+                  </ion-text>
+                </ion-col> 
+                <ion-col class="ion-justify-content-center ion-text-center" (click)="onDislike(comment)">
+                  <ion-icon class="icon"name="arrow-down-circle-outline" [color]="getNegativeRatingColor(comment)"></ion-icon>
+                  <ion-text class="argument-rating-count" [color]="getNegativeRatingColor(comment)">
+                    {{ comment.totalRating[1] }}
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+              <ion-row (click)="routeToComments(comment)">
+                <ion-col class="ion-text-center">
+                  <ion-text color="primary" size="small">
+                    Show comments ({{ comment.followingArgumentCount }})
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button class="ion-padding-horizontal" (click)="showCommentCreator()" 
+      size="medium" type="submit" color="primary" expand="block">
+        Write a comment
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

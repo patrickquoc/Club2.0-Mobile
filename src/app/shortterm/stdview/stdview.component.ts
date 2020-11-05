@@ -69,8 +69,8 @@ export class STDViewComponent implements OnInit {
   }
 
   openDetailPage(std: ShortTermDiscussion) {
-    this.dataService.setData(1, std);
-    this.navController.navigateForward('/view/std/1');
+    this.dataService.setData(std.discussionId, std);
+    this.navController.navigateForward('/view/std/'+ std.discussionId);
   }
 
   async reloadDiscussion(): Promise<boolean> {
@@ -98,7 +98,7 @@ export class STDViewComponent implements OnInit {
 
   async openFilterOptions() {
     const alert = await this.alertController.create({
-      header: 'Filter by',
+      header: 'Search options',
       inputs: [
         {
           name: 'byName',
@@ -114,13 +114,13 @@ export class STDViewComponent implements OnInit {
           value: '1',
           checked: this.isFilteredByCategory
         },
-        {
-          name: 'byUser',
-          type: 'radio',
-          label: 'User',
-          value: '2',
-          checked: this.isFilteredByUser
-        }
+        // {
+        //   name: 'byUser',
+        //   type: 'radio',
+        //   label: 'User',
+        //   value: '2',
+        //   checked: this.isFilteredByUser
+        // }
       ],
       buttons: [
         {
@@ -146,11 +146,11 @@ export class STDViewComponent implements OnInit {
                 console.log("Filtering by Category");
                 break;
               }
-              case '2': {
-                this.isFilteredByUser = true;
-                console.log("Filtering by User");
-                break;
-              }
+              // case '2': {
+              //   this.isFilteredByUser = true;
+              //   console.log("Filtering by User");
+              //   break;
+              // }
             }
 
             console.log('Confirm Ok');
@@ -175,9 +175,9 @@ export class STDViewComponent implements OnInit {
     else if(this.isFilteredByCategory) {
       await this.getDiscussionsByCategory();
     }
-    else if (this.isFilteredByUser) {
-      await this.getDiscussionsByName();
-    }
+    // else if (this.isFilteredByUser) {
+    //   await this.getDiscussionsByName();
+    // }
     else {
       this.isFilteredByName = true;
       await this.getDiscussionsByName();

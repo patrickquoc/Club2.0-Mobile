@@ -9,14 +9,10 @@ import { NavController } from '@ionic/angular';
   providedIn: 'root'
 })
 export class AuthService implements OnInit {
-  constructor(private http: HttpService, private storage: Storage, private navController: NavController) { 
+  constructor(private http: HttpService, private storage: Storage) { 
   }
 
   async ngOnInit(): Promise<void> {
-    const tokenExpired = await this.isTokenExpired();
-    if(!tokenExpired) {
-      this.navController.navigateForward("/home", { replaceUrl: true });
-    }
   }
 
   async register(user: RegisterUser) {
@@ -27,14 +23,15 @@ export class AuthService implements OnInit {
     const user = JSON.parse(await this.http.login(username, password));
     await this.storage.set('user', JSON.stringify(user));
     await this.storage.set('token', user.token);
-    const expiresAt = JSON.stringify(new Date().getTime() + (4*60*60*1000));          // 4h duration
+    const currentTime = new Date().getTime();
+    const expiresAt = currentTime + (8*60*60*1000);         // 8h + 60 min + 60 sec + 1000 ms uration
+    
     await this.storage.set('expires_at', expiresAt);
 
     console.log(`Token received: ${user.token}`)
   }
 
   async logout() {
-    await this.storage.remove('user');
     await this.storage.remove('token');
     await this.storage.remove('expires_at');
   }
@@ -46,14 +43,16 @@ export class AuthService implements OnInit {
 
   async isTokenExpired(): Promise<boolean> {
     const token = await this.storage.get('token');
-    const expiresAt = JSON.stringify(await this.storage.get('expires_at'));
+    const expiresAt = await this.storage.get('expires_at');
+    const expiresAtTime = new Date(expiresAt).getTime();
     const currentTime = new Date().getTime();
-    return token == null || (+expiresAt) <= currentTime;
+    return token == null || expiresAtTime <= currentTime;
   }
 
   async getUsername() {
     const user: User = JSON.parse(await this.storage.get('user'));
-    return user.username;
+    
+    return user == null ? "" : user.username;
   }
 
   async getToken() {

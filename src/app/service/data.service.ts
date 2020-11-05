@@ -4,8 +4,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class DataService {
-  private data = [];
- 
+  private data = {};
+
   constructor() { }
  
   setData(id, data) {
@@ -15,4 +15,5 @@ export class DataService {
   getData(id) {
     return this.data[id];
   }
+
 }

@@ -52,8 +52,8 @@ export class STDDetailPage implements OnInit {
                   await this.auth.getUsername(),
                   data.password
                 );
-                this.dataService.setData(10, res);
-                this.navController.navigateForward('participate/std/10', {replaceUrl: true});
+                this.dataService.setData(res.discussionId, res);
+                this.navController.navigateForward('participate/std/'+ res.discussionId, {replaceUrl: true});
               } catch (error) {
                 this.presentToast(error.error);
               }
@@ -67,8 +67,8 @@ export class STDDetailPage implements OnInit {
       try {
         
         const res = await this.http.joinStd(this.selectedDiscussion.discussionId, await this.auth.getUsername());
-        this.dataService.setData(10, res);
-        this.navController.navigateForward('participate/std/10', {replaceUrl: true});
+        this.dataService.setData(res.discussionId, res);
+        this.navController.navigateForward('participate/std/'+ res.discussionId, {replaceUrl: true});
       } catch (error) {
         this.presentToast(error.error);
       }
