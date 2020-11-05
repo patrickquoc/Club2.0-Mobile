@@ -6,12 +6,12 @@ export const environment = {
   production: false,
   address: 'localhost',
   port: 3030,
-  // connection: 'http://vm130.htl-leonding.ac.at:80',
-  // wsConnection: 'ws://vm130.htl-leonding.ac.at:8080'
+  connection: 'http://vm130.htl-leonding.ac.at:8443',
+  wsConnection: 'ws://vm130.htl-leonding.ac.at:8080'
   
   //For local connection uncomment
-  connection: 'http://localhost:8443',
-  wsConnection: 'ws://localhost:8888'
+  // connection: 'http://localhost:8443',
+  // wsConnection: 'ws://localhost:8888'
 };
 
 /*
