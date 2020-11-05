@@ -6,4 +6,6 @@ export interface Argument {
     date: Date,
     totalRating: number[],
     userRating: number
+    previousArgumentId?: string,
+    followingArgumentCount: number
 }

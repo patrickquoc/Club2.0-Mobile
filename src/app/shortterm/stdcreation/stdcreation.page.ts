@@ -73,8 +73,8 @@ export class STDCreationPage implements OnInit {
       const res: ShortTermDiscussion = JSON.parse(await this.http.createStd(std));
       res.users = new Array<string>();
       res.users.push(this.username);
-      this.dataService.setData(10, res);
-      this.navController.navigateForward('participate/std/10', {replaceUrl: true});
+      this.dataService.setData(res.discussionId, res);
+      this.navController.navigateForward('participate/std/'+ res.discussionId, {replaceUrl: true});
 
     } catch (error) {
       this.presentToast(error.error);

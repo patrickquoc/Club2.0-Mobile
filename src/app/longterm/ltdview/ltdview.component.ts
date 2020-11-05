@@ -80,8 +80,8 @@ export class LTDViewComponent implements OnInit {
   }
 
   openDetailPage(ltd: LongTermDiscussion) {
-    this.dataService.setData(0, ltd);
-    this.navController.navigateForward('/view/ltd/0');
+    this.dataService.setData(ltd.discussionId, ltd);
+    this.navController.navigateForward('/view/ltd/'+ ltd.discussionId);
   }
 
   async reloadDiscussion(): Promise<boolean> {

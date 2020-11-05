@@ -69,8 +69,8 @@ export class STDViewComponent implements OnInit {
   }
 
   openDetailPage(std: ShortTermDiscussion) {
-    this.dataService.setData(1, std);
-    this.navController.navigateForward('/view/std/1');
+    this.dataService.setData(std.discussionId, std);
+    this.navController.navigateForward('/view/std/'+ std.discussionId);
   }
 
   async reloadDiscussion(): Promise<boolean> {
