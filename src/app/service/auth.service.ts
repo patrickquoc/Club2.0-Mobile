@@ -13,6 +13,12 @@ export class AuthService implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+<<<<<<< HEAD
+=======
+    if(!this.isLoggedIn) {
+      this.navController.navigateForward("/home", { replaceUrl: true });
+    }
+>>>>>>> 3d89dc35a0268e12136c1db7a24e7fde85a3397b
   }
 
   async register(user: RegisterUser) {
