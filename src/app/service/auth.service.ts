@@ -13,8 +13,7 @@ export class AuthService implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    const tokenExpired = await this.isTokenExpired();
-    if(!tokenExpired) {
+    if(!this.isLoggedIn) {
       this.navController.navigateForward("/home", { replaceUrl: true });
     }
   }

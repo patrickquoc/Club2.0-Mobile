@@ -14,18 +14,21 @@ export class SocketService{
     return this.socket.connect();
   }
 
-  disconnect() {
-    return this.socket.disconnect();
+  joinRoom(discussionId: string, username: string) {
+    return this.socket.emit("joinRoom", JSON.stringify({discussionId, username}));
   }
 
-  joinRoom(discussionId: string, username: string) {
-    console.log("Joining room "+ discussionId);
-    console.log(username);
-    return this.socket.emit("joinRoom", JSON.stringify({discussionId, username}));
+  leaveRoom(discussionId: string, username: string) {
+    this.socket.emit("leaveRoom", JSON.stringify({discussionId, username}));
+    return this.socket.disconnect();
   }
 
   userJoined(): Observable<any> {
     return this.socket.fromEvent('userJoined');
+  }
+
+  userLeft(): Observable<any> {
+    return this.socket.fromEvent('userLeft');
   }
 
   startDiscussion(discussionId: string, rounds: number) {

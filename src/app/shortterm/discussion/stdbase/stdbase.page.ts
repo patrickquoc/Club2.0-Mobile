@@ -40,11 +40,27 @@ export class STDBasePage implements OnInit {
 
     this.socket.userJoined().subscribe(username => {
       try {
-        console.log(username+ " joined room.")
+        console.log(username+ " joined the room.")
         this.discussion.users.push(username);
       } catch (error) {
         console.error("userJoined: Failed to parse incoming data: "+ error);
       }
+    });
+
+    this.socket.userLeft().subscribe(username => {
+      try {
+        console.log(username+ " left the room.");
+        const index = this.discussion.users.indexOf(username);
+        if (index != null) {
+          this.discussion.users.splice(index, 1);
+        }
+        else {
+          console.error("userLeft: User does not exist");
+        }
+      } catch (error) {
+        console.error("userLeft: Failed to parse incoming data: "+ error);
+      }
+
     });
 
     this.socket.discussionStarts().subscribe(() => {
@@ -85,7 +101,7 @@ export class STDBasePage implements OnInit {
   }
 
   leaveRoom() {
-    this.socket.disconnect();
+    this.socket.leaveRoom(this.discussion.discussionId, this.username);
     try {
       const res = this.http.leaveStd(this.discussion.discussionId, this.username);
     } catch (error) {
