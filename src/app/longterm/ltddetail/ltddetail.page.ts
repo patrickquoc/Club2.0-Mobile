@@ -4,9 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpService } from 'src/app/service/http.service';
 import { Argument } from 'src/app/entity/argument';
 import { AuthService } from 'src/app/service/auth.service';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, NavController, ToastController } from '@ionic/angular';
 import { CreateArgumentDto } from 'src/app/dto/create-argument-dto';
 import { RatingDto } from 'src/app/dto/rating-dto';
+import { DataService } from 'src/app/service/data.service';
 
 @Component({
   selector: 'app-ltddetail',
@@ -21,7 +22,8 @@ export class LTDDetailPage implements OnInit {
   private fetchSize = 5;
 
   constructor(private route: ActivatedRoute, private http: HttpService, private auth: AuthService, 
-    private alertController: AlertController, private toastController: ToastController) { }
+    private alertController: AlertController, private toastController: ToastController, private navController: NavController,
+    private dataService: DataService) { }
 
   async ngOnInit() {
     if(this.route.snapshot.data['special']) {
@@ -64,8 +66,7 @@ export class LTDDetailPage implements OnInit {
             const res = await this.http.sendArgument(argument);
             console.log(res);
             this.arguments.push(res);
-            
-            
+          
           }
         }
       ]
@@ -123,7 +124,6 @@ export class LTDDetailPage implements OnInit {
       username: await this.auth.getUsername(),
       rating: argument.userRating
     }
-    console.log(argument.argumentId);
 
     //Update Argument rating
     const res = await this.http.sendRating(rating) as Argument;
@@ -138,5 +138,18 @@ export class LTDDetailPage implements OnInit {
       duration: 5000
     });
     toast.present();
+  }
+
+  getPositiveRatingColor(argument: Argument): string{
+    return argument.userRating == 1 ? 'primary' : 'medium';
+  }
+
+  getNegativeRatingColor(argument: Argument): string{
+    return argument.userRating == -1 ? 'danger' : 'medium';
+  }
+
+  routeToComments(argument: Argument) {
+    this.dataService.setData(argument.argumentId, argument);
+    this.navController.navigateForward('/view/ltd/comments/'+ argument.argumentId);
   }
 } 

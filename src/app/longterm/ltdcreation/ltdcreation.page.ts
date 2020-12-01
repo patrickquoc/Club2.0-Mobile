@@ -20,9 +20,13 @@ export class LTDCreationPage implements OnInit {
   }
 
   async onCreate() {
-    if(this.name.length < 1 || this.description.length < 1 || this.categoriesInput.length < 1) {
-      //TODO: Validator? Or Toast?
-      console.log('At least 1 input box is empty');
+    if(this.name.length < 1 || this.description.length < 1) {
+      this.presentToast("Cannot create LTD: At least 1 input box is empty!")
+      return;
+    }
+    else if (this.categoriesInput.length < 1) {
+      this.presentToast("Cannot create LTD: Make sure you entered the categories correctly! (Enter after term)");
+      return;
     }
 
     let categoriesDto = new Array<string>();

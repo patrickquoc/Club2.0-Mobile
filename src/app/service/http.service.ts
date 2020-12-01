@@ -11,6 +11,7 @@ import { CreateArgumentDto } from '../dto/create-argument-dto';
 import { RatingDto } from '../dto/rating-dto';
 import { ShortTermDiscussion } from '../entity/short-term-discussion';
 import { CreateSTDDto } from '../dto/create-stddto';
+import { CreateCommentDto } from '../dto/create-comment-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -62,6 +63,17 @@ export class HttpService {
     return this.http.post<Argument>(`${environment.connection}/api/ltds/argument`, argument).toPromise();
   }
 
+  async getComments(argumentId: string, username: string) {
+    return this.http.get<Argument[]>(`${environment.connection}/api/ltds/followingArguments?`+
+      `argumentId=${argumentId}&username=${username}`)
+      .toPromise();
+  }
+
+  async sendComment(comment: CreateCommentDto): Promise<Argument> {
+    return this.http.post<Argument>(`${environment.connection}/api/ltds/followingArgument`, comment)
+      .toPromise();
+  }
+
   async sendRating(rating: RatingDto) {
     return this.http.put<any>(`${environment.connection}/api/ltds/rateArgument?`, rating).toPromise();
   }
@@ -85,14 +97,14 @@ export class HttpService {
     return this.http.post<any>(`${environment.connection}/api/stds/create`, std, this.httpOptions).toPromise();
   }
 
-  async joinStd(discussionId: string, username: string, password?: string) {
+  async joinStd(discussionId: string, username: string, password?: string): Promise<ShortTermDiscussion> {
     console.log(discussionId);
     const dto = {
       discussionId,
       username,
       password
     }
-    return this.http.put<any>(`${environment.connection}/api/stds/join`, dto).toPromise();
+    return this.http.put<ShortTermDiscussion>(`${environment.connection}/api/stds/join`, dto).toPromise();
   }
 
   async leaveStd(discussionId: string, username: string) {

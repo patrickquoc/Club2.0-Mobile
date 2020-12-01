@@ -36,6 +36,13 @@ const routes: Routes = [
     loadChildren: () => import('./longterm/ltddetail/ltddetail.module').then( m => m.LTDDetailPageModule)
   },
   {
+    path: 'view/ltd/comments/:id',
+    resolve: { 
+      special: DataResolverService
+    },
+    loadChildren: () => import('./longterm/ltddetail/ltdcomment/ltdcomment.module').then( m => m.LTDCommentPageModule)
+  },
+  {
     path: 'create/std',
     loadChildren: () => import('./shortterm/stdcreation/stdcreation.module').then( m => m.STDCreationPageModule)
   },

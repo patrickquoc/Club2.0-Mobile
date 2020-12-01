@@ -14,11 +14,20 @@ export class LoginPage implements OnInit {
   constructor(private fb: FormBuilder, private navController: NavController, private auth: AuthService,
      private toastController: ToastController) { }
 
-  ngOnInit() {
+  async ngOnInit(): Promise<void> {
     this.loginForm = this.fb.group({
       username:['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(8)]],
-    })
+    });
+    console.log(await this.auth.getToken());
+    const loggedIn = await this.auth.isLoggedIn();
+    if (loggedIn == true) {
+      this.navController.navigateRoot('home', {replaceUrl: true});
+    }
+    
+    const username = await this.auth.getUsername();
+    this.username.setValue(username);
+    
   }
   
   get username() {
@@ -33,19 +42,16 @@ export class LoginPage implements OnInit {
      try {
       await this.auth.login(this.username.value, this.password.value);
       const loggedIn = await this.auth.isLoggedIn();
-      if(loggedIn){
+      if (loggedIn){
         this.navController.navigateRoot('/home', { replaceUrl:true });
       }
     } catch (error) {
-      if(error instanceof ProgressEvent) {
+      if (error instanceof ProgressEvent) {
         this.presentToast("Connection error");
       }
       this.presentToast(error.error);
       return;
      }
-  }
-
-  onSignup() {
   }
 
   async presentToast(msg: string) {
