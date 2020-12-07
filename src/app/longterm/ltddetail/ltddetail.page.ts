@@ -31,7 +31,6 @@ export class LTDDetailPage implements OnInit {
     }
     this.arguments = await this.http.getArgumentsById(0, this.fetchSize,
        this.selectedDiscussion.discussionId, await this.auth.getUsername());
-
   }
   
   async showArgumentCreator() {
@@ -116,7 +115,6 @@ export class LTDDetailPage implements OnInit {
     }
     await this.sendArgumentRating(argument);
   }
-
 
   async sendArgumentRating(argument: Argument) {
     const rating: RatingDto = {

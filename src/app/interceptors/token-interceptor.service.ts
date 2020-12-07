@@ -22,11 +22,12 @@ export class TokenInterceptorService implements HttpInterceptor {
         //With the Object Type FormData the Content-Type has to be set automatically by the System to multipart/form-data
         if(!(req.body instanceof FormData)){
           headers = headers.append('Content-Type', "application/json");
+          headers = headers.append('Access-Control-Allow-Origin', '*');
         }
 
         const newReq = req.clone({
           headers,
-          //url: req.url.replace('http://', 'https://')
+          url: req.url.replace('http://', 'https://')
         });
 
         return next.handle(newReq);

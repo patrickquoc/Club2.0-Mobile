@@ -109,7 +109,7 @@ export class STDBasePage implements OnInit {
     }
   }
 
-  onStart() {
+  onStart(event) {
     this.resetActiveComponents();
     this.socket.startDiscussion(this.discussion.discussionId, this.discussion.totalRounds);
   }

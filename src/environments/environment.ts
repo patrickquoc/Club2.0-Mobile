@@ -7,7 +7,7 @@ export const environment = {
   address: 'localhost',
   port: 3030,
   connection: 'http://vm130.htl-leonding.ac.at:8443',
-  wsConnection: 'ws://vm130.htl-leonding.ac.at:8080'
+  wsConnection: 'https://vm130.htl-leonding.ac.at:8080'
   
   //For local connection uncomment
   // connection: 'http://localhost:8443',

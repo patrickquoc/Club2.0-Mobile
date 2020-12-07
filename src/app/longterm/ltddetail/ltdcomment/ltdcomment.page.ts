@@ -83,7 +83,7 @@ export class LTDCommentPage implements OnInit {
               user: await this.auth.getUsername(),
               text: data.comment,
               date: new Date()
-            } 
+            };
 
             const res = await this.http.sendComment(comment);
             console.log(res);

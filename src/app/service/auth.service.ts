@@ -13,7 +13,10 @@ export class AuthService implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+<<<<<<< HEAD
+=======
     
+>>>>>>> 8715c55f2b60bb7e0bf0b013151f51d0d8dce7a5
   }
 
   async register(user: RegisterUser) {
