@@ -1,4 +1,5 @@
 export interface STDArgument {
+    argumentId: string,
     discussionId: string,
     user: string,
     text: string,

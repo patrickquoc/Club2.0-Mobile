@@ -58,6 +58,12 @@ export class STDCreationPage implements OnInit {
     if(!this.private) {
       this.password = undefined;
     }
+    else {
+      if (this.password.length == 0) {
+        this.presentToast("Please enter a password!");
+        return;
+      }
+    }
     
     const std: CreateSTDDto = {
       name: this.name, 

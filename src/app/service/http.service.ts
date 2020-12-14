@@ -12,6 +12,7 @@ import { RatingDto } from '../dto/rating-dto';
 import { ShortTermDiscussion } from '../entity/short-term-discussion';
 import { CreateSTDDto } from '../dto/create-stddto';
 import { CreateCommentDto } from '../dto/create-comment-dto';
+import { STDArgument } from '../entity/stdargument';
 
 @Injectable({
   providedIn: 'root'
@@ -53,9 +54,9 @@ export class HttpService {
     return this.http.post<LongTermDiscussion>(`${environment.connection}/api/ltds/create`, ltd, this.httpOptions).toPromise();
   }
 
-  async getArgumentsById(pageIndex: number, fetchSize: number, discussionId: string, username: string) {
+  async getArgumentsById(pageIndex: number, fetchSize: number, discussionId: string, username: string, password: string) {
     return this.http.get<Argument[]>(`${environment.connection}/api/ltds/arguments?index=${pageIndex}&size=${fetchSize}`+ 
-      `&discussionId=${discussionId}&username=${username}`)
+      `&discussionId=${discussionId}&username=${username}&password=${password}`)
       .toPromise();
   }
 
@@ -97,6 +98,10 @@ export class HttpService {
     return this.http.post<any>(`${environment.connection}/api/stds/create`, std, this.httpOptions).toPromise();
   }
 
+  async getStdArguments(discussionId: string) {
+    return this.http.get<STDArgument[]>(`${environment.connection}/api/stds/arguments?discussionId=${discussionId}`).toPromise();
+  }
+
   async joinStd(discussionId: string, username: string, password?: string): Promise<ShortTermDiscussion> {
     console.log(discussionId);
     const dto = {
@@ -115,4 +120,8 @@ export class HttpService {
 
     return this.http.put<any>(`${environment.connection}/api/stds/leave`, dto).toPromise();
   }
+
+  async getStdHistoryFromUser(): Promise<ShortTermDiscussion[]> {
+    return this.http.get<ShortTermDiscussion[]>(`${environment.connection}/api/stds/byParticipant`).toPromise();
+  } 
 }
