@@ -22,11 +22,15 @@
       <ion-item-divider></ion-item-divider>
     </ion-card-header>
     <ion-card-content>
-      <ion-text class="description">
+      <ion-text *ngIf="isPasswordVerified" class="description">
         {{ selectedDiscussion.description }}
+      </ion-text>
+      <ion-text *ngIf="!isPasswordVerified" color="danger">
+        Please enter a password to see the discussion.
       </ion-text>
     </ion-card-content>
   </ion-card>
+
   <div *ngIf="arguments">
     <ion-list>
       <ion-item *ngFor="let argument of arguments">
@@ -78,8 +82,12 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button class="ion-padding-horizontal" (click)="showArgumentCreator()" 
-      size="medium" type="submit" color="primary" expand="block">
+    <ion-button *ngIf="!isPasswordVerified" (click)="showPasswordInput()"
+      class="ion-padding-horizontal" size="medium" type="submit" color="primary" expand="block">
+        Enter password
+    </ion-button>
+    <ion-button *ngIf="isPasswordVerified"  (click)="showArgumentCreator()" 
+      class="ion-padding-horizontal" size="medium" type="submit" color="primary" expand="block">
         Write an argument
     </ion-button>
   </ion-toolbar>

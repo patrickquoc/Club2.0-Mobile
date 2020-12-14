@@ -60,6 +60,18 @@ const routes: Routes = [
     },
     loadChildren: () => import('./shortterm/discussion/stdbase/stdbase.module').then( m => m.STDBasePageModule)
   },
+  {
+    path: 'stdhistory',
+    loadChildren: () => import('./shortterm/stdhistory/stdhistory.module').then( m => m.STDHistoryPageModule)
+  },
+  {
+    path: 'stdhistory/summary/:id',
+    resolve: {
+      special: DataResolverService
+    },
+    loadChildren: () => import('./shortterm/stdsummary/stdsummary.module').then( m => m.STDSummaryPageModule)
+  },
+
 ];
 
 @NgModule({

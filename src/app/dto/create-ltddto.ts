@@ -3,5 +3,6 @@ export interface CreateLTDDto {
     host: string,
     description: string,
     categories: string[],
-    date: Date
+    date: Date,
+    password?: string;
 }

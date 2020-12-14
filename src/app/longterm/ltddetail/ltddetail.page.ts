@@ -20,6 +20,8 @@ export class LTDDetailPage implements OnInit {
   arguments: Array<Argument> = new Array<Argument>();
   private pageIndex = 1;
   private fetchSize = 5;
+  private password = "";
+  public isPasswordVerified = false;
 
   constructor(private route: ActivatedRoute, private http: HttpService, private auth: AuthService, 
     private alertController: AlertController, private toastController: ToastController, private navController: NavController,
@@ -29,11 +31,33 @@ export class LTDDetailPage implements OnInit {
     if(this.route.snapshot.data['special']) {
       this.selectedDiscussion = this.route.snapshot.data['special'];
     }
-    this.arguments = await this.http.getArgumentsById(0, this.fetchSize,
-       this.selectedDiscussion.discussionId, await this.auth.getUsername());
+    if (this.selectedDiscussion.private) {
+      await this.showPasswordInput();
+      // while (this.isPasswordVerified == false) {
+      //   this.showPasswordInput
+      //     try {
+      //       this.arguments = await this.http.getArgumentsById(0, this.fetchSize,
+      //         this.selectedDiscussion.discussionId, await this.auth.getUsername(), this.password);
+      //         // this.isPasswordVerified = true;
+      //     } catch (error) {
+      //       this.presentToast(error.error);
+      //       console.log(error.error);
+      //     }
+        
+      // }
+    }
+    else {
+      this.arguments = await this.http.getArgumentsById(0, this.fetchSize,
+        this.selectedDiscussion.discussionId, await this.auth.getUsername(), this.password);
+      this.isPasswordVerified = true;
+    }
   }
   
   async showArgumentCreator() {
+    if (this.selectedDiscussion.private && this.isPasswordVerified == false) {
+      this.presentToast("Please verify yourself before writing an argument.")
+      return;
+    }
     //TODO: Max character count (approx. 2000)
     const alert = this.alertController.create({
       header: 'Write Argument',
@@ -64,13 +88,53 @@ export class LTDDetailPage implements OnInit {
 
             const res = await this.http.sendArgument(argument);
             console.log(res);
-            this.arguments.push(res);
-          
+            this.arguments.unshift(res);
+            //this.arguments.push(res);
           }
         }
       ]
     });
     (await alert).present();
+  }
+
+  async showPasswordInput(): Promise<void> {
+    const alert = this.alertController.create({
+      header: 'Enter Password',
+      inputs: [
+        {
+          name: 'password',
+          placeholder: 'Password',
+          type: "password"
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Ok',
+          handler: async (data) => {
+            this.password = data.password;
+            try {
+              this.arguments = await this.http.getArgumentsById(0, this.fetchSize,
+                this.selectedDiscussion.discussionId, await this.auth.getUsername(), this.password);
+                this.isPasswordVerified = true;
+            }
+            catch (error) {
+              this.presentToast(error.error)
+              if (error.error == "Password is not correct") {
+                this.isPasswordVerified = false;
+              }
+            }
+          }
+        }
+      ]
+    });
+    return (await alert).present();
   }
 
   getFormattedDate(date: Date): string {
@@ -88,7 +152,7 @@ export class LTDDetailPage implements OnInit {
   async getArgumentsPaged() {
     this.arguments = this.arguments.concat(
       await this.http.getArgumentsById(this.pageIndex, this.fetchSize,
-        this.selectedDiscussion.discussionId, await this.auth.getUsername()
+        this.selectedDiscussion.discussionId, await this.auth.getUsername(), this.password
       )
     );
 
@@ -149,5 +213,9 @@ export class LTDDetailPage implements OnInit {
   routeToComments(argument: Argument) {
     this.dataService.setData(argument.argumentId, argument);
     this.navController.navigateForward('/view/ltd/comments/'+ argument.argumentId);
+  }
+
+  isAuthenticated() {
+    return this.selectedDiscussion.private == true && this.isPasswordVerified;
   }
 } 

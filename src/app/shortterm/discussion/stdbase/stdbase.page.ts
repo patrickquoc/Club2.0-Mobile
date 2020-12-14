@@ -5,6 +5,8 @@ import { AuthService } from 'src/app/service/auth.service';
 import { HttpService } from 'src/app/service/http.service';
 import { STDArgument } from 'src/app/entity/stdargument';
 import { SocketService } from 'src/app/service/socket.service';
+import { NavController } from '@ionic/angular';
+import { DataService } from 'src/app/service/data.service';
 
 @Component({
   selector: 'app-stdbase',
@@ -25,7 +27,8 @@ export class STDBasePage implements OnInit {
   username: string;
   isHost: boolean;
 
-  constructor(private route: ActivatedRoute, private socket: SocketService, private auth: AuthService, private http: HttpService ) { }
+  constructor(private route: ActivatedRoute, private socket: SocketService, private auth: AuthService, 
+    private http: HttpService, private navController: NavController, private dataService: DataService ) { }
 
   async ngOnInit() {
     this.username = await this.auth.getUsername();
@@ -60,7 +63,6 @@ export class STDBasePage implements OnInit {
       } catch (error) {
         console.error("userLeft: Failed to parse incoming data: "+ error);
       }
-
     });
 
     this.socket.discussionStarts().subscribe(() => {
@@ -79,6 +81,9 @@ export class STDBasePage implements OnInit {
     });
 
     this.socket.endOfDiscussion().subscribe(args => {
+      // this.leaveRoom();
+      // this.dataService.setData(this.discussion.discussionId, this.discussion);
+      // this.navController.navigateRoot('/std/arguments/'+ this.discussion.discussionId, { replaceUrl: true });
       this.allArguments = args;
       this.activateComponent(4);
     }); 
@@ -95,8 +100,8 @@ export class STDBasePage implements OnInit {
     });
 
     this.socket.getResultComments().subscribe(comments => {
-      this.resultComments = comments;
-      this.activateComponent(7);
+      // this.resultComments = comments;
+      // this.activateComponent(7);
     })
   }
 

@@ -3,6 +3,7 @@ import { LongTermDiscussion } from 'src/app/entity/long-term-discussion';
 import { HttpService } from 'src/app/service/http.service';
 import { DataService } from 'src/app/service/data.service';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-ltdview',
@@ -19,7 +20,7 @@ export class LTDViewComponent implements OnInit {
   private isFilteredByUser = false;
 
   constructor(private http: HttpService, private dataService: DataService, private navController: NavController,
-    private alertController: AlertController, private toastController: ToastController) {
+    private alertController: AlertController, private toastController: ToastController, private auth: AuthService) {
     this.getNextDiscussions();
   }
 
@@ -89,7 +90,7 @@ export class LTDViewComponent implements OnInit {
     
   }
 
-  openDetailPage(ltd: LongTermDiscussion) {
+  async openDetailPage(ltd: LongTermDiscussion) {
     this.dataService.setData(ltd.discussionId, ltd);
     this.navController.navigateForward('/view/ltd/'+ ltd.discussionId);
   }
