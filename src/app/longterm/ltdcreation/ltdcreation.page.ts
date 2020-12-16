@@ -14,6 +14,9 @@ export class LTDCreationPage implements OnInit {
   name: string = '';
   description: string = '';
   categoriesInput = new Array<any>();
+  private: boolean = false;
+  password = '';
+  isPasswordVisible = false;
   constructor(private http: HttpService, private auth: AuthService, private navController: NavController, private toastController: ToastController) { }
 
   ngOnInit() {
@@ -35,12 +38,23 @@ export class LTDCreationPage implements OnInit {
       categoriesDto.push(c.value);
     })
 
+    if(!this.private) {
+      this.password = undefined;
+    }
+    else {
+      if (this.password.length == 0) {
+        this.presentToast("Please enter a password!");
+        return;
+      }
+    }
+
     const ltd: CreateLTDDto = {
       name: this.name, 
       host: await this.auth.getUsername(),
       description: this.description,
       categories: categoriesDto,
-      date: new Date()
+      date: new Date(),
+      password: this.password
     }
 
     try {
@@ -52,6 +66,10 @@ export class LTDCreationPage implements OnInit {
     } catch (error) {
       this.presentToast(error.error);
     }
+  }
+
+  togglePasswordVisibility() {
+    this.isPasswordVisible = ! this.isPasswordVisible;
   }
 
   async presentToast(msg: string) {

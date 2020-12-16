@@ -11,7 +11,6 @@
   <ion-refresher slot="fixed" id="refresher" (ionRefresh)="refreshDiscussions($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-
   <ion-list>
     <ion-item *ngFor="let ltd of discussions" (click)="openDetailPage(ltd)">
       <ion-grid>
@@ -19,6 +18,7 @@
           <ion-col>
             <ion-label class="ion-text-start" color="primary">
               {{ltd.name}}
+              <ion-icon *ngIf="ltd.private" name="lock-closed-outline" position="end"></ion-icon>
             </ion-label>
           </ion-col>
         </ion-row>
@@ -37,7 +37,7 @@
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
-<ion-fab class="ion-padding-end" vertical="bottom" horizontal="end" slot="fixed">
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
   <ion-fab-button color="primary" [routerLink]="['/create/ltd']">
     <ion-icon name="add"></ion-icon>
   </ion-fab-button>

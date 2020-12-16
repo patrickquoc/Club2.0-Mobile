@@ -14,6 +14,10 @@ export class SocketService{
     return this.socket.connect();
   }
 
+  disconnect() {
+    return this.socket.disconnect();
+  }
+
   joinRoom(discussionId: string, username: string) {
     return this.socket.emit("joinRoom", JSON.stringify({discussionId, username}));
   }

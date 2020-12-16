@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="back()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>STD History</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let std of discussions" (click)="openDetailPage(std)">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-label class="ion-text-start" color="primary">
+              {{std.name}}
+              <ion-icon *ngIf="std.privateFlag" name="lock-closed-outline" position="end"></ion-icon>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label class="sub-title ion-text-start">
+              Categories: {{ getCategoriesToString(std) }} <br>
+              Participants: {{std.users.length}}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+</ion-content>
