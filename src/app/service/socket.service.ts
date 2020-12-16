@@ -19,7 +19,7 @@ export class SocketService{
   }
 
   leaveRoom(discussionId: string, username: string) {
-    this.socket.emit("leaveRoom", JSON.stringify({discussionId, username}));
+   // this.socket.emit("leaveRoom", JSON.stringify({discussionId, username}));
     return this.socket.disconnect();
   }
 
