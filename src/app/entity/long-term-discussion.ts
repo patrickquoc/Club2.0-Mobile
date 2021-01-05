@@ -5,5 +5,5 @@ export interface LongTermDiscussion {
     description: string,
     categories: string[],
     date: Date,
-    private: boolean,
+    privateFlag: boolean,
 }

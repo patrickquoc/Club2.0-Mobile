@@ -19,11 +19,12 @@ export class SocketService{
   }
 
   joinRoom(discussionId: string, username: string) {
+    console.log("Joining Room "+ discussionId);
     return this.socket.emit("joinRoom", JSON.stringify({discussionId, username}));
   }
 
   leaveRoom(discussionId: string, username: string) {
-   // this.socket.emit("leaveRoom", JSON.stringify({discussionId, username}));
+    this.socket.emit("leaveRoom", JSON.stringify({discussionId, username}));
     return this.socket.disconnect();
   }
 

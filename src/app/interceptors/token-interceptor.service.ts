@@ -27,7 +27,7 @@ export class TokenInterceptorService implements HttpInterceptor {
 
         const newReq = req.clone({
           headers,
-          url: req.url.replace('http://', 'https://')
+          //url: req.url.replace('http://', 'https://')
         });
 
         return next.handle(newReq);

@@ -43,7 +43,7 @@ export class STDBasePage implements OnInit {
 
     this.socket.userJoined().subscribe(username => {
       try {
-        console.log(username+ " joined the room.")
+        console.log(username+ " joined the room.");
         this.discussion.users.push(username);
       } catch (error) {
         console.error("userJoined: Failed to parse incoming data: "+ error);
@@ -106,12 +106,13 @@ export class STDBasePage implements OnInit {
   }
 
   leaveRoom() {
-    this.socket.leaveRoom(this.discussion.discussionId, this.username);
-    try {
-      const res = this.http.leaveStd(this.discussion.discussionId, this.username);
-    } catch (error) {
-      console.error("Failed to leave STD: "+ error.text);
-    }
+    this.socket.disconnect();
+    //this.socket.leaveRoom(this.discussion.discussionId, this.username);
+    // try {
+    //   const res = this.http.leaveStd(this.discussion.discussionId, this.username);
+    // } catch (error) {
+    //   console.error("Failed to leave STD: "+ error.text);
+    // }
   }
 
   onStart(event) {

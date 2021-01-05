@@ -31,7 +31,7 @@ export class LTDDetailPage implements OnInit {
     if(this.route.snapshot.data['special']) {
       this.selectedDiscussion = this.route.snapshot.data['special'];
     }
-    if (this.selectedDiscussion.private) {
+    if (this.selectedDiscussion.privateFlag) {
       await this.showPasswordInput();
       // while (this.isPasswordVerified == false) {
       //   this.showPasswordInput
@@ -47,14 +47,14 @@ export class LTDDetailPage implements OnInit {
       // }
     }
     else {
+      this.isPasswordVerified = true;
       this.arguments = await this.http.getArgumentsById(0, this.fetchSize,
         this.selectedDiscussion.discussionId, await this.auth.getUsername(), this.password);
-      this.isPasswordVerified = true;
     }
   }
   
   async showArgumentCreator() {
-    if (this.selectedDiscussion.private && this.isPasswordVerified == false) {
+    if (this.selectedDiscussion.privateFlag && this.isPasswordVerified == false) {
       this.presentToast("Please verify yourself before writing an argument.")
       return;
     }
@@ -128,6 +128,9 @@ export class LTDDetailPage implements OnInit {
               this.presentToast(error.error)
               if (error.error == "Password is not correct") {
                 this.isPasswordVerified = false;
+              }
+              if (error.error == "No Arguments in specified range.") {
+                this.isPasswordVerified = true;
               }
             }
           }
@@ -216,6 +219,6 @@ export class LTDDetailPage implements OnInit {
   }
 
   isAuthenticated() {
-    return this.selectedDiscussion.private == true && this.isPasswordVerified;
+    return this.selectedDiscussion.privateFlag == true && this.isPasswordVerified;
   }
 } 
