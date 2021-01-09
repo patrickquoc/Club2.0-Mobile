@@ -1,7 +1,8 @@
 {
   "name": "Club2dot0Mobile",
   "integrations": {
-    "cordova": {}
+    "cordova": {},
+    "capacitor": {}
   },
   "type": "angular",
   "id": "70c602fa"
