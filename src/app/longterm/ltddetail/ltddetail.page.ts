@@ -34,18 +34,6 @@ export class LTDDetailPage implements OnInit {
     }
     if (this.selectedDiscussion.privateFlag) {
       await this.showPasswordInput();
-      // while (this.isPasswordVerified == false) {
-      //   this.showPasswordInput
-      //     try {
-      //       this.arguments = await this.http.getArgumentsById(0, this.fetchSize,
-      //         this.selectedDiscussion.discussionId, await this.auth.getUsername(), this.password);
-      //         // this.isPasswordVerified = true;
-      //     } catch (error) {
-      //       this.presentToast(error.error);
-      //       console.log(error.error);
-      //     }
-        
-      // }
     }
     else {
       this.isPasswordVerified = true;
