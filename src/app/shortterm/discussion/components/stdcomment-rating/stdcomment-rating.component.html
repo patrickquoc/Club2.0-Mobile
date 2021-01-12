@@ -31,4 +31,13 @@
 <div class="ion-padding-horizontal">
   <ion-button (click)="onSubmitRating()" size="medium" type="submit" color="primary" expand="block">Submit</ion-button>
 </div>
+<div class="ion-text-center submission-info">
+  <ion-text *ngIf="submissionState" >
+    Submitted ratings: {{submissionState.receivedRatings}} Remaining: {{submissionState.totalUsers - submissionState.receivedRatings}}
+  </ion-text>
+  <br>
+  <ion-text *ngIf="ratingSubmitted">
+    Your rating has been submitted.
+  </ion-text>
+</div>
 

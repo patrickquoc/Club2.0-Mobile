@@ -5,8 +5,12 @@ import { AuthService } from 'src/app/service/auth.service';
 import { HttpService } from 'src/app/service/http.service';
 import { STDArgument } from 'src/app/entity/stdargument';
 import { SocketService } from 'src/app/service/socket.service';
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 import { DataService } from 'src/app/service/data.service';
+import { Observable } from 'rxjs';
+import { ArgumentSubmissionStateDto } from 'src/app/dto/argument-submission-state-dto';
+import { RatingSubmissionStateDto } from 'src/app/dto/rating-submission-state-dto';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-stdbase',
@@ -14,21 +18,19 @@ import { DataService } from 'src/app/service/data.service';
   styleUrls: ['./stdbase.page.scss'],
 })
 export class STDBasePage implements OnInit {
-  //TODO: Refactor fields
   private componentCount = 8;
   discussion: ShortTermDiscussion;
   roundArguments: STDArgument[];
-  resultArguments: STDArgument[];
-  allArguments: Array<STDArgument[]>;
+  discussionArguments: Array<STDArgument[]>;
   randomArgument: STDArgument;
-  roundComments: Array<STDArgument>;
-  resultComments: Array<STDArgument>;
   activeComponent = new Array<boolean>(this.componentCount);
   username: string;
   isHost: boolean;
+  argumentSubmissionState: Observable<ArgumentSubmissionStateDto>;
+  ratingSubmissionState: Observable<RatingSubmissionStateDto>;
 
-  constructor(private route: ActivatedRoute, private socket: SocketService, private auth: AuthService, 
-    private http: HttpService, private navController: NavController, private dataService: DataService ) { }
+  constructor(private route: ActivatedRoute, private socket: SocketService, private auth: AuthService,
+     private toastService: ToastService) { }
 
   async ngOnInit() {
     this.username = await this.auth.getUsername();
@@ -65,7 +67,11 @@ export class STDBasePage implements OnInit {
       }
     });
 
+    this.argumentSubmissionState = this.socket.getCurrentArgumentSubmission();
+    this.ratingSubmissionState = this.socket.getCurrentArgumentsRated();
+
     this.socket.discussionStarts().subscribe(() => {
+      this.resetActiveComponents();
       this.activateComponent(1);
     });
 
@@ -76,38 +82,47 @@ export class STDBasePage implements OnInit {
 
     this.socket.getRoundResult().subscribe(args => {
       console.log("Received Round result");
-      this.resultArguments = args;
+      this.roundArguments = args;
       this.activateComponent(3);
     });
 
-    this.socket.endOfDiscussion().subscribe(args => {
-      // this.leaveRoom();
-      // this.dataService.setData(this.discussion.discussionId, this.discussion);
-      // this.navController.navigateRoot('/std/arguments/'+ this.discussion.discussionId, { replaceUrl: true });
-      this.allArguments = args;
-      this.activateComponent(4);
-    }); 
-
     this.socket.nextRound().subscribe(arg => {
       this.randomArgument = arg;
-      this.activateComponent(5);
+      this.activateComponent(4);
     });
 
     this.socket.getRoundComments().subscribe(comments => {
       console.log(comments);
-      this.roundComments = comments;
-      this.activateComponent(6);
+      this.roundArguments = comments;
+      this.activateComponent(5);
     });
 
-    this.socket.getResultComments().subscribe(comments => {
-      // this.resultComments = comments;
-      // this.activateComponent(7);
+    this.socket.endOfDiscussion().subscribe(args => {
+      this.socket.disconnect();
+      // Deprecated
+      // this.leaveRoom();
+      // this.dataService.setData(this.discussion.discussionId, this.discussion);
+      // this.navController.navigateRoot('/std/arguments/'+ this.discussion.discussionId, { replaceUrl: true });
+      this.discussionArguments = args;
+      this.activateComponent(6);
+    }); 
+
+    this.socket.error().subscribe(error => {
+      this.toastService.presentToast(error);
     })
+
+    // Deprecated
+    // this.socket.getResultComments().subscribe(comments => {
+    //   this.resultComments = comments;
+    //   this.activateComponent(7);
+    // })
   }
 
   leaveRoom() {
     this.socket.disconnect();
-    //this.socket.leaveRoom(this.discussion.discussionId, this.username);
+
+    // Deprecated
+    // this.socket.leaveRoom(this.discussion.discussionId, this.username);
     // try {
     //   const res = this.http.leaveStd(this.discussion.discussionId, this.username);
     // } catch (error) {
@@ -116,7 +131,10 @@ export class STDBasePage implements OnInit {
   }
 
   onStart(event) {
-    this.resetActiveComponents();
+    if (this.discussion.users.length == 1) {
+      this.toastService.presentToast("Not enough discussants to start the discussion");
+      return;
+    }
     this.socket.startDiscussion(this.discussion.discussionId, this.discussion.totalRounds);
   }
 
@@ -131,25 +149,28 @@ export class STDBasePage implements OnInit {
 
   onArgumentFinished(argument) {
     this.socket.sendArgument(this.discussion.discussionId, this.username, argument);
-    console.log("Waiting for others to finish writing argument.")
+    console.log("Waiting for others to finish writing argument.");
     //TODO: Loading bar/screen?
   }
 
-  onRatingFinished(ratedArguments) {
+  onRatingFinished(ratedArguments: STDArgument[]) {
     this.socket.submitArgumentRating(ratedArguments);
     console.log("rating submitted");
   }
 
   onCommentFinished(comment: string) {
     this.socket.sendComment(this.discussion.discussionId, this.username, comment, this.randomArgument.text);
+    this.roundArguments = [];
   }
 
   onCommentRatingFinished(comments: STDArgument[]) {
-    //this.socket.sendCommentRating(comments);
     this.socket.submitArgumentRating(comments);
   }
 
   forceStartNextRound() {
     this.socket.forceStartNextRound(this.discussion.discussionId);
+    this.roundArguments = [];
   }
+
+
 }

@@ -6,19 +6,32 @@ import { AuthService } from 'src/app/service/auth.service';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 import { STDArgument } from 'src/app/entity/stdargument';
 import { ToastController } from '@ionic/angular';
+import { Observable } from 'rxjs';
+import { ArgumentSubmissionStateDto } from 'src/app/dto/argument-submission-state-dto';
+import { RatingSubmissionStateDto } from 'src/app/dto/rating-submission-state-dto';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-stdrating',
   templateUrl: './stdrating.component.html',
   styleUrls: ['./stdrating.component.scss'],
 })
-export class STDRatingComponent{
+export class STDRatingComponent implements OnInit{
   @Input() roundArguments: STDArgument[];
   @Input() discussion: ShortTermDiscussion;
   @Input() user: string;
+  @Input() ratingSubmissionState: Observable<RatingSubmissionStateDto>;
   @Output() finished = new EventEmitter<STDArgument[]>();
+  submissionState: RatingSubmissionStateDto;
+  ratingSubmitted: boolean = false;
 
-  constructor(private toastController: ToastController) { }
+  constructor(private toastService: ToastService) { }
+
+  ngOnInit(): void {
+    this.ratingSubmissionState.subscribe(dto => {
+      this.submissionState = dto;
+    })
+  }
 
   onLike(argument: STDArgument) {
     argument.rating[0] == 0 ? argument.rating[0] = 1 : argument.rating[0] = 0;
@@ -41,14 +54,7 @@ export class STDRatingComponent{
 
   onSubmitRating() {
     this.finished.emit(this.roundArguments);
-    this.presentToast("Rating submitted. Please wait for the others to finish.");
-  }
-
-  async presentToast(msg: string) {
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 5000
-    });
-    toast.present();
+    this.ratingSubmitted = true;
+    this.toastService.presentToast("Rating submitted. Please wait for the others to finish.");
   }
 }

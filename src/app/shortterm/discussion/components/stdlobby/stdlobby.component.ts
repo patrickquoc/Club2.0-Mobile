@@ -24,7 +24,6 @@ export class STDLobbyComponent implements OnInit {
   }
 
   startDiscussion() {
-    //this.socket.startDiscussion(this.discussion.discussionId, this.discussion.totalRounds);
     this.start.emit(true);
   }
 }

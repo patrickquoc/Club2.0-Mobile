@@ -8,6 +8,7 @@ import { AlertController, NavController, ToastController } from '@ionic/angular'
 import { CreateArgumentDto } from 'src/app/dto/create-argument-dto';
 import { RatingDto } from 'src/app/dto/rating-dto';
 import { DataService } from 'src/app/service/data.service';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-ltddetail',
@@ -24,7 +25,7 @@ export class LTDDetailPage implements OnInit {
   public isPasswordVerified = false;
 
   constructor(private route: ActivatedRoute, private http: HttpService, private auth: AuthService, 
-    private alertController: AlertController, private toastController: ToastController, private navController: NavController,
+    private alertController: AlertController, private toastService: ToastService, private navController: NavController,
     private dataService: DataService) { }
 
   async ngOnInit() {
@@ -55,7 +56,7 @@ export class LTDDetailPage implements OnInit {
   
   async showArgumentCreator() {
     if (this.selectedDiscussion.privateFlag && this.isPasswordVerified == false) {
-      this.presentToast("Please verify yourself before writing an argument.")
+      this.toastService.presentToast("Please verify yourself before writing an argument.")
       return;
     }
     //TODO: Max character count (approx. 2000)
@@ -89,7 +90,6 @@ export class LTDDetailPage implements OnInit {
             const res = await this.http.sendArgument(argument);
             console.log(res);
             this.arguments.unshift(res);
-            //this.arguments.push(res);
           }
         }
       ]
@@ -125,7 +125,7 @@ export class LTDDetailPage implements OnInit {
                 this.isPasswordVerified = true;
             }
             catch (error) {
-              this.presentToast(error.error)
+              this.toastService.presentToast(error.error)
               if (error.error == "Password is not correct") {
                 this.isPasswordVerified = false;
               }
@@ -195,14 +195,6 @@ export class LTDDetailPage implements OnInit {
     const temp = this.arguments.find(a => a.argumentId == res.argumentId);
     const index = this.arguments.indexOf(temp);
     this.arguments[index] = res;
-  }
-
-  async presentToast(msg: string) {
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 5000
-    });
-    toast.present();
   }
 
   getPositiveRatingColor(argument: Argument): string{

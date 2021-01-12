@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { AuthService } from 'src/app/service/auth.service';
 import { RegisterUser } from 'src/app/dto/register-user';
 import { NavController, ToastController } from '@ionic/angular';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-signup',
@@ -13,10 +14,9 @@ export class SignupPage implements OnInit {
   signupForm: FormGroup;
   isPasswordVisible = false;
   constructor(private fb: FormBuilder, private navController: NavController, private auth: AuthService,
-     private toastController: ToastController) { 
+     private toastService: ToastService) { 
     
   }
-
 
   ngOnInit() {
     this.signupForm = this.fb.group({
@@ -57,7 +57,7 @@ export class SignupPage implements OnInit {
 
   async onSignUp() {
     if (!this.isFormFilledCorrectly()) {
-      this.presentToast("Form is not filled correctly");
+      this.toastService.presentToast("Form is not filled correctly");
       return;
     }
 
@@ -72,7 +72,7 @@ export class SignupPage implements OnInit {
       const res = await this.auth.register(newUser);
       this.navController.navigateBack(['/login']);
     } catch (error) {
-      this.presentToast(error.error);
+      this.toastService.presentToast(error.error);
     }
   }
 
@@ -82,13 +82,5 @@ export class SignupPage implements OnInit {
 
   togglePasswordVisibility() {
     this.isPasswordVisible = ! this.isPasswordVisible;
-  }
-
-  async presentToast(msg: string) {
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 5000
-    });
-    toast.present();
   }
 }
