@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Club2.0</string>
+    <string name="title_activity_main">Club2.0</string>
+    <string name="package_name">htl.dipl.club2point0</string>
+    <string name="custom_url_scheme">htl.dipl.club2point0</string>
+</resources>
