@@ -5,6 +5,7 @@ import { CreateSTDDto } from 'src/app/dto/create-stddto';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 import { DataService } from 'src/app/service/data.service';
 import { NavController, ToastController } from '@ionic/angular';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-stdcreation',
@@ -23,7 +24,7 @@ export class STDCreationPage implements OnInit {
   private username: string;
 
   constructor(private http: HttpService, private auth: AuthService, private navController: NavController,
-    private toastController: ToastController, private dataService: DataService) { }
+    private toastService: ToastService, private dataService: DataService) { }
 
   async ngOnInit() { 
     this.username = await this.auth.getUsername()
@@ -32,20 +33,20 @@ export class STDCreationPage implements OnInit {
   async onCreate() {
 
     if(this.name.length < 1 || this.description.length < 1) {
-      this.presentToast("Cannot create STD: At least 1 input box is empty!")
+      this.toastService.presentToast("Cannot create STD: At least 1 input box is empty!")
       return;
     }
     else if(this.categoriesInput.length < 1) {
-      this.presentToast("Cannot create LTD: Make sure you entered the categories correctly! (Enter after term)");
+      this.toastService.presentToast("Cannot create STD: Make sure you entered the categories correctly! (Enter after term)");
       return;
     }
 
     if (this.userLimit < 2 || this.userLimit > 10) {
-      this.presentToast('Cannot create STD: Invalid participant count');
+      this.toastService.presentToast('Cannot create STD: Invalid participant count');
       return;
     }
     else if (this.maxRounds < 1 || this.maxRounds > 3) {
-      this.presentToast('Cannot create STD: Invalid Round count');
+      this.toastService.presentToast('Cannot create STD: Invalid Round count');
       return;
     }
     
@@ -60,7 +61,7 @@ export class STDCreationPage implements OnInit {
     }
     else {
       if (this.password.length == 0) {
-        this.presentToast("Please enter a password!");
+        this.toastService.presentToast("Please enter a password!");
         return;
       }
     }
@@ -85,19 +86,11 @@ export class STDCreationPage implements OnInit {
       this.navController.navigateForward('participate/std/'+ res.discussionId, {replaceUrl: true});
 
     } catch (error) {
-      this.presentToast(error.error);
+      this.toastService.presentToast(error.error);
     }
   }
 
   togglePasswordVisibility() {
     this.isPasswordVisible = ! this.isPasswordVisible;
-  }
-
-    async presentToast(msg: string) {
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 5000
-    });
-    toast.present();
   }
 }

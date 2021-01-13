@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
+import { ArgumentSubmissionStateDto } from '../dto/argument-submission-state-dto';
+import { RatingSubmissionStateDto } from '../dto/rating-submission-state-dto';
 import { STDArgument } from '../entity/stdargument';
 
 @Injectable({
@@ -18,11 +20,13 @@ export class SocketService{
     return this.socket.disconnect();
   }
 
+  
   joinRoom(discussionId: string, username: string) {
     console.log("Joining Room "+ discussionId);
     return this.socket.emit("joinRoom", JSON.stringify({discussionId, username}));
   }
 
+  //Deprecated
   leaveRoom(discussionId: string, username: string) {
     this.socket.emit("leaveRoom", JSON.stringify({discussionId, username}));
     return this.socket.disconnect();
@@ -92,5 +96,17 @@ export class SocketService{
 
   getResultComments(): Observable<STDArgument[]> {
     return this.socket.fromEvent('resultComments');
+  }
+
+  getCurrentArgumentSubmission(): Observable<ArgumentSubmissionStateDto> {
+    return this.socket.fromEvent('argumentSubmitted');
+  }
+
+  getCurrentArgumentsRated(): Observable<RatingSubmissionStateDto> {
+    return this.socket.fromEvent('argumentsRated');
+  }
+
+  error(): Observable<string> {
+    return this.socket.fromEvent('discussionError');
   }
 }

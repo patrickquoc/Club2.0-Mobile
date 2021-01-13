@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NavController, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/service/auth.service';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginPage implements OnInit {
   loginForm: FormGroup;
 
   constructor(private fb: FormBuilder, private navController: NavController, private auth: AuthService,
-     private toastController: ToastController) { }
+     private toastService: ToastService) { }
 
   async ngOnInit(): Promise<void> {
     this.loginForm = this.fb.group({
@@ -47,18 +48,10 @@ export class LoginPage implements OnInit {
       }
     } catch (error) {
       if (error instanceof ProgressEvent) {
-        this.presentToast("Connection error");
+        this.toastService.presentToast("Connection error");
       }
-      this.presentToast(error.error);
+      this.toastService.presentToast(error.error);
       return;
      }
-  }
-
-  async presentToast(msg: string) {
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 5000
-    });
-    toast.present();
   }
 }

@@ -4,6 +4,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { CreateLTDDto } from 'src/app/dto/create-ltddto';
 import { AuthService } from 'src/app/service/auth.service';
 import { NavController, ToastController } from '@ionic/angular';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-ltdcreation',
@@ -17,18 +18,19 @@ export class LTDCreationPage implements OnInit {
   private: boolean = false;
   password = '';
   isPasswordVisible = false;
-  constructor(private http: HttpService, private auth: AuthService, private navController: NavController, private toastController: ToastController) { }
+  constructor(private http: HttpService, private auth: AuthService, private navController: NavController,
+     private toastService: ToastService) { }
 
   ngOnInit() {
   }
 
   async onCreate() {
     if(this.name.length < 1 || this.description.length < 1) {
-      this.presentToast("Cannot create LTD: At least 1 input box is empty!")
+      this.toastService.presentToast("Cannot create LTD: At least 1 input box is empty!")
       return;
     }
     else if (this.categoriesInput.length < 1) {
-      this.presentToast("Cannot create LTD: Make sure you entered the categories correctly! (Enter after term)");
+      this.toastService.presentToast("Cannot create LTD: Make sure you entered the categories correctly! (Enter after term)");
       return;
     }
 
@@ -43,7 +45,7 @@ export class LTDCreationPage implements OnInit {
     }
     else {
       if (this.password.length == 0) {
-        this.presentToast("Please enter a password!");
+        this.toastService.presentToast("Please enter a password!");
         return;
       }
     }
@@ -60,23 +62,15 @@ export class LTDCreationPage implements OnInit {
     try {
       const res = await this.http.createLtd(ltd);
       if(res != null) {
-        this.presentToast('Discussion created');
+        this.toastService.presentToast('Discussion created');
         this.navController.navigateRoot("/home", {replaceUrl: true});
       }
     } catch (error) {
-      this.presentToast(error.error);
+      this.toastService.presentToast(error.error);
     }
   }
 
   togglePasswordVisibility() {
     this.isPasswordVisible = ! this.isPasswordVisible;
-  }
-
-  async presentToast(msg: string) {
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 5000
-    });
-    toast.present();
   }
 }

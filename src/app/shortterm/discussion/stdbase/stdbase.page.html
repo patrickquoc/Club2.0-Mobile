@@ -12,6 +12,7 @@
   <app-stdargument-creator 
     *ngIf="activeComponent[1]" 
     [discussion]="discussion" 
+    [argumentSubmissionState]="argumentSubmissionState"
     (finished)="onArgumentFinished($event)">
   </app-stdargument-creator>
   <app-stdrating 
@@ -19,35 +20,39 @@
     [discussion]="discussion" 
     [roundArguments]="roundArguments" 
     [user]="username"
+    [ratingSubmissionState]="ratingSubmissionState"
     (finished)="onRatingFinished($event)">
   </app-stdrating>
   <app-stdresult 
-    *ngIf="resultArguments && activeComponent[3]" 
-    [arguments]="resultArguments" 
+    *ngIf="roundArguments && activeComponent[3]" 
+    [arguments]="roundArguments" 
     [isHost]="isHost" 
     (nextRound)="forceStartNextRound()">
   </app-stdresult>
-  <app-stdsummary 
-    *ngIf="allArguments && activeComponent[4]" 
-    [discussion]="discussion" 
-    [allArguments]="allArguments">
-  </app-stdsummary>
   <app-stdcomment 
-    *ngIf="randomArgument && activeComponent[5]" 
+    *ngIf="randomArgument && activeComponent[4]" 
     [discussion]="discussion" 
     [argument]="randomArgument"
+    [commentSubmissionState]="argumentSubmissionState"
     (comment)="onCommentFinished($event)">
   </app-stdcomment> 
   <app-stdcomment-rating 
-    *ngIf="roundComments && activeComponent[6]"
-    [roundComments]="roundComments"
+    *ngIf="roundArguments && activeComponent[5]"
+    [roundComments]="roundArguments"
     [discussion]="discussion"
     [user]="username"
+    [ratingSubmissionState]="ratingSubmissionState"
     (finished)="onCommentRatingFinished($event)">
   </app-stdcomment-rating>
-  <app-stdcomment-result
-    *ngIf="resultComments && activeComponent[7]"
-    [comments]="resultComments"
+  <app-stdsummary 
+    *ngIf="discussionArguments && activeComponent[6]" 
+    [discussion]="discussion" 
+    [allArguments]="discussionArguments">
+  </app-stdsummary>
+  <!-- Deprecated
+    <app-stdcomment-result
+    *ngIf="roundArguments && activeComponent[7]"
+    [comments]="roundArguments"
     [isHost]="isHost">
-  </app-stdcomment-result>
+  </app-stdcomment-result> -->
 </ion-content>

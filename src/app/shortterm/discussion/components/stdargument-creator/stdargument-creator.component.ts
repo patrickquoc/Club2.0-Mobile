@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ToastController } from '@ionic/angular';
+import { Observable } from 'rxjs';
+import { ArgumentSubmissionStateDto } from 'src/app/dto/argument-submission-state-dto';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-stdargument-creator',
@@ -8,29 +11,29 @@ import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
   styleUrls: ['./stdargument-creator.component.scss'],
 })
 export class STDArgumentCreatorComponent implements OnInit {
-  @Input() discussion: ShortTermDiscussion;  
+  @Input() discussion: ShortTermDiscussion;
+  @Input() argumentSubmissionState: Observable<ArgumentSubmissionStateDto>;  
   @Output() finished = new EventEmitter<string>();
+  submissionState: ArgumentSubmissionStateDto;
+  argumentSubmitted: boolean = false;
   argument: string;
 
-  constructor(private toastController: ToastController) { }
+  constructor(private toastService: ToastService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.argumentSubmissionState.subscribe(dto => {
+      this.submissionState = dto;
+    })
+  }
 
   onSubmit() {
     if(this.argument.length == 0) {
-      this.presentToast("Please enter an argument");
+      this.toastService.presentToast("Please enter an argument");
     }
     else {
       this.finished.emit(this.argument);
-      this.presentToast("Sending argument. Please wait for the others to finish.");
+      this.argumentSubmitted = true;
+      this.toastService.presentToast("Sending argument. Please wait for the others to finish.");
     }
-  }
-
-  async presentToast(msg: string) {
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 5000
-    });
-    toast.present();
   }
 }

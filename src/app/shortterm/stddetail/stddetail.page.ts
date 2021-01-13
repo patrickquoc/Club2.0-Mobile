@@ -5,6 +5,7 @@ import { HttpService } from 'src/app/service/http.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
 import { DataService } from 'src/app/service/data.service';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-stddetail',
@@ -14,7 +15,7 @@ import { DataService } from 'src/app/service/data.service';
 export class STDDetailPage implements OnInit {
   selectedDiscussion: ShortTermDiscussion;
   constructor(private route: ActivatedRoute, private http: HttpService, private auth: AuthService, 
-    private toastController: ToastController, private alertController: AlertController,
+    private toastService: ToastService, private alertController: AlertController,
     private navController: NavController, private dataService: DataService) { }
 
   ngOnInit() {
@@ -55,7 +56,7 @@ export class STDDetailPage implements OnInit {
                 this.dataService.setData(res.discussionId, res);
                 this.navController.navigateForward('participate/std/'+ res.discussionId, {replaceUrl: true});
               } catch (error) {
-                this.presentToast(error.error);
+                this.toastService.presentToast(error.error);
               }
             }
           }
@@ -70,15 +71,8 @@ export class STDDetailPage implements OnInit {
         this.dataService.setData(res.discussionId, res);
         this.navController.navigateForward('participate/std/'+ res.discussionId, {replaceUrl: true});
       } catch (error) {
-        this.presentToast(error.error);
+        this.toastService.presentToast(error.error);
       }
     }
-  }
-  async presentToast(msg: string) {
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 5000
-    });
-    toast.present();
   }
 }

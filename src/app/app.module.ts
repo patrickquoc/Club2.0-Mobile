@@ -21,6 +21,8 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
 import { TokenInterceptorService } from './interceptors/token-interceptor.service';
 import { DatePipe } from '@angular/common';
+import { ToastService } from './service/toast.service';
+import { SocketService } from './service/socket.service';
 const config: SocketIoConfig = { url: `${environment.wsConnection}`, options: {} };
 
 
@@ -44,6 +46,8 @@ const config: SocketIoConfig = { url: `${environment.wsConnection}`, options: {}
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     HttpService,
     AuthService,
+    ToastService,
+    SocketService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}
   ],
   bootstrap: [AppComponent]

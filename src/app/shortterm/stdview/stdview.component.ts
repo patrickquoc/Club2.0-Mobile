@@ -3,6 +3,7 @@ import { HttpService } from 'src/app/service/http.service';
 import { DataService } from 'src/app/service/data.service';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-stdview',
@@ -19,7 +20,7 @@ export class STDViewComponent implements OnInit {
   private isFilteredByUser = false;
 
   constructor(private http: HttpService, private dataService: DataService, private navController: NavController,
-    private alertController: AlertController, private toastController: ToastController) {
+    private alertController: AlertController, private toastService: ToastService) {
     this.getNextDiscussions();
   }
 
@@ -43,7 +44,7 @@ export class STDViewComponent implements OnInit {
           await this.http.getStdsByCategory(this.pageIndex, this.fetchSize, search)
         );
       } catch (error) {
-        this.presentToast(error.error);
+        this.toastService.presentToast(error.error);
         return false;
       }
     }
@@ -51,7 +52,7 @@ export class STDViewComponent implements OnInit {
       try {
         this.discussions = this.discussions.concat(await this.http.getStdsPaged(this.pageIndex, this.fetchSize));
       } catch (error) {
-        this.presentToast(error.error);
+        this.toastService.presentToast(error.error);
         return false;
       }
     }
@@ -78,7 +79,7 @@ export class STDViewComponent implements OnInit {
     try {
       this.discussions = await this.http.getStdsPaged(this.pageIndex, this.fetchSize);
     } catch (error) {
-      this.presentToast(error.error);
+      this.toastService.presentToast(error.error);
       return false;
     }
     return true;
@@ -193,13 +194,5 @@ export class STDViewComponent implements OnInit {
     if (res == true) {
       event.target.complete();
     }
-  }
-  
-  async presentToast(msg: string) {
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 5000
-    });
-    toast.present();
   }
 }

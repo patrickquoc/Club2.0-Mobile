@@ -4,6 +4,7 @@ import { HttpService } from 'src/app/service/http.service';
 import { DataService } from 'src/app/service/data.service';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/service/auth.service';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-ltdview',
@@ -20,7 +21,7 @@ export class LTDViewComponent implements OnInit {
   private isFilteredByUser = false;
 
   constructor(private http: HttpService, private dataService: DataService, private navController: NavController,
-    private alertController: AlertController, private toastController: ToastController, private auth: AuthService) {
+    private alertController: AlertController, private toastService: ToastService, private auth: AuthService) {
     this.getNextDiscussions();
   }
 
@@ -44,7 +45,7 @@ export class LTDViewComponent implements OnInit {
           await this.http.getLtdsByCategory(this.pageIndex, this.fetchSize, search)
         );
       } catch (error) {
-        this.presentToast(error.error);
+        this.toastService.presentToast(error.error);
         return false;
       }
     }
@@ -52,7 +53,7 @@ export class LTDViewComponent implements OnInit {
       try {
         this.discussions = this.discussions.concat(await this.http.getLtdsPaged(this.pageIndex, this.fetchSize));
       } catch (error) {
-        this.presentToast(error.error);
+        this.toastService.presentToast(error.error);
         return false;
       }
     }
@@ -76,7 +77,7 @@ export class LTDViewComponent implements OnInit {
     try {
       this.discussions = await this.http.getLtdsByCategory(this.pageIndex, this.fetchSize, search);
     } catch (error) {
-      this.presentToast(error.error);
+      this.toastService.presentToast(error.error);
     }
     
   }
@@ -85,7 +86,7 @@ export class LTDViewComponent implements OnInit {
     try {
       this.discussions = await this.http.getLtdsByName(this.searchString);
     } catch (error) {
-      this.presentToast(error.error);
+      this.toastService.presentToast(error.error);
     }
     
   }
@@ -100,7 +101,7 @@ export class LTDViewComponent implements OnInit {
     try {
       this.discussions = await this.http.getLtdsPaged(this.pageIndex, this.fetchSize);
     } catch (error) {
-      this.presentToast(error.error)
+      this.toastService.presentToast(error.error)
       return false;
     }
     return true;
@@ -194,14 +195,6 @@ export class LTDViewComponent implements OnInit {
       this.isFilteredByName = true;
       await this.getDiscussionsByName();
     }
-  }
-
-  async presentToast(msg: string) {
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 5000
-    });
-    toast.present();
   }
 
   async refreshDiscussions(event) {
