@@ -18,16 +18,21 @@ import { ToastService } from 'src/app/service/toast.service';
   styleUrls: ['./stdbase.page.scss'],
 })
 export class STDBasePage implements OnInit {
-  private componentCount = 8;
-  discussion: ShortTermDiscussion;
-  roundArguments: STDArgument[];
-  discussionArguments: Array<STDArgument[]>;
-  randomArgument: STDArgument;
+  private readonly componentCount = 8;
   activeComponent = new Array<boolean>(this.componentCount);
+  discussion: ShortTermDiscussion;
   username: string;
   isHost: boolean;
+  blockNotification: string = "";
+
+
+  randomArgument: STDArgument;
+  roundArguments: STDArgument[];
+  discussionArguments: Array<STDArgument[]>; 
+
   argumentSubmissionState: Observable<ArgumentSubmissionStateDto>;
   ratingSubmissionState: Observable<RatingSubmissionStateDto>;
+
 
   constructor(private route: ActivatedRoute, private socket: SocketService, private auth: AuthService,
      private toastService: ToastService) { }
@@ -70,6 +75,16 @@ export class STDBasePage implements OnInit {
     this.argumentSubmissionState = this.socket.getCurrentArgumentSubmission();
     this.ratingSubmissionState = this.socket.getCurrentArgumentsRated();
 
+    this.socket.getNotificationBlocked().subscribe(message => {
+      this.toastService.presentToast(message);
+      this.blockNotification = message;
+    });
+
+    this.socket.getNotificationContinue().subscribe(message => {
+      this.toastService.presentToast(message);
+      this.blockNotification = "";
+    });
+
     this.socket.discussionStarts().subscribe(() => {
       this.resetActiveComponents();
       this.activateComponent(1);
@@ -99,35 +114,19 @@ export class STDBasePage implements OnInit {
 
     this.socket.endOfDiscussion().subscribe(args => {
       this.socket.disconnect();
-      // Deprecated
-      // this.leaveRoom();
-      // this.dataService.setData(this.discussion.discussionId, this.discussion);
-      // this.navController.navigateRoot('/std/arguments/'+ this.discussion.discussionId, { replaceUrl: true });
       this.discussionArguments = args;
       this.activateComponent(6);
     }); 
 
     this.socket.error().subscribe(error => {
       this.toastService.presentToast(error);
-    })
-
-    // Deprecated
-    // this.socket.getResultComments().subscribe(comments => {
-    //   this.resultComments = comments;
-    //   this.activateComponent(7);
-    // })
+    });
+    
+    
   }
 
   leaveRoom() {
     this.socket.disconnect();
-
-    // Deprecated
-    // this.socket.leaveRoom(this.discussion.discussionId, this.username);
-    // try {
-    //   const res = this.http.leaveStd(this.discussion.discussionId, this.username);
-    // } catch (error) {
-    //   console.error("Failed to leave STD: "+ error.text);
-    // }
   }
 
   onStart(event) {
@@ -150,7 +149,6 @@ export class STDBasePage implements OnInit {
   onArgumentFinished(argument) {
     this.socket.sendArgument(this.discussion.discussionId, this.username, argument);
     console.log("Waiting for others to finish writing argument.");
-    //TODO: Loading bar/screen?
   }
 
   onRatingFinished(ratedArguments: STDArgument[]) {
@@ -171,6 +169,4 @@ export class STDBasePage implements OnInit {
     this.socket.forceStartNextRound(this.discussion.discussionId);
     this.roundArguments = [];
   }
-
-
 }

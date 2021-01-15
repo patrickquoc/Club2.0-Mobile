@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 import { AuthService } from 'src/app/service/auth.service';
-import { Socket } from 'ngx-socket-io';
 import { SocketService } from 'src/app/service/socket.service';
 @Component({
   selector: 'app-stdlobby',

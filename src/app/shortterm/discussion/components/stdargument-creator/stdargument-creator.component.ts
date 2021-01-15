@@ -12,7 +12,8 @@ import { ToastService } from 'src/app/service/toast.service';
 })
 export class STDArgumentCreatorComponent implements OnInit {
   @Input() discussion: ShortTermDiscussion;
-  @Input() argumentSubmissionState: Observable<ArgumentSubmissionStateDto>;  
+  @Input() argumentSubmissionState: Observable<ArgumentSubmissionStateDto>;
+  @Input() isBlocked: boolean;  
   @Output() finished = new EventEmitter<string>();
   submissionState: ArgumentSubmissionStateDto;
   argumentSubmitted: boolean = false;
@@ -33,7 +34,6 @@ export class STDArgumentCreatorComponent implements OnInit {
     else {
       this.finished.emit(this.argument);
       this.argumentSubmitted = true;
-      this.toastService.presentToast("Sending argument. Please wait for the others to finish.");
     }
   }
 }

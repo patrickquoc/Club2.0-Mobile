@@ -23,7 +23,15 @@ import { TokenInterceptorService } from './interceptors/token-interceptor.servic
 import { DatePipe } from '@angular/common';
 import { ToastService } from './service/toast.service';
 import { SocketService } from './service/socket.service';
-const config: SocketIoConfig = { url: `${environment.wsConnection}`, options: {} };
+const config: SocketIoConfig = { 
+  url: `${environment.wsConnection}`, 
+  options: {
+    'reconnection': true,
+    'reconnectionDelay': 1000,
+    'reconnectionDelayMax' : 5000,
+    'reconnectionAttempts': 10
+  } 
+};
 
 
 @NgModule({
