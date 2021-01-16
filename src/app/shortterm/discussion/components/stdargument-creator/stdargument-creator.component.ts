@@ -13,7 +13,7 @@ import { ToastService } from 'src/app/service/toast.service';
 export class STDArgumentCreatorComponent implements OnInit {
   @Input() discussion: ShortTermDiscussion;
   @Input() argumentSubmissionState: Observable<ArgumentSubmissionStateDto>;
-  @Input() isBlocked: boolean;  
+  @Input() blockNotification: string;  
   @Output() finished = new EventEmitter<string>();
   submissionState: ArgumentSubmissionStateDto;
   argumentSubmitted: boolean = false;

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { STDCommentResultComponent } from './stdcomment-result.component';
@@ -7,7 +7,7 @@ describe('STDCommentResultComponent', () => {
   let component: STDCommentResultComponent;
   let fixture: ComponentFixture<STDCommentResultComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ STDCommentResultComponent ],
       imports: [IonicModule.forRoot()]

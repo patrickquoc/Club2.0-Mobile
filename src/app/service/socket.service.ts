@@ -6,20 +6,17 @@ import { RatingSubmissionStateDto } from '../dto/rating-submission-state-dto';
 import { ShortTermDiscussion } from '../entity/short-term-discussion';
 import { STDArgument } from '../entity/stdargument';
 import { AuthService } from './auth.service';
-import * as io from 'socket.io-client'
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SocketService {
-  private socket: SocketIOClient.Socket;
   private currentDiscussionId: string = "";
   private username: string;
   private reconnecting: boolean = false;
 
-  constructor() { 
-    this.socket = io.connect(environment.wsConnection);
+  constructor(private socket: Socket) { 
     this.socket.on("reconnect", () => this.reconnecting = true);
     this.socket.on("connect", () => {
       console.log("connecting to socket server");
@@ -65,20 +62,12 @@ export class SocketService {
     return this.socket.disconnect();
   }
 
-  userJoined(): Observable<string> {
-    return new Observable (observer => {
-      this.socket.on('userJoined', (user) => {
-        observer.next(user);
-      });
-    });
+  userJoined(): Observable<any> {
+    return this.socket.fromEvent('userJoined');
   }
 
-  userLeft(): Observable<string> {
-    return new Observable (observer => {
-      this.socket.on('userLeft', (user) => {
-        observer.next(user);
-      });
-    });
+  userLeft(): Observable<any> {
+    return this.socket.fromEvent('userLeft');
   }
 
   startDiscussion(discussionId: string, rounds: number) {
@@ -88,11 +77,7 @@ export class SocketService {
   }
 
   discussionStarts() {
-    return new Observable (observer => {
-      this.socket.on('forceStartDiscussion', () => {
-        observer.next();
-      });
-    });
+    return this.socket.fromEvent("forceStartDiscussion");
   }
 
   sendArgument(discussionId: string, username: string, argumentText: string) {
@@ -101,11 +86,7 @@ export class SocketService {
   }
 
   getRoundArguments() : Observable<STDArgument[]> {
-    return new Observable (observer => {
-      this.socket.on('roundArguments', (args: STDArgument[]) => {
-        observer.next(args);
-      });
-    });
+    return this.socket.fromEvent("roundArguments");
   }
 
   submitArgumentRating(ratedArguments: STDArgument[]) {
@@ -113,19 +94,11 @@ export class SocketService {
   }
 
   getRoundResult() : Observable<STDArgument[]> {
-    return new Observable (observer => {
-      this.socket.on('resultArguments', (args: STDArgument[]) => {
-        observer.next(args);
-      });
-    });
+    return this.socket.fromEvent("resultArguments");
   }
 
   endOfDiscussion() : Observable<Array<STDArgument[]>> {
-    return new Observable (observer => {
-      this.socket.on('endOfDiscussion', (args: Array<STDArgument[]>) => {
-        observer.next(args);
-      });
-    });
+    return this.socket.fromEvent("endOfDiscussion");
   }
 
   forceStartNextRound(discussionId: string) {
@@ -133,11 +106,7 @@ export class SocketService {
   }
 
   nextRound(): Observable<STDArgument> {
-    return new Observable (observer => {
-      this.socket.on('nextRound', (arg: STDArgument) => {
-        observer.next(arg);
-      });
-    });
+    return this.socket.fromEvent('nextRound');
   }
 
   sendComment(discussionId: string, username: string, argumentText: string, prevArgumentText: string) {
@@ -151,58 +120,32 @@ export class SocketService {
 
   getRoundComments(): Observable<STDArgument[]> {
     console.log("Received Round comments");
-    return  new Observable (observer => {
-      this.socket.on('roundComments', (comments: STDArgument[]) => {
-        observer.next(comments);
-      });
-    });
+    return this.socket.fromEvent('roundComments');
   }
 
   getResultComments(): Observable<STDArgument[]> {
-    return new Observable (observer => {
-      this.socket.on('resultComments', (args: STDArgument[]) => {
-        observer.next(args);
-      });
-    });
+    return this.socket.fromEvent('resultComments');
   }
 
   getCurrentArgumentSubmission(): Observable<ArgumentSubmissionStateDto> {
-    return new Observable (observer => {
-      this.socket.on('argumentSubmitted', (state: ArgumentSubmissionStateDto) => {
-        observer.next(state);
-      });
-    });
+    return this.socket.fromEvent('argumentSubmitted');
   }
 
   getCurrentArgumentsRated(): Observable<RatingSubmissionStateDto> {
-    return new Observable (observer => {
-      this.socket.on('argumentsRated', (state: RatingSubmissionStateDto) => {
-        observer.next(state);
-      });
-    });
+    return this.socket.fromEvent('argumentsRated');
   }
 
   error(): Observable<string> {
-    return new Observable (observer => {
-      this.socket.on('error', (error: string) => {
-        observer.next(error);
-      });
-    });
+    return this.socket.fromEvent('discussionError');
   }
 
   getNotificationBlocked(): Observable<string> {
-     return new Observable (observer => {
-      this.socket.on('discussionBlocked', (message: string) => {
-        observer.next(message);
-      });
-    });
+    return this.socket.fromEvent('discussionBlocked');
   }
 
   getNotificationContinue(): Observable<string> {
-    return new Observable (observer => {
-      this.socket.on('discussionContinue', (message: string) => {
-        observer.next(message);
-      });
-    });
+    return this.socket.fromEvent('discussionContinue');
   }
+
+
 }

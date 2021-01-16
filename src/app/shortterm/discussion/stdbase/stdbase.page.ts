@@ -25,7 +25,6 @@ export class STDBasePage implements OnInit {
   isHost: boolean;
   blockNotification: string = "";
 
-
   randomArgument: STDArgument;
   roundArguments: STDArgument[];
   discussionArguments: Array<STDArgument[]>; 
