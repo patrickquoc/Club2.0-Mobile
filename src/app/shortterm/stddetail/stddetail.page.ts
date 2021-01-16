@@ -66,10 +66,9 @@ export class STDDetailPage implements OnInit {
     }
     else {
       try {
-        
         const res = await this.http.joinStd(this.selectedDiscussion.discussionId, await this.auth.getUsername());
         this.dataService.setData(res.discussionId, res);
-        this.navController.navigateRoot('participate/std/'+ res.discussionId, {replaceUrl: true});
+        this.navController.navigateForward('participate/std/'+ res.discussionId, {replaceUrl: true});
       } catch (error) {
         this.toastService.presentToast(error.error);
       }

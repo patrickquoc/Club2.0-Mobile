@@ -7,10 +7,11 @@ import { STDArgument } from 'src/app/entity/stdargument';
 import { SocketService } from 'src/app/service/socket.service';
 import { NavController, ToastController } from '@ionic/angular';
 import { DataService } from 'src/app/service/data.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ArgumentSubmissionStateDto } from 'src/app/dto/argument-submission-state-dto';
 import { RatingSubmissionStateDto } from 'src/app/dto/rating-submission-state-dto';
 import { ToastService } from 'src/app/service/toast.service';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-stdbase',
@@ -32,10 +33,23 @@ export class STDBasePage implements OnInit {
   argumentSubmissionState: Observable<ArgumentSubmissionStateDto>;
   ratingSubmissionState: Observable<RatingSubmissionStateDto>;
 
+  backButtonSubscription: Subscription;
 
   constructor(private route: ActivatedRoute, private socket: SocketService, private auth: AuthService,
-     private toastService: ToastService) { }
+     private toastService: ToastService, private platfrom: Platform) { }
 
+  //Call on opening the view
+  ionViewDidEnter() {
+    this.backButtonSubscription = this.platfrom.backButton.subscribeWithPriority(9999, () => {
+      //Keeping this empty means button won't react
+    });
+  }
+
+  //Call on closing the view
+  ionViewWillLeave() {
+    //Unsubscribing otherwise backbutton will be disabled forever
+    this.backButtonSubscription.unsubscribe();
+  }
   async ngOnInit() {
     this.username = await this.auth.getUsername();
     if(this.route.snapshot.data['special']) {
@@ -49,7 +63,7 @@ export class STDBasePage implements OnInit {
 
     this.socket.userJoined().subscribe(username => {
       try {
-        console.log(username+ " joined the room.");
+        this.toastService.presentToast(username+ " joined the room.");
         this.discussion.users.push(username);
       } catch (error) {
         console.error("userJoined: Failed to parse incoming data: "+ error);
@@ -58,7 +72,7 @@ export class STDBasePage implements OnInit {
 
     this.socket.userLeft().subscribe(username => {
       try {
-        console.log(username+ " left the room.");
+        this.toastService.presentToast(username+ " left the room.");
         const index = this.discussion.users.indexOf(username);
         if (index != null) {
           this.discussion.users.splice(index, 1);
@@ -95,7 +109,6 @@ export class STDBasePage implements OnInit {
     });
 
     this.socket.getRoundResult().subscribe(args => {
-      console.log("Received Round result");
       this.roundArguments = args;
       this.activateComponent(3);
     });
@@ -106,7 +119,6 @@ export class STDBasePage implements OnInit {
     });
 
     this.socket.getRoundComments().subscribe(comments => {
-      console.log(comments);
       this.roundArguments = comments;
       this.activateComponent(5);
     });
@@ -147,12 +159,10 @@ export class STDBasePage implements OnInit {
 
   onArgumentFinished(argument) {
     this.socket.sendArgument(this.discussion.discussionId, this.username, argument);
-    console.log("Waiting for others to finish writing argument.");
   }
 
   onRatingFinished(ratedArguments: STDArgument[]) {
     this.socket.submitArgumentRating(ratedArguments);
-    console.log("rating submitted");
   }
 
   onCommentFinished(comment: string) {
