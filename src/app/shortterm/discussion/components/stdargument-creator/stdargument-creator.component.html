@@ -26,12 +26,11 @@
 <div class="ion-padding-horizontal">
   <ion-button (click)="onSubmit()" size="medium" type="submit" color="primary" expand="block">Submit</ion-button>
 </div>
-<div class="ion-text-center alert-message">
-  <ion-text *ngIf="blockNotification.length() > 0">
+<div class="ion-text-center submission-info">
+  <ion-text *ngIf="blockNotification.length > 0" color="danger">
     {{ blockNotification }} 
   </ion-text>
-</div>
-<div class="ion-text-center submission-info">
+  <br>
   <ion-text *ngIf="submissionState" >
     Submitted arguments: {{submissionState.receivedArguments}} Remaining: {{submissionState.totalUsers - submissionState.receivedArguments}}
   </ion-text>

@@ -143,8 +143,8 @@ export class SocketService {
     return this.socket.fromEvent('discussionBlocked');
   }
 
-  getNotificationContinue(): Observable<string> {
-    return this.socket.fromEvent('discussionContinue');
+  getNotificationContinues(): Observable<string> {
+    return this.socket.fromEvent('discussionContinued');
   }
 
 

@@ -21,11 +21,12 @@ export class STDRatingComponent implements OnInit{
   @Input() discussion: ShortTermDiscussion;
   @Input() user: string;
   @Input() ratingSubmissionState: Observable<RatingSubmissionStateDto>;
+  @Input() blockNotification: string;  
   @Output() finished = new EventEmitter<STDArgument[]>();
   submissionState: RatingSubmissionStateDto;
   ratingSubmitted: boolean = false;
 
-  constructor(private toastService: ToastService) { }
+  constructor() { }
 
   ngOnInit(): void {
     this.ratingSubmissionState.subscribe(dto => {
@@ -55,6 +56,5 @@ export class STDRatingComponent implements OnInit{
   onSubmitRating() {
     this.finished.emit(this.roundArguments);
     this.ratingSubmitted = true;
-    this.toastService.presentToast("Rating submitted. Please wait for the others to finish.");
   }
 }

@@ -15,6 +15,7 @@ export class STDCommentComponent implements OnInit {
   @Input() discussion: ShortTermDiscussion
   @Input() argument: STDArgument;
   @Input() commentSubmissionState: Observable<ArgumentSubmissionStateDto>;
+  @Input() blockNotification: string;  
   @Output() comment = new EventEmitter<string>();
   input: string;
   submissionState: ArgumentSubmissionStateDto;
@@ -35,7 +36,6 @@ export class STDCommentComponent implements OnInit {
     else {
       this.commentSubmitted = true;
       this.comment.emit(this.input);
-      this.toastService.presentToast("Sending comment. Please wait for others to finish.")
     }
   }
 }

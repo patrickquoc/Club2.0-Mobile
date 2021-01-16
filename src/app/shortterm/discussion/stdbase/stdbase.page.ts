@@ -79,7 +79,7 @@ export class STDBasePage implements OnInit {
       this.blockNotification = message;
     });
 
-    this.socket.getNotificationContinue().subscribe(message => {
+    this.socket.getNotificationContinues().subscribe(message => {
       this.toastService.presentToast(message);
       this.blockNotification = "";
     });
