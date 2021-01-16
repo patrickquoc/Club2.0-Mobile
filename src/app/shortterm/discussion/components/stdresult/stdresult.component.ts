@@ -10,6 +10,7 @@ import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 export class STDResultComponent implements OnInit {
   @Input() arguments: STDArgument[];
   @Input() isHost: boolean;
+  @Input() blockNotification: string;  
   @Output() nextRound = new EventEmitter();
 
   constructor() { }

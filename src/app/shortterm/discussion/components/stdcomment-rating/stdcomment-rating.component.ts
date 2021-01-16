@@ -16,6 +16,7 @@ export class STDCommentRatingComponent implements OnInit {
   @Input() discussion: ShortTermDiscussion;
   @Input() user: string;
   @Input() ratingSubmissionState: Observable<RatingSubmissionStateDto>;
+  @Input() blockNotification: string;  
   @Output() finished = new EventEmitter<STDArgument[]>();
   ratingSubmitted: boolean = false;
   submissionState: RatingSubmissionStateDto;
@@ -49,6 +50,5 @@ export class STDCommentRatingComponent implements OnInit {
   onSubmitRating() {
     this.finished.emit(this.roundComments);
     this.ratingSubmitted = true;
-    this.toastService.presentToast("Rating submitted. Please wait for the others to finish.");
   }
 }

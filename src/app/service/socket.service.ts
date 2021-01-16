@@ -1,16 +1,45 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
 import { ArgumentSubmissionStateDto } from '../dto/argument-submission-state-dto';
 import { RatingSubmissionStateDto } from '../dto/rating-submission-state-dto';
+import { ShortTermDiscussion } from '../entity/short-term-discussion';
 import { STDArgument } from '../entity/stdargument';
+import { AuthService } from './auth.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SocketService{
+export class SocketService {
+  private currentDiscussionId: string = "";
+  private username: string;
+  private reconnecting: boolean = false;
 
-  constructor(private socket: Socket) {  }
+  constructor(private socket: Socket) { 
+    this.socket.on("reconnect", () => this.reconnecting = true);
+    this.socket.on("connect", () => {
+      console.log("connecting to socket server");
+
+      //Rejoin room only on reconnect
+      if (this.reconnecting) {
+        console.log("trying to reconnect to "+ this.currentDiscussionId);
+
+        if (this.currentDiscussionId == null || this.username.length < 1) {
+          console.log("Error reconnecting");
+          return;
+        }
+    
+        var dto = {
+          discussionId: this.currentDiscussionId, 
+          username: this.username
+        };
+    
+        this.socket.emit("rejoinRoom", JSON.stringify(dto));
+        this.reconnecting = false;
+      }
+    });
+  }
 
   connect() {
     return this.socket.connect();
@@ -20,13 +49,14 @@ export class SocketService{
     return this.socket.disconnect();
   }
 
-  
   joinRoom(discussionId: string, username: string) {
+    this.currentDiscussionId = discussionId;
+    this.username = username;
     console.log("Joining Room "+ discussionId);
     return this.socket.emit("joinRoom", JSON.stringify({discussionId, username}));
   }
 
-  //Deprecated
+  //Deprecated method
   leaveRoom(discussionId: string, username: string) {
     this.socket.emit("leaveRoom", JSON.stringify({discussionId, username}));
     return this.socket.disconnect();
@@ -80,7 +110,6 @@ export class SocketService{
   }
 
   sendComment(discussionId: string, username: string, argumentText: string, prevArgumentText: string) {
-    //return this.socket.emit("newComment", JSON.stringify({discussionId, username, argumentText, prevArgumentText}));
     return this.socket
       .emit("newArgument", JSON.stringify({discussionId, username, argumentText, prevArgumentText, date: new Date()}));
   }
@@ -90,7 +119,7 @@ export class SocketService{
   }
 
   getRoundComments(): Observable<STDArgument[]> {
-    console.log("Received Round comments")
+    console.log("Received Round comments");
     return this.socket.fromEvent('roundComments');
   }
 
@@ -109,4 +138,14 @@ export class SocketService{
   error(): Observable<string> {
     return this.socket.fromEvent('discussionError');
   }
+
+  getNotificationBlocked(): Observable<string> {
+    return this.socket.fromEvent('discussionBlocked');
+  }
+
+  getNotificationContinues(): Observable<string> {
+    return this.socket.fromEvent('discussionContinued');
+  }
+
+
 }

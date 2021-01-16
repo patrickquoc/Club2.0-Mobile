@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { LTDViewComponent } from './ltdview.component';
@@ -7,7 +7,7 @@ describe('LTDViewComponent', () => {
   let component: LTDViewComponent;
   let fixture: ComponentFixture<LTDViewComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ LTDViewComponent ],
       imports: [IonicModule.forRoot()]

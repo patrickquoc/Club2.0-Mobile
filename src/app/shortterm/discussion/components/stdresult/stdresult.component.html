@@ -1,3 +1,6 @@
+<ion-title class="ion-text-center ion-margin">
+  Results of Round 1
+</ion-title>
 <div *ngIf="arguments">
   <ion-list>
     <ion-item *ngFor="let argument of arguments">
@@ -29,6 +32,12 @@
     </ion-item>
   </ion-list>
 </div>
+<div class="ion-text-center alert-message">
+  <ion-text *ngIf="blockNotification.length > 0" color="danger">
+    {{ blockNotification }} 
+  </ion-text>
+</div>
+
 <ion-footer>
   <ion-toolbar>
     <ion-button *ngIf="isHost" class="ion-padding-horizontal" (click)="forceStartNextRound()" 

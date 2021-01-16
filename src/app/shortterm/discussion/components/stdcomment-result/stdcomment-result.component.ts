@@ -6,6 +6,8 @@ import { STDArgument } from 'src/app/entity/stdargument';
   templateUrl: './stdcomment-result.component.html',
   styleUrls: ['./stdcomment-result.component.scss'],
 })
+
+// Deprecated: Component currently not in use 
 export class STDCommentResultComponent implements OnInit {
   @Input() comments: STDArgument[][];
   @Input() isHost: boolean;
