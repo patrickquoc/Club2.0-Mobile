@@ -42,7 +42,7 @@
 </div>
 <div class="ion-text-center submission-info">
   <ion-text *ngIf="blockNotification.length > 0" color="danger">
-    {{ blockNotification }} 
+    {{ blockNotification }} <br>
   </ion-text>
   <ion-text *ngIf="submissionState" >
     Submitted comments: {{submissionState.receivedArguments}} Remaining: {{submissionState.totalUsers - submissionState.receivedArguments}}

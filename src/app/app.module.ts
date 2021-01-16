@@ -27,9 +27,9 @@ const config: SocketIoConfig = {
   url: `${environment.wsConnection}`, 
   options: {
     'reconnection': true,
-    'reconnectionDelay': 5000,
-    'reconnectionDelayMax' : 25000,
-    'reconnectionAttempts': 5
+    'reconnectionDelay': 10000,
+    'reconnectionDelayMax' : 30000,
+    'reconnectionAttempts': 3
   } 
 };
 
