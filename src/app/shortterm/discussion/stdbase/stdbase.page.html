@@ -22,12 +22,14 @@
     [roundArguments]="roundArguments" 
     [user]="username"
     [ratingSubmissionState]="ratingSubmissionState"
+    [blockNotification]="blockNotification"
     (finished)="onRatingFinished($event)">
   </app-stdrating>
   <app-stdresult 
     *ngIf="roundArguments && activeComponent[3]" 
     [arguments]="roundArguments" 
-    [isHost]="isHost" 
+    [isHost]="isHost"
+    [blockNotification]="blockNotification"
     (nextRound)="forceStartNextRound()">
   </app-stdresult>
   <app-stdcomment 
@@ -35,6 +37,7 @@
     [discussion]="discussion" 
     [argument]="randomArgument"
     [commentSubmissionState]="argumentSubmissionState"
+    [blockNotification]="blockNotification"
     (comment)="onCommentFinished($event)">
   </app-stdcomment> 
   <app-stdcomment-rating 
@@ -43,6 +46,7 @@
     [discussion]="discussion"
     [user]="username"
     [ratingSubmissionState]="ratingSubmissionState"
+    [blockNotification]="blockNotification"
     (finished)="onCommentRatingFinished($event)">
   </app-stdcomment-rating>
   <app-stdsummary 

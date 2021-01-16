@@ -41,6 +41,9 @@
   <ion-button (click)="onSubmit()" size="medium" type="submit" color="primary" expand="block">Submit</ion-button>
 </div>
 <div class="ion-text-center submission-info">
+  <ion-text *ngIf="blockNotification.length > 0" color="danger">
+    {{ blockNotification }} 
+  </ion-text>
   <ion-text *ngIf="submissionState" >
     Submitted comments: {{submissionState.receivedArguments}} Remaining: {{submissionState.totalUsers - submissionState.receivedArguments}}
   </ion-text>
