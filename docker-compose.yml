@@ -1,0 +1,5 @@
+version: "3.8"
+services:
+    ionic-pwa:
+        image: qpat/club2point0-mobile
+        restart: always
