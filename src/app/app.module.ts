@@ -23,6 +23,7 @@ import { TokenInterceptorService } from './interceptors/token-interceptor.servic
 import { DatePipe } from '@angular/common';
 import { ToastService } from './service/toast.service';
 import { SocketService } from './service/socket.service';
+import { ServiceWorkerModule } from '@angular/service-worker';
 const config: SocketIoConfig = { 
   url: `${environment.wsConnection}`, 
   options: {
@@ -46,7 +47,8 @@ const config: SocketIoConfig = {
     HttpClientModule,
     IonicStorageModule.forRoot(),
     BrowserAnimationsModule,
-    SocketIoModule.forRoot(config)
+    SocketIoModule.forRoot(config),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
 ],
   providers: [
     StatusBar,
