@@ -14,7 +14,7 @@ export class SignupPage implements OnInit {
   signupForm: FormGroup;
   isPasswordVisible = false;
   constructor(private fb: FormBuilder, private navController: NavController, private auth: AuthService,
-     private toastService: ToastService) { 
+    private toast: ToastService) { 
     
   }
 
@@ -57,7 +57,7 @@ export class SignupPage implements OnInit {
 
   async onSignUp() {
     if (!this.isFormFilledCorrectly()) {
-      this.toastService.presentToast("Form is not filled correctly");
+      this.toast.presentToast("Form is not filled correctly");
       return;
     }
 
@@ -72,7 +72,7 @@ export class SignupPage implements OnInit {
       const res = await this.auth.register(newUser);
       this.navController.navigateBack(['/login']);
     } catch (error) {
-      this.toastService.presentToast(error.error);
+      
     }
   }
 

@@ -113,7 +113,6 @@ export class LTDDetailPage implements OnInit {
                 this.isPasswordVerified = true;
             }
             catch (error) {
-              this.toastService.presentToast(error.error)
               if (error.error == "Password is not correct") {
                 this.isPasswordVerified = false;
               }

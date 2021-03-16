@@ -17,10 +17,9 @@ export class STDViewComponent implements OnInit {
   searchString = '';
   private isFilteredByName = true;
   private isFilteredByCategory = false;
-  private isFilteredByUser = false;
 
   constructor(private http: HttpService, private dataService: DataService, private navController: NavController,
-    private alertController: AlertController, private toastService: ToastService) {
+    private alertController: AlertController) {
     this.getNextDiscussions();
   }
 
@@ -44,7 +43,6 @@ export class STDViewComponent implements OnInit {
           await this.http.getStdsByCategory(this.pageIndex, this.fetchSize, search)
         );
       } catch (error) {
-        this.toastService.presentToast(error.error);
         return false;
       }
     }
@@ -52,7 +50,6 @@ export class STDViewComponent implements OnInit {
       try {
         this.discussions = this.discussions.concat(await this.http.getStdsPaged(this.pageIndex, this.fetchSize));
       } catch (error) {
-        this.toastService.presentToast(error.error);
         return false;
       }
     }
@@ -79,7 +76,6 @@ export class STDViewComponent implements OnInit {
     try {
       this.discussions = await this.http.getStdsPaged(this.pageIndex, this.fetchSize);
     } catch (error) {
-      this.toastService.presentToast(error.error);
       return false;
     }
     return true;
@@ -166,7 +162,6 @@ export class STDViewComponent implements OnInit {
   resetFilter() {
     this.isFilteredByCategory = false;
     this.isFilteredByName = false;
-    this.isFilteredByUser = false;
   }
 
   async getFilteredDiscussion() {

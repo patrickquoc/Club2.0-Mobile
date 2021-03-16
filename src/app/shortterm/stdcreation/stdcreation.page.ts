@@ -86,7 +86,7 @@ export class STDCreationPage implements OnInit {
       this.navController.navigateForward('participate/std/'+ res.discussionId, {replaceUrl: true});
 
     } catch (error) {
-      this.toastService.presentToast(error.error);
+      console.error(error.error);
     }
   }
 

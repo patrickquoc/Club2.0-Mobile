@@ -18,22 +18,19 @@ export class LTDViewComponent implements OnInit {
   searchString = '';
   private isFilteredByName = true;
   private isFilteredByCategory = false;
-  private isFilteredByUser = false;
 
   constructor(private http: HttpService, private dataService: DataService, private navController: NavController,
-    private alertController: AlertController, private toastService: ToastService, private auth: AuthService) {
+    private alertController: AlertController, private auth: AuthService) {
     this.getNextDiscussions();
   }
 
   ngOnInit() {}
-
 
   async loadLTDs(event): Promise<void> {
     const res = await this.getNextDiscussions();
     if (res == true) {
       event.target.complete();
     }
-    
   }
 
   async getNextDiscussions(): Promise<boolean> {
@@ -45,7 +42,6 @@ export class LTDViewComponent implements OnInit {
           await this.http.getLtdsByCategory(this.pageIndex, this.fetchSize, search)
         );
       } catch (error) {
-        this.toastService.presentToast(error.error);
         return false;
       }
     }
@@ -53,7 +49,6 @@ export class LTDViewComponent implements OnInit {
       try {
         this.discussions = this.discussions.concat(await this.http.getLtdsPaged(this.pageIndex, this.fetchSize));
       } catch (error) {
-        this.toastService.presentToast(error.error);
         return false;
       }
     }
@@ -74,21 +69,13 @@ export class LTDViewComponent implements OnInit {
   async getDiscussionsByCategory() {
     this.pageIndex = 0;
     const search = this.searchString.split(',');
-    try {
-      this.discussions = await this.http.getLtdsByCategory(this.pageIndex, this.fetchSize, search);
-    } catch (error) {
-      this.toastService.presentToast(error.error);
-    }
+
+    this.discussions = await this.http.getLtdsByCategory(this.pageIndex, this.fetchSize, search);
     
   }
 
   async getDiscussionsByName() {
-    try {
-      this.discussions = await this.http.getLtdsByName(this.searchString);
-    } catch (error) {
-      this.toastService.presentToast(error.error);
-    }
-    
+    this.discussions = await this.http.getLtdsByName(this.searchString);
   }
 
   async openDetailPage(ltd: LongTermDiscussion) {
@@ -101,7 +88,6 @@ export class LTDViewComponent implements OnInit {
     try {
       this.discussions = await this.http.getLtdsPaged(this.pageIndex, this.fetchSize);
     } catch (error) {
-      this.toastService.presentToast(error.error)
       return false;
     }
     return true;
@@ -178,7 +164,6 @@ export class LTDViewComponent implements OnInit {
   resetFilter() {
     this.isFilteredByCategory = false;
     this.isFilteredByName = false;
-    this.isFilteredByUser = false;
   }
 
   async getFilteredDiscussion() {

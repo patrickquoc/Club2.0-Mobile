@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-welcome',
@@ -8,12 +10,13 @@ import { Router } from '@angular/router';
 })
 export class WelcomePage implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private navController: NavController) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+
   }
 
   routeToLogin() {
-    this.router.navigate(["/login"]);
+    this.navController.navigateRoot("/login", { replaceUrl: true });
   }
 }

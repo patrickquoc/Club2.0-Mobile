@@ -15,8 +15,8 @@ import { ToastService } from 'src/app/service/toast.service';
 export class STDDetailPage implements OnInit {
   selectedDiscussion: ShortTermDiscussion;
   constructor(private route: ActivatedRoute, private http: HttpService, private auth: AuthService, 
-    private toastService: ToastService, private alertController: AlertController,
-    private navController: NavController, private dataService: DataService) { }
+    private alertController: AlertController, private navController: NavController,
+    private dataService: DataService) { }
 
   ngOnInit() {
     if(this.route.snapshot.data['special']) {
@@ -56,7 +56,7 @@ export class STDDetailPage implements OnInit {
                 this.dataService.setData(res.discussionId, res);
                 this.navController.navigateForward('participate/std/'+ res.discussionId, {replaceUrl: true});
               } catch (error) {
-                this.toastService.presentToast(error.error);
+                console.error(error.error);
               }
             }
           }
@@ -70,7 +70,7 @@ export class STDDetailPage implements OnInit {
         this.dataService.setData(res.discussionId, res);
         this.navController.navigateForward('participate/std/'+ res.discussionId, {replaceUrl: true});
       } catch (error) {
-        this.toastService.presentToast(error.error);
+        console.error(error.error);
       }
     }
   }

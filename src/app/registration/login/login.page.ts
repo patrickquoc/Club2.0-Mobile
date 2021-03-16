@@ -21,9 +21,9 @@ export class LoginPage implements OnInit {
       password: ['', [Validators.required, Validators.minLength(8)]],
     });
     console.log(await this.auth.getToken());
-    const loggedIn = await this.auth.isLoggedIn();
+    const loggedIn = await this.auth.isLoggedInAsync();
     if (loggedIn == true) {
-      this.navController.navigateRoot('home', {replaceUrl: true});
+      this.navController.navigateRoot('home', { replaceUrl: true });
     }
     
     const username = await this.auth.getUsername();
@@ -42,16 +42,15 @@ export class LoginPage implements OnInit {
   async onLogin() {
      try {
       await this.auth.login(this.username.value, this.password.value);
-      const loggedIn = await this.auth.isLoggedIn();
+      const loggedIn = await this.auth.isLoggedInAsync();
       if (loggedIn){
         this.navController.navigateRoot('/home', { replaceUrl:true });
       }
     } catch (error) {
       if (error instanceof ProgressEvent) {
-        this.toastService.presentToast("Connection error");
+        this.toastService.presentToast("Connection error: Cannot connect to server.");
       }
-      this.toastService.presentToast(error.error);
       return;
-     }
+    }
   }
 }

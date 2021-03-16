@@ -24,6 +24,7 @@ import { DatePipe } from '@angular/common';
 import { ToastService } from './service/toast.service';
 import { SocketService } from './service/socket.service';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { HttpErrorInterceptorService } from './interceptors/http-error-interceptor.service';
 const config: SocketIoConfig = { 
   url: `${environment.wsConnection}`, 
   options: {
@@ -58,7 +59,8 @@ const config: SocketIoConfig = {
     AuthService,
     ToastService,
     SocketService,
-    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptorService, multi: true}
   ],
   bootstrap: [AppComponent]
 })
