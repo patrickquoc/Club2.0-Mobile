@@ -11,7 +11,7 @@ export class STDLobbyComponent implements OnInit {
   @Input() discussion: ShortTermDiscussion;
   @Output() start = new EventEmitter<boolean>();
   username: string;
-  constructor(private auth: AuthService, private socket: SocketService) { }
+  constructor(private auth: AuthService) { }
 
   async ngOnInit() {
     this.username = await this.auth.getUsername();

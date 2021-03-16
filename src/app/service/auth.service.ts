@@ -37,7 +37,7 @@ export class AuthService implements OnInit {
     await this.storage.remove('expires_at');
   }
 
-  async isLoggedIn() {
+  async isLoggedInAsync() {
     const user = await this.storage.get('user');
     return user != null && !await this.isTokenExpired();
   }
@@ -47,6 +47,7 @@ export class AuthService implements OnInit {
     const expiresAt = await this.storage.get('expires_at');
     const expiresAtTime = new Date(expiresAt).getTime();
     const currentTime = new Date().getTime();
+
     return token == null || expiresAtTime <= currentTime;
   }
 

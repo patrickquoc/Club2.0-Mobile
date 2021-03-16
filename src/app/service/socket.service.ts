@@ -3,10 +3,7 @@ import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
 import { ArgumentSubmissionStateDto } from '../dto/argument-submission-state-dto';
 import { RatingSubmissionStateDto } from '../dto/rating-submission-state-dto';
-import { ShortTermDiscussion } from '../entity/short-term-discussion';
 import { STDArgument } from '../entity/stdargument';
-import { AuthService } from './auth.service';
-import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -146,6 +143,4 @@ export class SocketService {
   getNotificationContinues(): Observable<string> {
     return this.socket.fromEvent('discussionContinued');
   }
-
-
 }

@@ -18,6 +18,7 @@ export class STDSummaryPage implements OnInit {
   constructor(private route: ActivatedRoute, private http: HttpService, private navController: NavController) { }
 
   async ngOnInit() {
+    // 2D-Array therefore initialising two arrays 
     this.allArguments.push(new Array<STDArgument>());
     this.allArguments.push(new Array<STDArgument>());
 
@@ -25,8 +26,6 @@ export class STDSummaryPage implements OnInit {
 
     if(this.route.snapshot.data['special']) {
       this.discussion = this.route.snapshot.data['special'];
-
-      // this.allArguments = await this.http.getStdArguments(this.discussion.discussionId);
 
       const res = await this.http.getStdArguments(this.discussion.discussionId);
       res.forEach(argument => {

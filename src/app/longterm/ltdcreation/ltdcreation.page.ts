@@ -66,7 +66,7 @@ export class LTDCreationPage implements OnInit {
         this.navController.navigateRoot("/home", {replaceUrl: true});
       }
     } catch (error) {
-      this.toastService.presentToast(error.error);
+      console.error(error.error);
     }
   }
 

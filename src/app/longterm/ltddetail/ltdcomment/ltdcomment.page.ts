@@ -18,21 +18,14 @@ export class LTDCommentPage implements OnInit {
   selectedComment: Argument;
   comments: Argument[] = [];
   constructor(private http: HttpService, private auth: AuthService, private alertController: AlertController,
-    private toastController: ToastController, private route: ActivatedRoute, private dataService: DataService,
+    private route: ActivatedRoute, private dataService: DataService,
     private navController: NavController) { }
 
   async ngOnInit() {
     if(this.route.snapshot.data['special']) {
       this.selectedComment = this.route.snapshot.data['special'];
     }
-
-    try {
-      this.comments = await this.http.getComments(this.selectedComment.argumentId, await this.auth.getUsername());
-    }
-    catch (error) {
-      this.presentToast(error.error);
-    }
-
+    this.comments = await this.http.getComments(this.selectedComment.argumentId, await this.auth.getUsername());
   }
 
   async onLike(comment: Argument) {
@@ -116,14 +109,6 @@ export class LTDCommentPage implements OnInit {
 
   getNegativeRatingColor(argument: Argument): string{
     return argument.userRating == -1 ? 'danger' : 'medium';
-  }
-
-  async presentToast(msg: string) {
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 5000
-    });
-    toast.present();
   }
 
   routeToComments(argument: Argument) {

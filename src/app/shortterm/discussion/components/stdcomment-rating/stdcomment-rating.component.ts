@@ -21,7 +21,7 @@ export class STDCommentRatingComponent implements OnInit {
   ratingSubmitted: boolean = false;
   submissionState: RatingSubmissionStateDto;
 
-  constructor(private toastService: ToastService) { }
+  constructor() { }
 
   ngOnInit(): void {
     this.ratingSubmissionState.subscribe(dto => {
