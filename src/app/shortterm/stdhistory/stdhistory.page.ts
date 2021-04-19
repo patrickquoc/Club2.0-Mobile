@@ -37,6 +37,7 @@ export class STDHistoryPage implements OnInit {
     std.categories.forEach(cat => {
       result = result + cat + ', ';
     });
+    
     result = result.slice(0, result.length - 2)
     return result;
   }

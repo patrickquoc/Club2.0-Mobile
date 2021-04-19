@@ -2,11 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
-import { HttpService } from 'src/app/service/http.service';
 import { STDArgument } from 'src/app/entity/stdargument';
 import { SocketService } from 'src/app/service/socket.service';
-import { NavController, ToastController } from '@ionic/angular';
-import { DataService } from 'src/app/service/data.service';
 import { Observable, Subscription } from 'rxjs';
 import { ArgumentSubmissionStateDto } from 'src/app/dto/argument-submission-state-dto';
 import { RatingSubmissionStateDto } from 'src/app/dto/rating-submission-state-dto';
@@ -41,7 +38,7 @@ export class STDBasePage implements OnInit {
   //Call on opening the view
   ionViewDidEnter() {
     this.backButtonSubscription = this.platfrom.backButton.subscribeWithPriority(9999, () => {
-      //Keeping this empty means button won't react
+      //Keeping this empty means that button won't react
     });
   }
 
@@ -132,8 +129,6 @@ export class STDBasePage implements OnInit {
     this.socket.error().subscribe(error => {
       this.toastService.presentToast(error);
     });
-    
-    
   }
 
   leaveRoom() {

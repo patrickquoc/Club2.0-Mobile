@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AlertController, NavController, ToastController } from '@ionic/angular';
-import { CreateArgumentDto } from 'src/app/dto/create-argument-dto';
+import { AlertController, NavController } from '@ionic/angular';
 import { CreateCommentDto } from 'src/app/dto/create-comment-dto';
 import { RatingDto } from 'src/app/dto/rating-dto';
 import { Argument } from 'src/app/entity/argument';
@@ -50,7 +49,6 @@ export class LTDCommentPage implements OnInit {
   }
 
   async showCommentCreator() {
-    //TODO: Max character count (approx. 2000)
     const alert = this.alertController.create({
       header: 'Write Comment',
       inputs: [
@@ -65,9 +63,6 @@ export class LTDCommentPage implements OnInit {
           text: 'Cancel',
           role: 'cancel',
           cssClass: 'secondary',
-          handler: () => {
-            console.log('Confirm Cancel');
-          }
         }, {
           text: 'Ok',
           handler: async (data) => {
@@ -79,7 +74,6 @@ export class LTDCommentPage implements OnInit {
             };
 
             const res = await this.http.sendComment(comment);
-            console.log(res);
             this.comments.push(res);    
             
           }
@@ -95,12 +89,11 @@ export class LTDCommentPage implements OnInit {
       username: await this.auth.getUsername(),
       rating: comment.userRating
     }
-    console.log(comment.argumentId);
 
     const res = await this.http.sendRating(rating) as Argument;
-    const temp = this.comments.find(a => a.argumentId == res.argumentId);
-    const index = this.comments.indexOf(temp);
-    this.comments[index] = res;
+    const temp = this.comments.find(a => a.argumentId == res.argumentId);     // Find rated argument
+    const index = this.comments.indexOf(temp);                                // Get index of rated argument
+    this.comments[index] = res;                                               // Replace rated argument with updated argument
   }
 
   getPositiveRatingColor(argument: Argument): string{

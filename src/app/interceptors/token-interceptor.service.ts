@@ -17,7 +17,7 @@ export class TokenInterceptorService implements HttpInterceptor {
     return from(this.auth.getToken()).pipe(
       switchMap((token, index) => {
         let headers = req.headers
-          .set('Authorization', `Bearer ${token}`)
+          .set('Authorization', `Bearer ${token}`);     // Attach JWT
 
         //With the Object Type FormData the Content-Type has to be set automatically by the System to multipart/form-data
         if(!(req.body instanceof FormData)){
@@ -27,7 +27,7 @@ export class TokenInterceptorService implements HttpInterceptor {
 
         const newReq = req.clone({
           headers,
-          //url: req.url.replace('http://', 'https://')
+          //url: req.url.replace('http://', 'https://')       // Not required if environment variables has been set accordingly
         });
 
         return next.handle(newReq);

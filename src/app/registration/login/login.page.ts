@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NavController, ToastController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/service/auth.service';
 import { ToastService } from 'src/app/service/toast.service';
 
@@ -20,7 +20,6 @@ export class LoginPage implements OnInit {
       username:['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(8)]],
     });
-    console.log(await this.auth.getToken());
     const loggedIn = await this.auth.isLoggedInAsync();
     if (loggedIn == true) {
       this.navController.navigateRoot('home', { replaceUrl: true });
@@ -47,7 +46,7 @@ export class LoginPage implements OnInit {
         this.navController.navigateRoot('/home', { replaceUrl:true });
       }
     } catch (error) {
-      if (error instanceof ProgressEvent) {
+      if (error instanceof ProgressEvent) {     
         this.toastService.presentToast("Connection error: Cannot connect to server.");
       }
       return;

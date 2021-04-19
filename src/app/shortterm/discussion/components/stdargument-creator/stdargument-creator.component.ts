@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ToastController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { ArgumentSubmissionStateDto } from 'src/app/dto/argument-submission-state-dto';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';

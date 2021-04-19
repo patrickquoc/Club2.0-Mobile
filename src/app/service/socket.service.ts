@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
 import { ArgumentSubmissionStateDto } from '../dto/argument-submission-state-dto';
@@ -16,14 +16,9 @@ export class SocketService {
   constructor(private socket: Socket) { 
     this.socket.on("reconnect", () => this.reconnecting = true);
     this.socket.on("connect", () => {
-      console.log("connecting to socket server");
-
       //Rejoin room only on reconnect
       if (this.reconnecting) {
-        console.log("trying to reconnect to "+ this.currentDiscussionId);
-
         if (this.currentDiscussionId == null || this.username.length < 1) {
-          console.log("Error reconnecting");
           return;
         }
     
@@ -49,7 +44,6 @@ export class SocketService {
   joinRoom(discussionId: string, username: string) {
     this.currentDiscussionId = discussionId;
     this.username = username;
-    console.log("Joining Room "+ discussionId);
     return this.socket.emit("joinRoom", JSON.stringify({discussionId, username}));
   }
 
@@ -68,7 +62,6 @@ export class SocketService {
   }
 
   startDiscussion(discussionId: string, rounds: number) {
-    console.log("Force start discussion: "+ discussionId);
     const dto = {discussionId, rounds};
     return this.socket.emit("forceStartDiscussion", JSON.stringify(dto));
   }
@@ -78,7 +71,6 @@ export class SocketService {
   }
 
   sendArgument(discussionId: string, username: string, argumentText: string) {
-    console.log(argumentText);
     return this.socket.emit("newArgument", JSON.stringify({discussionId, username, argumentText, date: new Date()}));
   }
 
@@ -116,7 +108,6 @@ export class SocketService {
   }
 
   getRoundComments(): Observable<STDArgument[]> {
-    console.log("Received Round comments");
     return this.socket.fromEvent('roundComments');
   }
 

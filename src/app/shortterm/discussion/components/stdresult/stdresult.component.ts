@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { STDArgument } from 'src/app/entity/stdargument';
-import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 
 @Component({
   selector: 'app-stdresult',

@@ -1,19 +1,14 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
 import { User } from '../dto/user';
 import { Storage } from '@ionic/storage';
 import { RegisterUser } from '../dto/register-user';
-import { NavController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService implements OnInit {
+export class AuthService {
   constructor(private http: HttpService, private storage: Storage) { 
-  }
-
-  async ngOnInit(): Promise<void> {
-    
   }
 
   async register(user: RegisterUser) {
@@ -25,11 +20,9 @@ export class AuthService implements OnInit {
     await this.storage.set('user', JSON.stringify(user));
     await this.storage.set('token', user.token);
     const currentTime = new Date().getTime();
-    const expiresAt = currentTime + (8*60*60*1000);         // 8h + 60 min + 60 sec + 1000 ms uration
+    const expiresAt = currentTime + (8*60*60*1000);         // 8h + 60 min + 60 sec + 1000 ms duration
     
     await this.storage.set('expires_at', expiresAt);
-
-    console.log(`Token received: ${user.token}`)
   }
 
   async logout() {

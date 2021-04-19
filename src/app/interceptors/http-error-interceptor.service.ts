@@ -1,4 +1,4 @@
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Observable, throwError } from 'rxjs';
@@ -15,7 +15,7 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((error) => {
-        if (error.status == 401) {
+        if (error.status == 401) {          // Unauthorised error
           this.navController.navigateRoot("login", { replaceUrl: true });
         }  
         else {

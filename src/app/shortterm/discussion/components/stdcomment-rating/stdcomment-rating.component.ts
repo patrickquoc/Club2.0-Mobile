@@ -1,10 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ToastController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { RatingSubmissionStateDto } from 'src/app/dto/rating-submission-state-dto';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 import { STDArgument } from 'src/app/entity/stdargument';
-import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-stdcomment-rating',

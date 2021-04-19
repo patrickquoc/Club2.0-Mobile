@@ -1,15 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-import { SocketService } from 'src/app/service/socket.service';
-import { Argument } from 'src/app/entity/argument';
-import { HttpService } from 'src/app/service/http.service';
-import { AuthService } from 'src/app/service/auth.service';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 import { STDArgument } from 'src/app/entity/stdargument';
-import { ToastController } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { ArgumentSubmissionStateDto } from 'src/app/dto/argument-submission-state-dto';
 import { RatingSubmissionStateDto } from 'src/app/dto/rating-submission-state-dto';
-import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-stdrating',

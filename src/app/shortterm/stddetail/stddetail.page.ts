@@ -3,9 +3,8 @@ import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 import { ActivatedRoute } from '@angular/router';
 import { HttpService } from 'src/app/service/http.service';
 import { AuthService } from 'src/app/service/auth.service';
-import { AlertController, NavController, ToastController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { DataService } from 'src/app/service/data.service';
-import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-stddetail',
@@ -40,9 +39,6 @@ export class STDDetailPage implements OnInit {
             text: 'Cancel',
             role: 'cancel',
             cssClass: 'secondary',
-            handler: () => {
-              console.log('Confirm Cancel');
-            }
           }, {
             text: 'Ok',
             handler: async (data) => {
@@ -53,6 +49,7 @@ export class STDDetailPage implements OnInit {
                   await this.auth.getUsername(),
                   data.password
                 );
+                
                 this.dataService.setData(res.discussionId, res);
                 this.navController.navigateForward('participate/std/'+ res.discussionId, {replaceUrl: true});
               } catch (error) {

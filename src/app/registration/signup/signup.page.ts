@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/service/auth.service';
 import { RegisterUser } from 'src/app/dto/register-user';
-import { NavController, ToastController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
@@ -61,7 +61,6 @@ export class SignupPage implements OnInit {
       return;
     }
 
-    console.log('Create new User')
     const newUser: RegisterUser = {
       username: this.username.value,
       email: this.email.value,
@@ -72,7 +71,7 @@ export class SignupPage implements OnInit {
       const res = await this.auth.register(newUser);
       this.navController.navigateBack(['/login']);
     } catch (error) {
-      
+      console.error(error);
     }
   }
 

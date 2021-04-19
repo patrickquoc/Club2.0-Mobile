@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/service/http.service';
-import { FormControl, Validators } from '@angular/forms';
 import { CreateLTDDto } from 'src/app/dto/create-ltddto';
 import { AuthService } from 'src/app/service/auth.service';
-import { NavController, ToastController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { ToastService } from 'src/app/service/toast.service';
 
 @Component({

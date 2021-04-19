@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/service/http.service';
 import { DataService } from 'src/app/service/data.service';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
-import { AlertController, NavController, ToastController } from '@ionic/angular';
-import { ToastService } from 'src/app/service/toast.service';
+import { AlertController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-stdview',
@@ -84,9 +83,7 @@ export class STDViewComponent implements OnInit {
   async getDiscussionsByCategory() {
     this.pageIndex = 0;
     const search = this.searchString.split(',');
-    this.discussions = await this.http.getStdsByCategory(this.pageIndex, this.fetchSize, search);
-    console.log(this.discussions);
-  
+    this.discussions = await this.http.getStdsByCategory(this.pageIndex, this.fetchSize, search);  
   }
 
   async getDiscussionsByName() {
@@ -111,22 +108,12 @@ export class STDViewComponent implements OnInit {
           value: '1',
           checked: this.isFilteredByCategory
         },
-        // {
-        //   name: 'byUser',
-        //   type: 'radio',
-        //   label: 'User',
-        //   value: '2',
-        //   checked: this.isFilteredByUser
-        // }
       ],
       buttons: [
         {
           text: 'Cancel',
           role: 'cancel',
           cssClass: 'secondary',
-          handler: () => {
-            console.log('Confirm Cancel');
-          }
         }, {
           text: 'Ok',
           handler: (data: string) => {
@@ -135,22 +122,13 @@ export class STDViewComponent implements OnInit {
             switch(data) {
               case '0': {
                 this.isFilteredByName = true;
-                console.log("Filtering by Name");
                 break;
               }
               case '1': {
-                this.isFilteredByCategory = true;                
-                console.log("Filtering by Category");
+                this.isFilteredByCategory = true;         
                 break;
               }
-              // case '2': {
-              //   this.isFilteredByUser = true;
-              //   console.log("Filtering by User");
-              //   break;
-              // }
             }
-
-            console.log('Confirm Ok');
           }
         }
       ]
@@ -171,9 +149,6 @@ export class STDViewComponent implements OnInit {
     else if(this.isFilteredByCategory) {
       await this.getDiscussionsByCategory();
     }
-    // else if (this.isFilteredByUser) {
-    //   await this.getDiscussionsByName();
-    // }
     else {
       this.isFilteredByName = true;
       await this.getDiscussionsByName();

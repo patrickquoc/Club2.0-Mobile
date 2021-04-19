@@ -29,7 +29,6 @@ export class STDSummaryPage implements OnInit {
 
       const res = await this.http.getStdArguments(this.discussion.discussionId);
       res.forEach(argument => {
-        console.log(argument);
         if (argument.prevArgumentText == null) {
           this.allArguments[0].push(argument);
         }

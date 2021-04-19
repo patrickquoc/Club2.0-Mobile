@@ -14,7 +14,6 @@ import { STDResultComponent } from '../components/stdresult/stdresult.component'
 import { STDSummaryComponent } from '../components/stdsummary/stdsummary.component';
 import { STDCommentComponent } from '../components/stdcomment/stdcomment.component';
 import { STDCommentRatingComponent } from '../components/stdcomment-rating/stdcomment-rating.component';
-import { STDCommentResultComponent } from '../components/stdcomment-result/stdcomment-result.component';
 
 @NgModule({
   imports: [
@@ -32,7 +31,6 @@ import { STDCommentResultComponent } from '../components/stdcomment-result/stdco
     STDSummaryComponent,
     STDCommentComponent,
     STDCommentRatingComponent,
-    STDCommentResultComponent
   ]
 })
 export class STDBasePageModule {}

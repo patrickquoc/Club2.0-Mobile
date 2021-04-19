@@ -12,7 +12,6 @@ export class HomePage {
   activeView = Array<boolean>(3);
 
   constructor(private menuController: MenuController, private auth: AuthService, private navController: NavController) {
-    //TODO: Trending page?
     this.activeView[0] = true;
   }
 

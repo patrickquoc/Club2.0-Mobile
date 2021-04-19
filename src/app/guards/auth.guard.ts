@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { Observable, of, from} from 'rxjs';
-import { switchMap} from 'rxjs/operators';
+import { Observable, of, from } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { AuthService } from '../service/auth.service';
 
 @Injectable({

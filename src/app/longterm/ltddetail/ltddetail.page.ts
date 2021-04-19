@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpService } from 'src/app/service/http.service';
 import { Argument } from 'src/app/entity/argument';
 import { AuthService } from 'src/app/service/auth.service';
-import { AlertController, NavController, ToastController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { CreateArgumentDto } from 'src/app/dto/create-argument-dto';
 import { RatingDto } from 'src/app/dto/rating-dto';
 import { DataService } from 'src/app/service/data.service';
@@ -47,7 +47,6 @@ export class LTDDetailPage implements OnInit {
       this.toastService.presentToast("Please verify yourself before writing an argument.")
       return;
     }
-    //TODO: Max character count (approx. 2000)
     const alert = this.alertController.create({
       header: 'Write Argument',
       inputs: [
@@ -62,9 +61,6 @@ export class LTDDetailPage implements OnInit {
           text: 'Cancel',
           role: 'cancel',
           cssClass: 'secondary',
-          handler: () => {
-            console.log('Confirm Cancel');
-          }
         }, {
           text: 'Ok',
           handler: async (data) => {
@@ -76,8 +72,7 @@ export class LTDDetailPage implements OnInit {
             } 
 
             const res = await this.http.sendArgument(argument);
-            console.log(res);
-            this.arguments.unshift(res);
+            this.arguments.unshift(res);                        // Add new argument at the start
           }
         }
       ]
@@ -100,9 +95,6 @@ export class LTDDetailPage implements OnInit {
           text: 'Cancel',
           role: 'cancel',
           cssClass: 'secondary',
-          handler: () => {
-            console.log('Confirm Cancel');
-          }
         }, {
           text: 'Ok',
           handler: async (data) => {

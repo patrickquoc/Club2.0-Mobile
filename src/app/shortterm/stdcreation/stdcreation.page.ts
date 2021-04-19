@@ -4,7 +4,7 @@ import { AuthService } from 'src/app/service/auth.service';
 import { CreateSTDDto } from 'src/app/dto/create-stddto';
 import { ShortTermDiscussion } from 'src/app/entity/short-term-discussion';
 import { DataService } from 'src/app/service/data.service';
-import { NavController, ToastController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { ToastService } from 'src/app/service/toast.service';
 
 @Component({

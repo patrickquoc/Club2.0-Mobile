@@ -19,20 +19,7 @@ export class ProfileComponent implements OnInit {
   routeTo(index: number) {
     switch(index) {
       case 0: {
-        console.log("Route to Short-term discussion History");
         this.navController.navigateForward('stdhistory');
-        break;
-      }
-      case 1: {
-        console.log("Preferences");
-        break;
-      }
-      case 2: {
-        console.log("Route to Saved discussions");
-        break;
-      }
-      case 3: {
-        console.log("Route to About");
         break;
       }
     }
