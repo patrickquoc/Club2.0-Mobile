@@ -11,13 +11,13 @@ import { STDArgument } from '../entity/stdargument';
 export class SocketService {
   private currentDiscussionId: string = "";
   private username: string;
-  private reconnecting: boolean = false;
+  private isAutomaticallyReconnecting: boolean = false;
 
   constructor(private socket: Socket) { 
-    this.socket.on("reconnect", () => this.reconnecting = true);
+    this.socket.on("reconnect", () => this.isAutomaticallyReconnecting = true);
     this.socket.on("connect", () => {
       //Rejoin room only on reconnect
-      if (this.reconnecting) {
+      if (this.isAutomaticallyReconnecting) {
         if (this.currentDiscussionId == null || this.username.length < 1) {
           return;
         }
@@ -28,7 +28,7 @@ export class SocketService {
         };
     
         this.socket.emit("rejoinRoom", JSON.stringify(dto));
-        this.reconnecting = false;
+        this.isAutomaticallyReconnecting = false;
       }
     });
   }
